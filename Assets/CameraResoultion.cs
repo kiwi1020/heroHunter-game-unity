@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class CameraResoultion : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Camera camera = GetComponent<Camera>();
+        Rect rect = camera.rect;
+        float scaleHeight = ((float)Screen.width / Screen.height / ((float)16.0f / 9.0f));
+        float scaleWidth = 1f / scaleHeight;
+        if (scaleHeight < 1)
+        {
+            rect.height = scaleHeight;
+            rect.y = (1f - scaleHeight) / 2f;
+        }
+        else
+        {
+            rect.width = scaleWidth;
+            rect.x = (1f - scaleWidth) / 2f;
+        }
+        camera.rect = rect;
+
+        Application.targetFrameRate = 45;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        GL.Clear(true, true, Color.black);
     }
+    void OnPreCull() => GL.Clear(true, true, Color.black);
+
 }
