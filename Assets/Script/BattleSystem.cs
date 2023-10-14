@@ -42,5 +42,82 @@ public class BattleSystem : MonoBehaviour
 
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
+        //플레이어턴 시작
+        state = BattleState.PLAYERTURN;
+        PlayerTurn();
+
+    }
+
+    IEnumerator PlayerAttack()
+    {
+        //적에게 데미지를 입히기
+        bool isDead = enemyUnit.Takedamage(playerUnit.damage);
+
+        enemyHUD.SetHP(enemyUnit.currentHP);
+        //dialogueText.text = "공격 성공!"
+
+        yield return new WaitForSeconds(2f);
+
+        //적이 죽었는지를 확인
+        if (isDead)
+        {
+            //상태확인 후 턴의 상태를 변화시킴
+            state = BattleState.WON;
+            EndBattle();
+        }
+        else
+        {
+            state = BattleState.ENEMYTURN;
+            StartCoroutine(EnemyTurn());
+        }
+    }
+
+    IEnumerator EnemyTurn()
+    {
+        //dialogueText.text = enemyUnit.unitName + "공격!"
+
+        yield return new WaitForSeconds(1f);
+
+        bool isDead = playerUnit.Takedamage(enemyUnit.damage);
+
+        playerHUD.SetHP(playerUnit.currentHP);
+
+        yield return new WaitForSeconds(1f);
+
+        if (isDead)
+        {
+            state = BattleState.LOST;
+            EndBattle();
+        }
+        else
+        {
+            state = BattleState.PLAYERTURN;
+            PlayerTurn();
+        }
+    }
+
+    void EndBattle()
+    {
+        if(state == BattleState.WON)
+        {
+            //dialogueText.text = "승리!";
+        }
+        else if (state == BattleState.LOST)
+        {
+            //dialogueText.text = "패배..."
+        }
+    }
+
+    void PlayerTurn()
+    {
+        //dialogueText.text = "카드를 선택하십시오";
+    }
+    //일단 공격버튼이 있다는 가정하에 만듬
+    public void OnAttackButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+
+        StartCoroutine(PlayerAttack());
     }
 }
