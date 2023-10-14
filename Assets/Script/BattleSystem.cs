@@ -65,11 +65,6 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.WON;
             EndBattle();
         }
-        else
-        {
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
-        }
     }
 
     IEnumerator EnemyTurn()
@@ -119,5 +114,14 @@ public class BattleSystem : MonoBehaviour
             return;
 
         StartCoroutine(PlayerAttack());
+    }
+
+    public void OnFinishButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
     }
 }
