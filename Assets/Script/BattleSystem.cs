@@ -9,6 +9,7 @@ public class BattleSystem : MonoBehaviour
     //플레이어와 적의 프리펩
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+
     //플레이어와 적이 나타날때 바닥에 있는 발판. 불필요시 삭제가능
     public Transform playerBattleStation;
     public Transform enemyBattleStation;
@@ -22,7 +23,7 @@ public class BattleSystem : MonoBehaviour
     public BattleHUD enemyHUD;
 
     public BattleState state;
-    // Start is called before the first frame update
+
     void Start()
     {  
         //전투 시작
@@ -42,6 +43,7 @@ public class BattleSystem : MonoBehaviour
 
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
+
         //플레이어턴 시작
         state = BattleState.PLAYERTURN;
         PlayerTurn();
