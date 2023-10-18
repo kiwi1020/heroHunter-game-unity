@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapSystem : MonoBehaviour
-{
+{ 
     private MapTile mapTile;
 
     public GameObject playerPrefab; //플레이어 프리팹 설정
@@ -13,14 +13,12 @@ public class MapSystem : MonoBehaviour
     private Vector2 startPoint; //시작지점
     private Vector2 endPoint; //종료지점(보스 타일)
     
-    // Start is called before the first frame update
     void Start()
     {
         mapTile = GetComponent<MapTile>();
         setupMap();
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -45,4 +43,5 @@ public class MapSystem : MonoBehaviour
     {
         playerPosition = playerPrefab.transform.position;
     }
+
 }

@@ -6,6 +6,7 @@ public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
 
 public class BattleSystem : MonoBehaviour
 {
+
     //플레이어와 적의 프리펩
     GameObject player;//10-15 성욱 수정, MapSystem에서 player 설정
     GameObject enemy; //10-15 성욱 수정, MapTile에서 enemy 설정
