@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public enum TILETYPE { StartTile, GoblinTile, TombTile, LuckTile, BossTile } //타일 타입 추가
 public class MapTile : MonoBehaviour
-{   
+{
+    public TileData tiledata;
 
     public TILETYPE tileType; 
     public GameObject EnemyPrefab; //적 프리팹 설정
