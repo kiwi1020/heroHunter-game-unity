@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1789257428149463496}
   - component: {fileID: 2204724396168629297}
   - component: {fileID: 66522891797541451}
+  - component: {fileID: -4048104429824140978}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -26,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7114157931292146091}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8247774, y: -3.5385184, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalPosition: {x: 6.08, y: -1.28, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -106,3 +107,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4048104429824140978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7114157931292146091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b439fc0d1bbe343ab87a5637cd2038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitName: knight
+  damage: 50
+  maxHP: 200
+  currentHP: 200

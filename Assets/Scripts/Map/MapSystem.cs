@@ -29,7 +29,11 @@ public class MapSystem : MonoBehaviour
         //시작 타일위치 설정
         Transform startTileForm = StartTile.transform;
         //플레이어 생성
-        GameObject player = Instantiate(playerPrefab,startTileForm);
+        GameObject player = Instantiate(playerPrefab); //,startTileForm);
+        if (!player.activeSelf)
+        {
+            player.SetActive(true);
+        }
 
     }
 

@@ -8,8 +8,8 @@ public class BattleSystem : MonoBehaviour
 {
 
     //플레이어와 적의 프리펩
-    GameObject player;//10-15 성욱 수정, MapSystem에서 player 설정
-    GameObject enemy; //10-15 성욱 수정, MapTile에서 enemy 설정
+    public GameObject playerPrefab;//10-15 성욱 수정, MapSystem에서 player 설정
+    public GameObject enemyPrefab; //10-15 성욱 수정, MapTile에서 enemy 설정
 
     //플레이어와 적이 나타날때 바닥에 있는 발판. 불필요시 삭제가능
     public Transform playerBattleStation;
@@ -17,6 +17,9 @@ public class BattleSystem : MonoBehaviour
 
     Unit playerUnit;
     Unit enemyUnit;
+
+    GameObject playerGO;
+    GameObject enemyGO;
     //텍스트 필요할시 주석해제
     //public Text dialogueText;
 
@@ -38,14 +41,14 @@ public class BattleSystem : MonoBehaviour
     void SetupBattle()
     {
         //전투 시작시 플레이어와 적을 화면에 나타냄.
-        player = GetComponent<MapSystem>().playerPrefab; //10-15 성욱 수정 
-        GameObject playerGO = Instantiate(player, playerBattleStation);
+        //player = GetComponent<MapSystem>().playerPrefab; //10-15 성욱 수정 
+        playerGO = Instantiate(playerPrefab);
         playerUnit = playerGO.GetComponent<Unit>();
-        enemy = enemy.GetComponent<MapTile>().EnemyPrefab; //10-15 성욱 수정 
-        GameObject enemyGO = Instantiate(enemy, enemyBattleStation);
+        enemyGO = Instantiate(enemyPrefab);
         enemyUnit = enemyGO.GetComponent<Unit>();
         //적 조우시 텍스트 출력
         //dialogueText.text = "...";
+        Debug.Log("Enemy Max HP: " + enemyUnit.maxHP);
 
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
@@ -71,6 +74,7 @@ public class BattleSystem : MonoBehaviour
         {
             //상태확인 후 턴의 상태를 변화시킴
             state = BattleState.WON;
+            Destroy(enemyGO);
             EndBattle();
         }
     }
@@ -90,6 +94,7 @@ public class BattleSystem : MonoBehaviour
         if (isDead)
         {
             state = BattleState.LOST;
+            Destroy(playerGO);
             EndBattle();
         }
         else

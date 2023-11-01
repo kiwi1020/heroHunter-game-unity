@@ -1429,6 +1429,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871669294}
+  - component: {fileID: 871669296}
+  - component: {fileID: 871669295}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -1454,6 +1456,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &871669295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871669293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f56aea861e78f458f6ceceb759e4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileType: 0
+  EnemyPrefab: {fileID: 7114157931292146091, guid: 95870ee4e7c5a55458a6bd9a45fe486d, type: 3}
+  tileName: {fileID: 0}
+  startButton: {fileID: 0}
+--- !u!114 &871669296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871669293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197c6cdf959f29d4ba972df84f762403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3089018295690040934, guid: bbe4e4359a867ae4dbcbccb838f09ded, type: 3}
+  StartTile: {fileID: 346524948025577444, guid: 05f397a40a948e14b814743c0a2193e9, type: 3}
 --- !u!1 &901908695
 GameObject:
   m_ObjectHideFlags: 0
