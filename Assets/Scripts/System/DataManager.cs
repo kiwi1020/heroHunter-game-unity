@@ -10,18 +10,19 @@ public class SkillData
     public string name;
     public List<string> effects = new List<string>(), enforcedEffects = new List<string>();
 
+
     public SkillData(string _name)
     {
         name = _name;
     }
     public void AddEffect(string _name)
     {
-        if (_name == "¾øÀ½") return;
+        if (_name == "ì—†ìŒ") return;
         effects.Add(_name);
     }
     public void AddEnforcedEffect(string _name)
     {
-        if (_name == "¾øÀ½") return;
+        if (_name == "ì—†ìŒ") return;
         enforcedEffects.Add(_name);
     }
 }
@@ -48,7 +49,7 @@ public class MoveCardData
     }
     public void AddEffect(string _name)
     {
-        if (_name == "¾øÀ½") return;
+        if (_name == "ì—†ìŒ") return;
         effects.Add(_name);
     }
 }
@@ -63,12 +64,12 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, MoveCardData> AllMoveCardDatas = new Dictionary<string, MoveCardData>();
     public Dictionary<string, SkillData> AllSkillDatas = new Dictionary<string, SkillData>();
 
+
     //List
     public List<string> AllTileList = new List<string>();
     public List<string> AllMoveCardList = new List<string>();
     public List<string> AllSkillList = new List<string>();
-
-
+    
     void Awake()
     {
         if (instance == null)
@@ -82,9 +83,9 @@ public class DataManager : MonoBehaviour
         }
 
 
-        #region µ¥ÀÌÅÍ ÀÔ·Â
+        #region Data Enter
 
-        // 1. Å¸ÀÏ µ¥ÀÌÅÍ ÀÔ·Â
+        // 1. TileData
         string[] line = TextData[0].Split('\n');
         for (int i = 1; i < line.Length; i++)
         {
@@ -97,7 +98,7 @@ public class DataManager : MonoBehaviour
             AllTileList.Add(e[0]);
         }
 
-        // 2. ÀÌµ¿ Ä«µå µ¥ÀÌÅÍ ÀÔ·Â
+        // 2. MoveCardData
         line = TextData[1].Split('\n');
         for (int i = 1; i < line.Length; i++)
         {
@@ -114,7 +115,7 @@ public class DataManager : MonoBehaviour
             AllMoveCardDatas[e[0]].AddEffect(e[1]);
         }
 
-        // 3. ½ºÅ³ µ¥ÀÌÅÍ ÀÔ·Â
+        // 3. SkillData
         line = TextData[2].Split('\n');
         for (int i = 1; i < line.Length; i++)
         {
@@ -139,13 +140,13 @@ public class DataManager : MonoBehaviour
     public string[] TextData = new string[13];
 
 
-    #region µ¥ÀÌÅÍ °¡Á®¿À±â
+    #region Data Load
 
     const string tileURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=845719806";
     const string moveCardURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=1292713227";
     const string skillURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=706366216";
 
-    [ContextMenu("µ¥ÀÌÅÍ °¡Á®¿À±â")]
+    [ContextMenu("Load Data")]
     void GetLang()
     {
         StartCoroutine(GetLangCo());
@@ -165,7 +166,7 @@ public class DataManager : MonoBehaviour
         yield return www.SendWebRequest();
         SetDataList(www.downloadHandler.text, 2);
 
-        Debug.Log("µ¥ÀÌÅÍ °¡Á®¿À±â ¼º°ø");
+        Debug.Log("Success Load");
     }
 
     void SetDataList(string tsv, int i)
