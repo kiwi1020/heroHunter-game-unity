@@ -11,36 +11,40 @@ public class MoveCardDeck : MonoBehaviour
 
     public void SetHand()
     {
-        //-600 기준으로 2 장일 때에는 400 차이
-        //-600 언저리로 기준 정하고, 400 언저리로 카드간 간격
-        var center = -600 + Random.Range(-50, 50f) - 400 / 2 * handPoint;
-
-
-        foreach(MoveCard i in cards)
+        if (MapSystem.moveCardDraw == true) // 이동카드 뽑기를 한번만 가능 
         {
+            //-600 기준으로 2 장일 때에는 400 차이
+            //-600 언저리로 기준 정하고, 400 언저리로 카드간 간격
+            var center = -600 + Random.Range(-50, 50f) - 400 / 2 * handPoint;
 
-            var cardRect = i.GetComponent<RectTransform>();
 
-            DOTween.Kill(cardRect);
-            cardRect.anchoredPosition = new Vector2(0, 0);
+            foreach (MoveCard i in cards)
+            {
 
-            i.gameObject.SetActive(false);
-        }
+                var cardRect = i.GetComponent<RectTransform>();
 
-        for(int i = 0; i<handPoint; i++)
-        {
-            var cardRect = cards[i].GetComponent<RectTransform>();
+                DOTween.Kill(cardRect);
+                cardRect.anchoredPosition = new Vector2(0, 0);
 
-            cardRect.gameObject.SetActive(true);
+                i.gameObject.SetActive(false);
+            }
 
-            cardRect.DOAnchorPos(new Vector3(center + 400 * i , Random.Range(-50, 250f)), 1 - i*0.2f).SetEase(Ease.OutCirc);
-            cardRect.DORotate(new Vector3(0, 0, Random.Range(-10, 10)), 2);
+            for (int i = 0; i < handPoint; i++)
+            {
+                var cardRect = cards[i].GetComponent<RectTransform>();
 
-            //
+                cardRect.gameObject.SetActive(true);
 
-            var names = new string[]{ "걷기", "뒷걸음질", "준비", "도망치기" };
+                cardRect.DOAnchorPos(new Vector3(center + 400 * i, Random.Range(-50, 250f)), 1 - i * 0.2f).SetEase(Ease.OutCirc);
+                cardRect.DORotate(new Vector3(0, 0, Random.Range(-10, 10)), 2);
 
-            cards[i].SetCard(names[Random.Range(0,4)]);
+                //
+
+                var names = new string[] { "걷기", "뒷걸음질", "준비", "도망치기" };
+
+                cards[i].SetCard(names[Random.Range(0, 4)]);
+            }
+            MapSystem.moveCardDraw = false;
         }
     }
 }

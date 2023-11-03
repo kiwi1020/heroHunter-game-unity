@@ -9,6 +9,8 @@ public class MapSystem : MonoBehaviour
     public GameObject playerPrefab; //플레이어 프리팹 설정
     public GameObject tilePrefab;
 
+    public static bool moveCardDraw; // 카드 드로우 가능 여부
+
     private Vector2 playerPosition; //플레이어 위치(x,y)
     private Vector2 startPoint; //시작지점
     private Vector2 endPoint; //종료지점(보스 타일)
@@ -23,8 +25,8 @@ public class MapSystem : MonoBehaviour
     //타일 생성 및 플레이어 생성
     void setupMap()
     {
-        
-        for(int i = 0; i<20; i++)
+        moveCardDraw = true;
+        for (int i = 0; i<20; i++)
         {
             var tile = Instantiate(tilePrefab).GetComponent<MapTile>();
             tile.transform.parent = tileParents.transform;
@@ -35,10 +37,11 @@ public class MapSystem : MonoBehaviour
             else
             {
                 var lastTilePosition = tileMap[tileMap.Count-1].transform.position;
-                tile.transform.position = new Vector3( 
-                    lastTilePosition.x + 3 + Random.Range(-1, 1f),
-                    lastTilePosition.y + 2 + Random.Range(-1, 1f));
-                tile.transform.Rotate(new Vector3(0, 0, Random.Range(-5, 5f)));
+                tile.transform.position = new Vector3(
+                    lastTilePosition.x + 3, //+ Random.Range(-1, 1f)
+                    lastTilePosition.y + 2); //+ Random.Range(-1, 1f));
+                //tile.transform.Rotate(new Vector3(0, 0, Random.Range(-5, 5f)));
+                //일단 타일 배치는 일정하게 함
             }
 
             tileMap.Add(tile);
