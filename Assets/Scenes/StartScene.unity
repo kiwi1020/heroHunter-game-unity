@@ -370,6 +370,94 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90940351}
   m_CullTransparentMesh: 1
+--- !u!1 &153347689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153347691}
+  - component: {fileID: 153347690}
+  m_Layer: 0
+  m_Name: DataManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &153347690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153347689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbbb0d20bbe9cf4194d1e2467e5c83a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllTileList: []
+  AllMoveCardList: []
+  AllSkillList: []
+  AllMonsterList: []
+  TextData:
+  - "\uC774\uB984\t\uD0C0\uC785\t\uD6A8\uACFC\r\n\uB0AD\uB5A0\uB7EC\uC9C0\t\uD568\uC815\t\uBB34\uC791\uC704
+    \uCE74\uB4DC \uD55C \uC7A5 \uC81C\uAC70\r\n\uACE0\uBE14\uB9B0\t\uC804\uD22C\t\uACE0\uBE14\uB9B0,\uACE0\uBE14\uB9B0\r\n\uC2E0\uBE44\uD55C
+    \uC11D\uC0C1\t\uC120\uD0DD\t\uC11D\uC0C1\uC758 \uC2DC\uD5D8"
+  - "\uC774\uB984\t\uD6A8\uACFC\r\n\uAC77\uAE30\t\uC774\uB3D9:1\r\n\uB4B7\uAC78\uC74C\uC9C8\t\uC774\uB3D9:-1\r\n\uB2EC\uB9AC\uAE30\t\uC774\uB3D9:3\r\n\uB3C4\uB9DD\uCE58\uAE30\t\uC774\uB3D9:-3\r\n\uC900\uBE44\t\uC774\uB3D9:1\r\n\uC900\uBE44\t\uC900\uBE44:1\r\n\uD734\uC2DD\t\uD68C\uBCF5:10\r\n\uD734\uC2DD\t\uC81C\uC57D\r\n\uBC1C\uBAA9
+    \uBD80\uC0C1\t\uC900\uBE44:-1\r\n\uCD94\uACA9\t\uCD94\uACA9:-1~1\r\n\uC870\uC2EC\uC2A4\uB7EC\uC6B4
+    \uBC1C\uAC78\uC74C\t\uC774\uB3D9:2\r\n\uC870\uC2EC\uC2A4\uB7EC\uC6B4 \uBC1C\uAC78\uC74C\t\uBB34\uC2DC:\uD568\uC815\r\n\uB098\uCE68\uBC18
+    \uACE0\uC7A5\t\uC774\uB3D9:-3~3\r\n\uB2F9\uCC2C \uC804\uC9C4\t\uC774\uB3D9:3\r\n\uB2F9\uCC2C
+    \uC804\uC9C4\t\uCD94\uACA9:-1~1\r\n\uC804\uB7B5\uC801 \uD6C4\uD1F4\t\uBB34\uC2DC:\uBAA8\uB450"
+  - "\uC774\uB984\t\uD6A8\uACFC\t\uAC15\uD654 \uD6A8\uACFC\r\n\uBE44\uC5F4\uD55C
+    \uCC0C\uB974\uAE30\t\uBB3C\uB9AC\uD53C\uD574:10\t\uBB3C\uB9AC\uD53C\uD574:15\r\n\uBB35\uC9C1\uD55C
+    \uB0B4\uB824\uCE58\uAE30\t\uBB3C\uB9AC\uD53C\uD574:20\t\uC5C6\uC74C\r\n\uAC08\uB77C\uCE58\uAE30\t\uBB3C\uB9AC\uD53C\uD574:10\t\uC5C6\uC74C\r\n\uB4A4\uD1B5\uC218\uCE58\uAE30\t\uBB3C\uB9AC\uD53C\uD574:10\t\uC5C6\uC74C\r\n\uD63C\uC2E0\uC758
+    \uC77C\uACA9\t\uBB3C\uB9AC\uD53C\uD574:5\t\uBB3C\uB9AC\uD53C\uD574:20\r\n\uAE09\uC18C
+    \uCC0C\uB974\uAE30\t\uBB3C\uB9AC\uD53C\uD574:10\t\uAD00\uD1B5\uD53C\uD574:15\r\n\uD0C4\uB9C9\t\uBB3C\uB9AC\uD53C\uD574:5\t\uBB3C\uB9AC\uD53C\uD574:10\r\n\uB36B\uB193\uAE30\t\uCD9C\uD608:10\t\uC5C6\uC74C\r\n\uC815\uBC00\uC0AC\uACA9\t\uBB3C\uB9AC\uD53C\uD574:5
+    \t\uBB3C\uB9AC\uD53C\uD574:20\r\n\uD6C4\uB824\uCE58\uAE30\t\uBB3C\uB9AC\uD53C\uD574:10\t\uC5C6\uC74C\r\n\uD654\uC5FC\uBCD1
+    \uB358\uC9C0\uAE30\t\uBB3C\uB9AC\uD53C\uD574:10\t\uD654\uC0C1\r\n\uC554\uC0B4\t\uBB3C\uB9AC\uD53C\uD574:40\t\uC5C6\uC74C\r\n\uBEA8\uB54C\uB9AC\uAE30\t\uBB3C\uB9AC\uD53C\uD574:15\t20%/\uC2A4\uD134\r\n\uC220\uC8FC\uC815\t30%/\uBB3C\uB9AC\uD53C\uD574:20\t30%/\uBB3C\uB9AC\uD53C\uD574:25\r\n\uAC80\uACA9\t\uBB3C\uB9AC\uD53C\uD574:20\t\uBB3C\uB9AC\uD53C\uD574:40\r\n\uC655\uAD6D
+    \uAC80\uC220\t\uBB3C\uB9AC\uD53C\uD574:15\t\uBB3C\uB9AC\uD53C\uD574:50\r\n\uBC29\uC5B4
+    \uC790\uC138\t\uBCF4\uD638\uB9C9:20\t\uBCF4\uD638\uB9C9:25\r\n\uC218\uD655\t\uBB3C\uB9AC\uD53C\uD574:20,\uD68C\uBCF5:10\t\uBB3C\uB9AC\uD53C\uD574:20,\uD68C\uBCF5:20\r\n\uC11C\uB9AC\t\uBB3C\uB9AC\uD53C\uD574:30\t\uBB3C\uB9AC\uD53C\uD574:60\r\n\uBC88\uAC1C\uB294
+    \uC721\uACFC \uAC19\uC774\t\uC5C6\uC74C\t\uBB3C\uB9AC\uD53C\uD574:40,\uAC10\uC804"
+  - "\uC774\uB984\t\uC885\uC871\t\uCCB4\uB825/\uBCF4\uD638\uB9C9\t\uD328\uD134\r\n\uACE0\uBE14\uB9B0\t\uC18C\uC778\t100/10\t\uBE44\uC5F4\uD55C
+    \uCC0C\uB974\uAE30\r\n\uC624\uD06C\t\uAC70\uC778\t400/0\t\uBB35\uC9C1\uD55C \uB0B4\uB824\uCE58\uAE30\r\n\uD574\uACE8\t\uC5B8\uB370\uB4DC\t10/150\t\uD63C\uC2E0\uC758
+    \uC77C\uACA9\r\n\uC5B4\uC124\uD508 \uC0AC\uB0E5\uAFBC\t\uC778\uAC04\t20/0\t\uC18D\uC0AC,\uB36B\uB193\uAE30,\uC815\uBC00\uC0AC\uACA9\r\n\uC220\uCDE8\uD55C
+    \uACBD\uBE44\uB300\uC6D0\t\uC778\uAC04\t40/0\t\uD6C4\uB824\uCE58\uAE30,\uC220\uC8FC\uC815\r\n\uC5BC\uC74C
+    \uACE8\uB818\t\uACE8\uB818\t500/200\t\uC5BC\uC74C \uB5A8\uAD6C\uAE30,\uC5BC\uC74C
+    \uC8FC\uBA39\r\n\uBAB0\uB77D\uD55C \uC601\uC6C5\t\uC778\uAC04\t1000/400\t\uAC80\uACA9,\uC624\uB77C,\uBD84\uB178\r\n\uC655\uAD6D
+    \uB9C8\uBC95\uC0AC\t\uC778\uAC04\t20/600\t\uD30C\uC774\uC5B4\uBCFC,\uC815\uC2E0\uC9D1\uC911,\uC775\uC2A4\uD50C\uB85C\uC804\r\n\uAC15\uB839\uC220\uC0AC\t\uC778\uAC04\t20/200\t\uBCF5\uC6D0,
+    \uD6C4\uB824\uCE58\uAE30\r\n\uAC15\uB3C4 \uAE30\uC0AC\t\uC778\uAC04\t50/100\t\uAC80\uACA9,\uC655\uAD6D
+    \uAC80\uC220,\uBC29\uC5B4 \uC790\uC138\r\n\uB3C5\uAE30\uAC00 \uAC00\uB4DD\uD55C
+    \uB18D\uBD80\t\uC778\uAC04\t150/0\t\uC218\uD655,\uC11C\uB9AC,\uD749\uB144\r\n\uD0C0\uB77D\uD55C
+    \uC601\uC6C5\t\uC778\uAC04\t2000/200\t\uD6C4\uB824\uCE58\uAE30,\uC220\uC8FC\uC815\r\n\uD0C0\uB77D\uD55C
+    \uC601\uC6C5\t\uC778\uAC04\t2000/200\t\uAC80\uACA9,\uC624\uB77C,\uBD84\uB178"
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+--- !u!4 &153347691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153347689}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &171513820
 GameObject:
   m_ObjectHideFlags: 0
@@ -2013,74 +2101,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1904913948
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1904913950}
-  - component: {fileID: 1904913949}
-  m_Layer: 0
-  m_Name: DataManger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1904913949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1904913948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cbbb0d20bbe9cf4194d1e2467e5c83a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AllTileList: []
-  AllMoveCardList: []
-  AllSkillList: []
-  TextData:
-  - "\uC774\uB984\t\uD0C0\uC785\t\uD6A8\uACFC\r\n\uB0AD\uB5A0\uB7EC\uC9C0\t\uD568\uC815\t\uBB34\uC791\uC704
-    \uCE74\uB4DC \uD55C \uC7A5 \uC81C\uAC70\r\n\uACE0\uBE14\uB9B0\t\uC804\uD22C\t\uACE0\uBE14\uB9B0\uACFC\uC758
-    \uC804\uD22C\r\n\uC2E0\uBE44\uD55C \uC11D\uC0C1\t\uC120\uD0DD\t\uC11D\uC0C1\uC758
-    \uC2DC\uD5D8"
-  - "\uC774\uB984\t\uD6A8\uACFC\r\n\uAC77\uAE30\t\uC774\uB3D9:1\r\n\uB4B7\uAC78\uC74C\uC9C8\t\uC774\uB3D9:-1\r\n\uB2EC\uB9AC\uAE30\t\uC774\uB3D9:3\r\n\uB3C4\uB9DD\uCE58\uAE30\t\uC774\uB3D9:-3\r\n\uC900\uBE44\t\uC774\uB3D9:1\r\n\uC900\uBE44\t\uC900\uBE44:1\r\n\uD734\uC2DD\t\uD68C\uBCF5:10\r\n\uD734\uC2DD\t\uC81C\uC57D\r\n\uBC1C\uBAA9
-    \uBD80\uC0C1\t\uC900\uBE44:-1\r\n\uCD94\uACA9\t\uCD94\uACA9:-1~1\r\n\uC870\uC2EC\uC2A4\uB7EC\uC6B4
-    \uBC1C\uAC78\uC74C\t\uC774\uB3D9:2\r\n\uC870\uC2EC\uC2A4\uB7EC\uC6B4 \uBC1C\uAC78\uC74C\t\uBB34\uC2DC:\uD568\uC815\r\n\uB098\uCE68\uBC18
-    \uACE0\uC7A5\t\uC774\uB3D9:-3~3\r\n\uB2F9\uCC2C \uC804\uC9C4\t\uC774\uB3D9:3\r\n\uB2F9\uCC2C
-    \uC804\uC9C4\t\uCD94\uACA9:-1~1\r\n\uC804\uB7B5\uC801 \uD6C4\uD1F4\t\uBB34\uC2DC:\uBAA8\uB450"
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
---- !u!4 &1904913950
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1904913948}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2041193563
 GameObject:

@@ -1,20 +1,23 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using System.Linq;
 
+#region 데이터 정의
 public class SkillData
 {
     public string name;
-    public List<string> effects = new List<string>(), enforcedEffects = new List<string>();
 
+    public List<string> effects = new List<string>();
+    public List<string> enforcedEffects = new List<string>();
 
     public SkillData(string _name)
     {
         name = _name;
     }
+
     public void AddEffect(string _name)
     {
         if (_name == "없음") return;
@@ -28,16 +31,28 @@ public class SkillData
 }
 public class TileData
 {
-    public string name, type, effect;
+    public string name, type;
 
-    public TileData(string _name, string _type, string _effect)
+    public TileData(string _name, string _type)
     {
         name = _name;
         type = _type;
-        effect = _effect;
     }
 }
+public class BattleTile : TileData
+{
+    public List<MonsterData> enemies = new List<MonsterData>();
 
+    public BattleTile(string _name, string _type, string _effect) : base(_name,  _type)
+    {
+        name = _name;
+        type = _type;
+        enemies = _effect.Split(',').Select(x=> DataManager.instance.AllMonsterDatas[x]).ToList();
+
+    }
+
+    //적에 대한 정보
+}
 public class MoveCardData
 {
     public string name;
@@ -53,23 +68,44 @@ public class MoveCardData
         effects.Add(_name);
     }
 }
+public class MonsterData 
+{
+    public string name, type;
+    public int[] hp; // 0은 체력 1은 보호막
 
+    public List<string[]> patterns = new List<string[]>(); //패턴 = 스킬 이름 배열, 순서대로 사용
 
+    public MonsterData(string _name, string _type, int[] _hp)
+    {
+        name = _name;
+        type = _type;
+        hp = _hp;
+    }
+
+    public void AddPattern(string[] _pattern)
+    {
+        patterns.Add(_pattern);
+    }
+}
+#endregion
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
-    //Dic 
+    //Dic : 이름을 통해 찾을 때 사용
     public Dictionary<string, TileData> AllTileDatas = new Dictionary<string, TileData>();
     public Dictionary<string, MoveCardData> AllMoveCardDatas = new Dictionary<string, MoveCardData>();
     public Dictionary<string, SkillData> AllSkillDatas = new Dictionary<string, SkillData>();
+    public Dictionary<string, MonsterData> AllMonsterDatas = new Dictionary<string, MonsterData>();
 
 
-    //List
+    //List : 랜덤으로 추출 시 사용
     public List<string> AllTileList = new List<string>();
     public List<string> AllMoveCardList = new List<string>();
     public List<string> AllSkillList = new List<string>();
-    
+    public List<string> AllMonsterList = new List<string>();
+
+    public string[] TextData = new string[13];
     void Awake()
     {
         if (instance == null)
@@ -77,29 +113,12 @@ public class DataManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        else Destroy(gameObject);
 
+        #region 데이터 입력
 
-        #region Data Enter
-
-        // 1. TileData
-        string[] line = TextData[0].Split('\n');
-        for (int i = 1; i < line.Length; i++)
-        {
-            line[i] = line[i].Trim();
-            string[] e = line[i].Split('\t');
-
-            var tileData = new TileData(e[0], e[1], e[2]);
-
-            AllTileDatas.Add(e[0], tileData);
-            AllTileList.Add(e[0]);
-        }
-
-        // 2. MoveCardData
-        line = TextData[1].Split('\n');
+        // 1. MoveCardData
+        string[]  line = TextData[1].Split('\n');
         for (int i = 1; i < line.Length; i++)
         {
             line[i] = line[i].Trim();
@@ -115,13 +134,12 @@ public class DataManager : MonoBehaviour
             AllMoveCardDatas[e[0]].AddEffect(e[1]);
         }
 
-        // 3. SkillData
+        // 2. SkillData
         line = TextData[2].Split('\n');
         for (int i = 1; i < line.Length; i++)
         {
             line[i] = line[i].Trim();
             string[] e = line[i].Split('\t');
-
 
             if (!AllSkillDatas.ContainsKey(e[0]))
             {
@@ -134,17 +152,61 @@ public class DataManager : MonoBehaviour
             AllSkillDatas[e[0]].AddEnforcedEffect(e[2]);
 
         }
+
+        // 3. MonsterData
+        line = TextData[3].Split('\n');
+        for (int i = 1; i < line.Length; i++)
+        {
+            line[i] = line[i].Trim();
+            string[] e = line[i].Split('\t');
+
+            if (!AllMonsterDatas.ContainsKey(e[0]))
+            {
+                var monsterData = new MonsterData(e[0], e[1], e[2].Split('/').Select(i => int.Parse(i)).ToArray());
+                AllMonsterDatas.Add(e[0], monsterData);
+                AllMonsterList.Add(e[0]);
+            }
+
+            AllMonsterDatas[e[0]].AddPattern(e[3].Split(','));
+        }
+
+        // 4. TileData
+        line = TextData[0].Split('\n');
+        for (int i = 1; i < line.Length; i++)
+        {
+            line[i] = line[i].Trim();
+            string[] e = line[i].Split('\t');
+
+            TileData tileData = null;
+
+            switch (e[1])
+            {
+                case "함정":
+                    tileData = new TileData(e[0], e[1]);
+                    break;
+                case "전투":
+                    tileData = new BattleTile(e[0], e[1], e[2]);
+                    break;
+                case "선택":
+                    tileData = new TileData(e[0], e[1]);
+                    break;
+
+                default:
+                    tileData = new TileData(e[0], e[1]);
+                    break;
+            }
+            AllTileDatas.Add(e[0], tileData);
+            AllTileList.Add(e[0]);
+        }
+
         #endregion
     }
-
-    public string[] TextData = new string[13];
-
-
-    #region Data Load
+    #region 데이터 불러오기
 
     const string tileURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=845719806";
     const string moveCardURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=1292713227";
     const string skillURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=706366216";
+    const string monsterURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=1086732162";
 
     [ContextMenu("Load Data")]
     void GetLang()
@@ -165,6 +227,10 @@ public class DataManager : MonoBehaviour
         www = UnityWebRequest.Get(skillURL);
         yield return www.SendWebRequest();
         SetDataList(www.downloadHandler.text, 2);
+
+        www = UnityWebRequest.Get(monsterURL);
+        yield return www.SendWebRequest();
+        SetDataList(www.downloadHandler.text, 3);
 
         Debug.Log("Success Load");
     }

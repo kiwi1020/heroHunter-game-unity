@@ -16,7 +16,7 @@ public class PlayerCollsion : MonoBehaviour
             if (mapTile != null)
             {
                 mapTile.TileEffect();
-                mapTile.SetTileName();
+                //mapTile.SetTileName();
                 mapTile.tileName.gameObject.SetActive(true);
             }
 

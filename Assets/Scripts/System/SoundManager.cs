@@ -12,8 +12,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] bgmClips;
     public AudioClip[] UIClips;
 
-    //
-
     public Slider bgmSlider, sfxSlider;
 
     void Awake()
@@ -21,11 +19,9 @@ public class SoundManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        else Destroy(gameObject);
     }
 
     void Start()

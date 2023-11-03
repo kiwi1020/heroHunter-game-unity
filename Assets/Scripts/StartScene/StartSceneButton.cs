@@ -7,7 +7,7 @@ public class StartSceneButton : MonoBehaviour
 {
     public void ActStartButton()
     {
-        SceneManager.LoadScene("PlayScene");
+        SceneManager.LoadScene("MoveScene");
     }
 
     public void ActSettingButton()

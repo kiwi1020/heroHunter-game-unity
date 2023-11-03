@@ -53,6 +53,20 @@ public class BattleSystem : MonoBehaviour
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
 
+        #region 유닛 세팅
+
+        //적 세팅
+
+        var tileData = (BattleTile)PlayManager.instance.curTile;
+
+        enemyUnit.SetUnit(tileData.enemies[0]);
+
+        //플레이어 세팅
+
+        playerUnit.SetUnit(PlayManager.instance.playerData);
+
+        #endregion
+
         //플레이어턴 시작
         state = BattleState.PLAYERTURN;
         PlayerTurn();
