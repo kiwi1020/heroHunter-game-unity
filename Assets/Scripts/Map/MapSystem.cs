@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class MapSystem : MonoBehaviour
 {
+    public static MapSystem instance;
+
     [SerializeField] GameObject tileParents;
 
     public GameObject playerPrefab; //플레이어 프리팹 설정
@@ -15,8 +18,21 @@ public class MapSystem : MonoBehaviour
     private Vector2 startPoint; //시작지점
     private Vector2 endPoint; //종료지점(보스 타일)
 
-    public List<MapTile> tileMap = new List<MapTile>(); 
-    
+    public List<MapTile> tileMap = new List<MapTile>();
+
+    GameObject player;
+    Transform stpos;
+    Transform endpos;
+    Rigidbody playerRb;
+    public static int tileCount = 1;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
     void Start()
     {
         setupMap();
@@ -47,19 +63,27 @@ public class MapSystem : MonoBehaviour
             tileMap.Add(tile);
         }
 
-        /*
         //플레이어 생성
-        GameObject player = Instantiate(playerPrefab); //
+        player = Instantiate(playerPrefab, tileMap[0].transform.position, tileMap[0].transform.rotation); 
         if (!player.activeSelf)
         {
             player.SetActive(true);
         }
-        */
+   
     }
     //플레이어 이동
-    void PlayerMove()
+    public void PlayerMove()
     {
-        //이동카드 효과에 따른 이동
+        playerRb = player.GetComponent<Rigidbody>();
+        stpos = player.transform; //플레이어 위치
+        endpos = tileMap[tileCount].transform; //이동할 타일 위치
+        Vector3 topPos = stpos.position + ((endpos.position - stpos.position) / 2); // 플레이어, 타일 중간 위치
+        Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
+        new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
+        new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
+        //이동 경로(topPos.y + 값으로 점프 높이 조절)
+        playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D);
+
     }
     //플레이어 위치 저장
     void SetPlayerPosition()

@@ -6,7 +6,6 @@ using DG.Tweening;
 public class MoveCardDeck : MonoBehaviour
 {
     [SerializeField] List<MoveCard> cards;
-
     [SerializeField] int handPoint; // 핸드를 몇 장 받을 지 정하는 능력치, 플레이어 능력치에서 가져옴. 임시로 여기에 선언
 
     public void SetHand()
@@ -42,7 +41,12 @@ public class MoveCardDeck : MonoBehaviour
 
                 var names = new string[] { "걷기", "뒷걸음질", "준비", "도망치기" };
 
-                cards[i].SetCard(names[Random.Range(0, 4)]);
+                //타일 개수에 따른 이동카드 조건(나중에 추가로 수정해야 할듯?)
+                if(MapSystem.tileCount >= 1)
+                {
+                    cards[i].SetCard(names[0]);
+                }
+                //cards[i].SetCard(names[Random.Range(0, 4)]);
             }
             MapSystem.moveCardDraw = false;
         }
