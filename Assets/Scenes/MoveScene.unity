@@ -1621,6 +1621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileParents: {fileID: 1589160780}
+  mainCam: {fileID: 901908696}
   playerPrefab: {fileID: 3089018295690040934, guid: bbe4e4359a867ae4dbcbccb838f09ded, type: 3}
   tilePrefab: {fileID: 346524948025577444, guid: 05f397a40a948e14b814743c0a2193e9, type: 3}
   tileMap: []

@@ -8,10 +8,10 @@ public class MapSystem : MonoBehaviour
     public static MapSystem instance;
 
     [SerializeField] GameObject tileParents;
-
+    [SerializeField] Camera mainCam;
     public GameObject playerPrefab; //플레이어 프리팹 설정
     public GameObject tilePrefab;
-
+    
     public static bool moveCardDraw; // 카드 드로우 가능 여부
 
     private Vector2 playerPosition; //플레이어 위치(x,y)
@@ -83,6 +83,8 @@ public class MapSystem : MonoBehaviour
         new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
         //이동 경로(topPos.y + 값으로 점프 높이 조절)
         playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D);
+
+        //맵, canvas 이동
 
     }
     //플레이어 위치 저장
