@@ -8,7 +8,9 @@ public class MapSystem : MonoBehaviour
     public static MapSystem instance;
 
     [SerializeField] GameObject tileParents;
+    [SerializeField] GameObject background;
     [SerializeField] Camera mainCam;
+
     public GameObject playerPrefab; //플레이어 프리팹 설정
     public GameObject tilePrefab;
     
@@ -71,9 +73,10 @@ public class MapSystem : MonoBehaviour
         }
    
     }
-    //플레이어 이동
+    //플레이어, 카메라, 맵 이동
     public void PlayerMove()
     {
+        //플레이어 이동
         playerRb = player.GetComponent<Rigidbody>();
         stpos = player.transform; //플레이어 위치
         endpos = tileMap[tileCount].transform; //이동할 타일 위치
@@ -84,7 +87,15 @@ public class MapSystem : MonoBehaviour
         //이동 경로(topPos.y + 값으로 점프 높이 조절)
         playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D);
 
-        //맵, canvas 이동
+        tileCount++; // 수정사항 확인 위해 작성
+
+        //맵, canvas 이동(이동 좌표 수정 필요)
+        Vector3 camtargetPos =  mainCam.transform.position + new Vector3(2, 2, 0); //카메라 이동 좌표
+        Vector3 bgtargetPos = background.transform.position + new Vector3(2, 2, 0); //배경 이동 좌표
+
+        mainCam.transform.DOMove(camtargetPos, 1); //카메라 이동
+        background.transform.DOMove(bgtargetPos, 1); //배경 이동
+
 
     }
     //플레이어 위치 저장
