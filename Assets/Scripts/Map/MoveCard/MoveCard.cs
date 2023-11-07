@@ -36,6 +36,12 @@ public class MoveCard : MonoBehaviour
                 MapSystem.instance.PlayerMove();
                 MapSystem.tileCount++;
                 break;
+            case "달리기":
+                for(int i=1; i<=3; i++)
+                {
+                    MapSystem.instance.PlayerMove(); 
+                }
+                break;
             case "뒷걸음질":
                 break;
             case "준비":
@@ -50,4 +56,5 @@ public class MoveCard : MonoBehaviour
             CardsHand.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
+   
 }

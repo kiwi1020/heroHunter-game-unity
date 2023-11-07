@@ -39,12 +39,12 @@ public class MoveCardDeck : MonoBehaviour
 
                 //
 
-                var names = new string[] { "걷기", "뒷걸음질", "준비", "도망치기" };
+                var names = new string[] { "걷기", "뒷걸음질", "달리기","준비", "도망치기" };
 
                 //타일 개수에 따른 이동카드 조건(나중에 추가로 수정해야 할듯?)
                 if(MapSystem.tileCount >= 1)
                 {
-                    cards[i].SetCard(names[0]);
+                    cards[i].SetCard(names[2]);
                 }
                 //cards[i].SetCard(names[Random.Range(0, 4)]);
             }
