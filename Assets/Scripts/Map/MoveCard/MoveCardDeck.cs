@@ -37,9 +37,9 @@ public class MoveCardDeck : MonoBehaviour
                 cardRect.DOAnchorPos(new Vector3(center + 400 * i, Random.Range(-50, 250f)), 1 - i * 0.2f).SetEase(Ease.OutCirc);
                 cardRect.DORotate(new Vector3(0, 0, Random.Range(-10, 10)), 2);
 
-                //
 
                 var names = new string[] { "걷기", "뒷걸음질", "달리기","준비", "도망치기" };
+
 
                 //타일 개수에 따른 이동카드 조건(나중에 추가로 수정해야 할듯?)
                 if(MapSystem.tileCount >= 1)

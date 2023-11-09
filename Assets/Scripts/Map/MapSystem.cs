@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UIElements;
 
 public class MapSystem : MonoBehaviour
 {
@@ -16,11 +17,7 @@ public class MapSystem : MonoBehaviour
     
     public static bool moveCardDraw; // 카드 드로우 가능 여부
 
-    private Vector2 playerPosition; //플레이어 위치(x,y)
-    private Vector2 startPoint; //시작지점
-    private Vector2 endPoint; //종료지점(보스 타일)
-
-    public List<MapTile> tileMap = new List<MapTile>();
+    public List<MapTile> tileMap = new List<MapTile>(); 
 
     GameObject player;
     Transform stpos;
@@ -28,7 +25,7 @@ public class MapSystem : MonoBehaviour
     Rigidbody playerRb;
 
     public static int tileCount = 1;
-
+    public static bool jumpState = false;
     void Awake()
     {
         if(instance == null)
@@ -40,7 +37,13 @@ public class MapSystem : MonoBehaviour
     {
         setupMap();
     }
-
+    private void Update()
+    {
+        if (tileMap[tileCount].transform.position == player.transform.position)
+        {
+            jumpState = false;
+        }
+    }
     //타일 생성 및 플레이어 생성
     void setupMap()
     {
@@ -96,15 +99,9 @@ public class MapSystem : MonoBehaviour
         Vector3 bgtargetPos = background.transform.position + new Vector3(3, 2, 0); //배경 이동 좌표
 
         mainCam.transform.DOMove(camtargetPos, 1); //카메라 이동
-        background.transform.DOMove(bgtargetPos, 1); //배경 이동
-
-    }
-    //플레이어 위치 저장
-    void SetPlayerPosition()
-    {
-        playerPosition = playerPrefab.transform.position;
+        background.transform.DOMove(bgtargetPos, 1); //배경 이동    
+     
     }
     
     
-
 }

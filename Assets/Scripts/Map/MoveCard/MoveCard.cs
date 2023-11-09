@@ -33,14 +33,10 @@ public class MoveCard : MonoBehaviour
         switch (nameText.text)
         {
             case "°È±â":
-                MapSystem.instance.PlayerMove();
-                MapSystem.tileCount++;
+                MapSystem.instance.PlayerMove();                             
                 break;
             case "´Þ¸®±â":
-                for(int i=1; i<=3; i++)
-                {
-                    MapSystem.instance.PlayerMove(); 
-                }
+               
                 break;
             case "µÞ°ÉÀ½Áú":
                 break;
@@ -56,5 +52,5 @@ public class MoveCard : MonoBehaviour
             CardsHand.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
-   
+  
 }
