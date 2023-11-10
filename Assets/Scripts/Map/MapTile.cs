@@ -33,7 +33,7 @@ public class MapTile : MonoBehaviour
                 break;
 
             case "선택":
-                MapSystem.instance.selectEvent.gameObject.SetActive(true);
+                MapSystem.instance.selectEvent.SetSelectEvent(this);
                 break;
 
             case "함정":
@@ -52,7 +52,7 @@ public class MapTile : MonoBehaviour
     }
 
 
-    void EndTileEffect()
+    public void EndTileEffect()
     {
         MapSystem.moveCardDraw = true;
     }

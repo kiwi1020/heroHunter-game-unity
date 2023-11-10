@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 public class PlayerData // 플레이어 진행 상황 저장
@@ -18,34 +17,20 @@ public class PlayManager : MonoBehaviour
 
     public PlayerData playerData;
     public TileData curTile;
+    public int curTileNum = 0;
 
-    [SerializeField] GameObject faderPrefab;
-    Fader fader;
+    public List<TileData> tileMapData = new List<TileData>();
 
     void Awake()
     {
-        #region 기타 시스템
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        #endregion
-
-        #region Fade Object 생성
-        var faderObj = Instantiate(faderPrefab);
-        faderObj.transform.parent = transform;
-        fader = faderObj.GetComponent<Fader>();
-        #endregion
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        fader.FadeOut();
-    }
 
     void Start()
     {
