@@ -33,8 +33,7 @@ public class MapTile : MonoBehaviour
                 break;
 
             case "선택":
-                EndTileEffect();
-                //startButton.gameObject.SetActive(true);
+                MapSystem.instance.selectEvent.gameObject.SetActive(true);
                 break;
 
             case "함정":

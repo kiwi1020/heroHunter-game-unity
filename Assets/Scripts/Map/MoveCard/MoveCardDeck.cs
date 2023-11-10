@@ -12,14 +12,10 @@ public class MoveCardDeck : MonoBehaviour
     {
         if (MapSystem.moveCardDraw == true) // 이동카드 뽑기를 한번만 가능 
         {
-            //-600 기준으로 2 장일 때에는 400 차이
-            //-600 언저리로 기준 정하고, 400 언저리로 카드간 간격
             var center = -600 + Random.Range(-50, 50f) - 400 / 2 * handPoint;
-
 
             foreach (MoveCard i in cards)
             {
-
                 var cardRect = i.GetComponent<RectTransform>();
 
                 DOTween.Kill(cardRect);
@@ -33,7 +29,6 @@ public class MoveCardDeck : MonoBehaviour
                 var cardRect = cards[i].GetComponent<RectTransform>();
 
                 cardRect.gameObject.SetActive(true);
-
                 cardRect.DOAnchorPos(new Vector3(center + 400 * i, Random.Range(-50, 250f)), 1 - i * 0.2f).SetEase(Ease.OutCirc);
                 cardRect.DORotate(new Vector3(0, 0, Random.Range(-10, 10)), 2);
 
@@ -42,7 +37,7 @@ public class MoveCardDeck : MonoBehaviour
 
 
                 //타일 개수에 따른 이동카드 조건(나중에 추가로 수정해야 할듯?)
-                if(MapSystem.tileCount >= 1)
+                if(MapSystem.tileCount >= 0)
                 {
                     cards[i].SetCard(names[2]);
                 }
