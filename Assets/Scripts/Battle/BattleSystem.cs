@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 //전투 상태 종류들
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
 
@@ -75,6 +76,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
+        print("플레이어 공격");
         //적에게 데미지를 입히기
         bool isDead = enemyUnit.Takedamage(playerUnit.damage);
 
@@ -95,6 +97,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        print("적 공격");
         //dialogueText.text = enemyUnit.unitName + "공격!"
 
         yield return new WaitForSeconds(1f);
@@ -123,6 +126,7 @@ public class BattleSystem : MonoBehaviour
         if(state == BattleState.WON)
         {
             //dialogueText.text = "승리!";
+            SceneManager.LoadScene("MoveScene");
         }
         else if (state == BattleState.LOST)
         {

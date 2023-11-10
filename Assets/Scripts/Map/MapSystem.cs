@@ -12,7 +12,7 @@ public class MapSystem : MonoBehaviour
     public GameObject playerPrefab; //플레이어 프리팹 설정
     public GameObject tilePrefab;
 
-    public static bool moveCardDraw; // 카드 드로우 가능 여부
+    public static bool moveCardDraw; // 카드 드로우 가능 여부 
 
     private Vector2 playerPosition; //플레이어 위치(x,y)
     private Vector2 startPoint; //시작지점
@@ -21,10 +21,13 @@ public class MapSystem : MonoBehaviour
     public List<MapTile> tileMap = new List<MapTile>();
 
     GameObject player;
+    public static int tileCount = 1;
+
+    /*
     Transform stpos;
     Transform endpos;
     Rigidbody playerRb;
-    public static int tileCount = 1;
+    */
 
     void Awake()
     {
@@ -35,7 +38,7 @@ public class MapSystem : MonoBehaviour
     }
     void Start()
     {
-        setupMap();
+        setupMap(); //스타트에서 빼고
     }
 
     //타일 생성 및 플레이어 생성
@@ -44,23 +47,23 @@ public class MapSystem : MonoBehaviour
         moveCardDraw = true;
         for (int i = 0; i<20; i++)
         {
+            #region 맵 데이터 생성 생성
             var tile = Instantiate(tilePrefab).GetComponent<MapTile>();
             tile.transform.parent = tileParents.transform;
             tile.SetTile( DataManager.instance.AllTileDatas // 무작위 타일 데이터 설정
                 [ DataManager.instance.AllTileList[ Random.Range(0, DataManager.instance.AllTileList.Count) ]]);
 
+            #endregion
+
+            #region 맵 오브젝트 생성
             if (i == 0) tile.transform.position = new Vector3(-5, -3, 0);
             else
             {
                 var lastTilePosition = tileMap[tileMap.Count-1].transform.position;
-                tile.transform.position = new Vector3(
-                    lastTilePosition.x + 3, //+ Random.Range(-1, 1f)
-                    lastTilePosition.y + 2); //+ Random.Range(-1, 1f));
-                //tile.transform.Rotate(new Vector3(0, 0, Random.Range(-5, 5f)));
-                //일단 타일 배치는 일정하게 함
+                tile.transform.position = new Vector3( lastTilePosition.x + 3.5f, lastTilePosition.y + 2.5f);
             }
-
             tileMap.Add(tile);
+            #endregion
         }
 
         //플레이어 생성
@@ -74,6 +77,10 @@ public class MapSystem : MonoBehaviour
     //플레이어 이동
     public void PlayerMove()
     {
+        player.transform.DOMoveX(tileMap[tileCount].transform.position.x, 1);
+        player.transform.DOMoveY(tileMap[tileCount].transform.position.y, 1).SetEase(Ease.InOutBack).OnComplete(()=>EndPlayerMove());
+
+        /*
         playerRb = player.GetComponent<Rigidbody>();
         stpos = player.transform; //플레이어 위치
         endpos = tileMap[tileCount].transform; //이동할 타일 위치
@@ -82,9 +89,16 @@ public class MapSystem : MonoBehaviour
         new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
         new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
         //이동 경로(topPos.y + 값으로 점프 높이 조절)
-        playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D);
-
+        playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic);
+        */
     }
+
+    void EndPlayerMove()
+    {
+        tileMap[tileCount].TileEffect();
+    }
+
+
     //플레이어 위치 저장
     void SetPlayerPosition()
     {

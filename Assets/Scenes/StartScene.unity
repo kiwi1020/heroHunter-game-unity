@@ -286,6 +286,7 @@ RectTransform:
   - {fileID: 519047602}
   - {fileID: 90940352}
   - {fileID: 696571447}
+  - {fileID: 2018684365}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -406,7 +407,12 @@ MonoBehaviour:
   TextData:
   - "\uC774\uB984\t\uD0C0\uC785\t\uD6A8\uACFC\r\n\uB0AD\uB5A0\uB7EC\uC9C0\t\uD568\uC815\t\uBB34\uC791\uC704
     \uCE74\uB4DC \uD55C \uC7A5 \uC81C\uAC70\r\n\uACE0\uBE14\uB9B0\t\uC804\uD22C\t\uACE0\uBE14\uB9B0,\uACE0\uBE14\uB9B0\r\n\uC2E0\uBE44\uD55C
-    \uC11D\uC0C1\t\uC120\uD0DD\t\uC11D\uC0C1\uC758 \uC2DC\uD5D8"
+    \uC11D\uC0C1\t\uC120\uD0DD\t\uC11D\uC0C1\uC758 \uC2DC\uD5D8\r\n\uBB34\uB364\t\uC804\uD22C\t\uD574\uACE8,\uD574\uACE8\r\n\uC7AC\uB798\uC2DC\uC7A5\t\uAC70\uB798\t\uC0C1\uC778\uACFC
+    \uAC70\uB798\r\n\uB2AA\uC9C0\uB300\t\uC804\uD22C\t\uC5B4\uC124\uD508 \uC0AC\uB0E5\uAFBC\r\n\uC124\uC0B0\t\uC804\uD22C\t\uC5BC\uC74C
+    \uACE8\uB818\r\n\uB3C4\uC801\uB5BC\t\uC804\uD22C\t\uAC15\uB3C4 \uAE30\uC0AC,\uAC15\uB3C4
+    \uAE30\uC0AC\r\n\uB3C4\uBC15\uC7A5\t\uC120\uD0DD\uC9C0\t\uB51C\uB7EC\uC640 \uD640,\uC9DD
+    \uB0B4\uAE30\r\n\uD589\uC6B4\t\uBCF4\uC0C1\t\uBB34\uC791\uC704\uB85C \uB371 2\uAC1C
+    \uC9C0\uAE09"
   - "\uC774\uB984\t\uD6A8\uACFC\r\n\uAC77\uAE30\t\uC774\uB3D9:1\r\n\uB4B7\uAC78\uC74C\uC9C8\t\uC774\uB3D9:-1\r\n\uB2EC\uB9AC\uAE30\t\uC774\uB3D9:3\r\n\uB3C4\uB9DD\uCE58\uAE30\t\uC774\uB3D9:-3\r\n\uC900\uBE44\t\uC774\uB3D9:1\r\n\uC900\uBE44\t\uC900\uBE44:1\r\n\uD734\uC2DD\t\uD68C\uBCF5:10\r\n\uD734\uC2DD\t\uC81C\uC57D\r\n\uBC1C\uBAA9
     \uBD80\uC0C1\t\uC900\uBE44:-1\r\n\uCD94\uACA9\t\uCD94\uACA9:-1~1\r\n\uC870\uC2EC\uC2A4\uB7EC\uC6B4
     \uBC1C\uAC78\uC74C\t\uC774\uB3D9:2\r\n\uC870\uC2EC\uC2A4\uB7EC\uC6B4 \uBC1C\uAC78\uC74C\t\uBB34\uC2DC:\uD568\uC815\r\n\uB098\uCE68\uBC18
@@ -434,7 +440,41 @@ MonoBehaviour:
     \uB18D\uBD80\t\uC778\uAC04\t150/0\t\uC218\uD655,\uC11C\uB9AC,\uD749\uB144\r\n\uD0C0\uB77D\uD55C
     \uC601\uC6C5\t\uC778\uAC04\t2000/200\t\uD6C4\uB824\uCE58\uAE30,\uC220\uC8FC\uC815\r\n\uD0C0\uB77D\uD55C
     \uC601\uC6C5\t\uC778\uAC04\t2000/200\t\uAC80\uACA9,\uC624\uB77C,\uBD84\uB178"
-  - 
+  - "\uC774\uB984\t1\uC885\uC871\t\uC9C1\uC5C5\t\uBA38\uB9AC\t\uC0C1\uC758\t\uC7A5\uAC11\t\uD558\uC758\t\uC2E0\uBC1C\t\uBB34\uAE30\r\n\uC624\uD06C\t\uAC70\uC778\t\uAC70\uC778\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uB098\uBB34 \uD65C\r\n\uC5BC\uC74C \uACE8\uB818\t\uACE8\uB818\t\uACE8\uB818\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uB098\uBB34 \uD65C\r\n\uACE0\uBE14\uB9B0\t\uC18C\uC778\t\uACE0\uBE14\uB9B0\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uB098\uBB34 \uD65C\r\n\uD574\uACE8\t\uC5B8\uB370\uB4DC\t\uC5B8\uB370\uB4DC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uB098\uBB34 \uD65C\r\n\uD0C0\uB77D\uD55C \uC601\uC6C5\t\uC601\uC6C5\t\uC601\uC6C5\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uB098\uBB34 \uD65C\r\n\uBAB0\uB77D\uD55C \uC601\uC6C5\t\uC601\uC6C5\t\uC601\uC6C5\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uB098\uBB34 \uD65C\r\n\uC5B4\uC124\uD508 \uC0AC\uB0E5\uAFBC\t\uC778\uAC04\t\uAD81\uC218\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9 \uC0AC\uB0E5\uAFBC\t\uC801\uB179\uC0C9
+    \uC0AC\uB0E5\uAFBC\t\uB098\uBB34 \uD65C\r\n\uC220\uCDE8\uD55C \uACBD\uBE44\uB300\uC6D0\t\uC778\uAC04\t\uCC3D\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uC77C\uBC18 \uCC3D\r\n\uC655\uAD6D
+    \uB9C8\uBC95\uC0AC\t\uC778\uAC04\t\uB9C8\uBC95\uC0AC\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uC77C\uBC18 \uCC3D\r\n\uAC15\uB839\uC220\uC0AC\t\uC778\uAC04\t\uB9C8\uBC95\uC0AC\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uC77C\uBC18 \uCC3D\r\n\uAC15\uB3C4
+    \uAE30\uC0AC\t\uC778\uAC04\t\uAE30\uC0AC\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uC77C\uBC18 \uCC3D\r\n\uB3C5\uAE30\uAC00 \uAC00\uB4DD\uD55C
+    \uB18D\uBD80\t\uC778\uAC04\t\uB18D\uBD80\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9 \uACBD\uBE44\uBCD1\t\uD669\uC0C9
+    \uACBD\uBE44\uBCD1\t\uC77C\uBC18 \uCC3D"
   - 
   - 
   - 
@@ -1077,6 +1117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dff0c4c7746ab4eb8413bb0893d87b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fade: {fileID: 2018684366}
 --- !u!1 &698156607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2102,6 +2143,95 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2018684364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2018684365}
+  - component: {fileID: 2018684367}
+  - component: {fileID: 2018684366}
+  - component: {fileID: 2018684368}
+  m_Layer: 5
+  m_Name: Fade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2018684365
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018684364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 69571012}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2018684366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018684364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2018684367
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018684364}
+  m_CullTransparentMesh: 1
+--- !u!114 &2018684368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018684364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab7e81f5e3dcd1e43a045c0c786f478e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2041193563
 GameObject:
   m_ObjectHideFlags: 0
