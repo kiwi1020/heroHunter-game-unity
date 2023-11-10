@@ -26,8 +26,8 @@ public class MapSystem : MonoBehaviour
     Transform stpos;
     Transform endpos;
     Rigidbody playerRb;
+    Vector3 playerPosition;
 
-    public static int tileCount = 1;
     public static bool jumpState = false;
     void Awake()
     {
