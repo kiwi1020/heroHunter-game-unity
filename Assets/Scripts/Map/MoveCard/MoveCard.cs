@@ -29,14 +29,28 @@ public class MoveCard : MonoBehaviour
     public void MoveEffect()
     {
         CardsHand = transform.parent.gameObject;
-        if(nameText.text == "°È±â")
+
+        switch (nameText.text)
         {
-            MapSystem.instance.PlayerMove();
-            MapSystem.tileCount++;
-            for(int i=0; i<=CardsHand.transform.childCount-1; i++)
-            {
-                CardsHand.transform.GetChild(i).gameObject.SetActive(false);
-            }
+            case "°È±â":
+                MapSystem.instance.PlayerMove();                             
+                break;
+            case "´Þ¸®±â":
+               
+                break;
+            case "µÞ°ÉÀ½Áú":
+                break;
+            case "ÁØºñ":
+                break;
+            case "µµ¸ÁÄ¡±â":
+                break;
+
+        }
+
+        for (int i = 0; i <= CardsHand.transform.childCount - 1; i++)
+        {
+            CardsHand.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
+  
 }

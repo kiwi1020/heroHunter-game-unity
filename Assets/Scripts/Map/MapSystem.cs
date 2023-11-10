@@ -2,33 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UIElements;
 
 public class MapSystem : MonoBehaviour
 {
     public static MapSystem instance;
 
     [SerializeField] GameObject tileParents;
+    [SerializeField] GameObject background;
+    [SerializeField] Camera mainCam;
 
-    public GameObject playerPrefab; //ÇÃ·¹ÀÌ¾î ÇÁ¸®ÆÕ ¼³Á¤
+    public GameObject playerPrefab; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public GameObject tilePrefab;
 
-    public static bool moveCardDraw; // Ä«µå µå·Î¿ì °¡´É ¿©ºÎ 
+    public static bool moveCardDraw; // Ä«ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-    private Vector2 playerPosition; //ÇÃ·¹ÀÌ¾î À§Ä¡(x,y)
-    private Vector2 startPoint; //½ÃÀÛÁöÁ¡
-    private Vector2 endPoint; //Á¾·áÁöÁ¡(º¸½º Å¸ÀÏ)
-
-    public List<MapTile> tileMap = new List<MapTile>();
+    public List<MapTile> tileMap = new List<MapTile>(); 
 
     GameObject player;
     public static int tileCount = 1;
 
-    /*
+    
     Transform stpos;
     Transform endpos;
     Rigidbody playerRb;
-    */
 
+    public static int tileCount = 1;
+    public static bool jumpState = false;
     void Awake()
     {
         if(instance == null)
@@ -38,24 +38,30 @@ public class MapSystem : MonoBehaviour
     }
     void Start()
     {
-        setupMap(); //½ºÅ¸Æ®¿¡¼­ »©°í
+        setupMap(); //ï¿½ï¿½Å¸Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
-
-    //Å¸ÀÏ »ý¼º ¹× ÇÃ·¹ÀÌ¾î »ý¼º
+    private void Update()
+    {
+        if (tileMap[tileCount].transform.position == player.transform.position)
+        {
+            jumpState = false;
+        }
+    }
+    //Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
     void setupMap()
     {
         moveCardDraw = true;
         for (int i = 0; i<20; i++)
         {
-            #region ¸Ê µ¥ÀÌÅÍ »ý¼º »ý¼º
+            #region ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             var tile = Instantiate(tilePrefab).GetComponent<MapTile>();
             tile.transform.parent = tileParents.transform;
-            tile.SetTile( DataManager.instance.AllTileDatas // ¹«ÀÛÀ§ Å¸ÀÏ µ¥ÀÌÅÍ ¼³Á¤
+            tile.SetTile( DataManager.instance.AllTileDatas // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 [ DataManager.instance.AllTileList[ Random.Range(0, DataManager.instance.AllTileList.Count) ]]);
 
             #endregion
 
-            #region ¸Ê ¿ÀºêÁ§Æ® »ý¼º
+            #region ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
             if (i == 0) tile.transform.position = new Vector3(-5, -3, 0);
             else
             {
@@ -66,7 +72,7 @@ public class MapSystem : MonoBehaviour
             #endregion
         }
 
-        //ÇÃ·¹ÀÌ¾î »ý¼º
+        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
         player = Instantiate(playerPrefab, tileMap[0].transform.position, tileMap[0].transform.rotation); 
         if (!player.activeSelf)
         {
@@ -74,23 +80,21 @@ public class MapSystem : MonoBehaviour
         }
    
     }
-    //ÇÃ·¹ÀÌ¾î ÀÌµ¿
+    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½, Ä«ï¿½Þ¶ï¿½, ï¿½ï¿½ ï¿½Ìµï¿½
     public void PlayerMove()
     {
-        player.transform.DOMoveX(tileMap[tileCount].transform.position.x, 1);
-        player.transform.DOMoveY(tileMap[tileCount].transform.position.y, 1).SetEase(Ease.InOutBack).OnComplete(()=>EndPlayerMove());
 
-        /*
+        //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½
         playerRb = player.GetComponent<Rigidbody>();
-        stpos = player.transform; //ÇÃ·¹ÀÌ¾î À§Ä¡
-        endpos = tileMap[tileCount].transform; //ÀÌµ¿ÇÒ Å¸ÀÏ À§Ä¡
-        Vector3 topPos = stpos.position + ((endpos.position - stpos.position) / 2); // ÇÃ·¹ÀÌ¾î, Å¸ÀÏ Áß°£ À§Ä¡
+        stpos = player.transform; //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡
+        endpos = tileMap[tileCount].transform; //ï¿½Ìµï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½Ä¡
+        Vector3 topPos = stpos.position + ((endpos.position - stpos.position) / 2); // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½, Å¸ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½Ä¡
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
         new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
         new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        //ÀÌµ¿ °æ·Î(topPos.y + °ªÀ¸·Î Á¡ÇÁ ³ôÀÌ Á¶Àý)
+        //ï¿½Ìµï¿½ ï¿½ï¿½ï¿½(topPos.y + ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic);
-        */
+        
     }
 
     void EndPlayerMove()
@@ -99,10 +103,21 @@ public class MapSystem : MonoBehaviour
     }
 
 
-    //ÇÃ·¹ÀÌ¾î À§Ä¡ ÀúÀå
+    //ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
     void SetPlayerPosition()
+    {
     {
         playerPosition = playerPrefab.transform.position;
     }
 
+        //ï¿½ï¿½, canvas ï¿½Ìµï¿½(ï¿½Ìµï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½)
+        Vector3 camtargetPos =  mainCam.transform.position + new Vector3(3, 2, 0); //Ä«ï¿½Þ¶ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½Ç¥
+        Vector3 bgtargetPos = background.transform.position + new Vector3(3, 2, 0); //ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½Ç¥
+
+        mainCam.transform.DOMove(camtargetPos, 1); //Ä«ï¿½Þ¶ï¿½ ï¿½Ìµï¿½
+        background.transform.DOMove(bgtargetPos, 1); //ï¿½ï¿½ï¿½ ï¿½Ìµï¿½    
+     
+    }
+    
+    
 }
