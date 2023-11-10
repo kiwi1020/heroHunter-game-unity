@@ -6,23 +6,29 @@ using UnityEngine.UI;
 
 public class Fader : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
-
+    Image image;
+    RectTransform rect;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        image = GetComponent<Image>();
+        rect = GetComponent<RectTransform>();
+    }
+
+    void Start()
+    {
+        FadeOut();
     }
 
     public void FadeOut()
     {
         gameObject.SetActive(true);
 
-        spriteRenderer.color = new Color(1, 1, 1, 1);
-        spriteRenderer.DOFade(0, 1f).SetDelay(0.5f);
+        image.color = new Color(1, 1, 1, 1);
+        image.DOFade(0, 1f).SetDelay(0.5f);
 
-        transform.position = Vector3.zero;
-        transform.DOMoveY(24, 1);
+        rect.localPosition = new Vector3(0, -300, 0);
+        rect.DOAnchorPosY(2000, 2);
     }
 
 }
