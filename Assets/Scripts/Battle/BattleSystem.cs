@@ -64,7 +64,7 @@ public class BattleSystem : MonoBehaviour
 
         //플레이어 세팅
 
-        playerUnit.SetUnit(PlayManager.instance.playerData);
+        playerUnit.SetUnit();
 
         #endregion
 

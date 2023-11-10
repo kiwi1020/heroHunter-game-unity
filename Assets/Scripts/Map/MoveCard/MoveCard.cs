@@ -19,32 +19,45 @@ public class MoveCard : MonoBehaviour
         nameText.text = moveCardData.name;
 
         desText.text = "";
-        foreach(string i in moveCardData.effects) desText.text += i;
-        //카드 정보 가져와서 해당 카드 이미지랑 텍스트 세팅
-        //이거는 그냥 카드에 무브카드 주고 거기서 세팅해도 될 듯?
-    }
+        foreach (string i in moveCardData.effects)
+        {
+            desText.text += i;
+            desText.text += "\n";
+        }
+
+            //카드 정보 가져와서 해당 카드 이미지랑 텍스트 세팅
+            //이거는 그냥 카드에 무브카드 주고 거기서 세팅해도 될 듯?
+        }
     public void MoveEffect()
     {
-
-
         CardsHand = transform.parent.gameObject;
 
         var eft = moveCardData.effects[0].Split(':');
 
-
         switch (eft[0])
         {
             case "이동":
-                MapSystem.instance.PlayerMove(int.Parse(eft[1]));                             
+                MapSystem.instance.PlayerMove(int.Parse(eft[1]));
+                if (eft[1] == "-3~3")
+                {
+                    var moveValue = Random.Range(-3, 3);
+                    MapSystem.instance.PlayerMove(moveValue);
+                }
                 break;
-            case "달리기":
-               
-                break;
-            case "뒷걸음질":
-                break;
+            case "회복":   
+                if(PlayerData.currentHP == 100)
+                {
+                    break;
+                }
+                else
+                {
+                    PlayerData.currentHP += 10;
+                    break;
+                };
             case "준비":
+
                 break;
-            case "도망치기":
+            case "무시":
                 break;
             default:break;
 
