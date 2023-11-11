@@ -19,29 +19,48 @@ public class MoveCard : MonoBehaviour
         nameText.text = moveCardData.name;
 
         desText.text = "";
-        foreach(string i in moveCardData.effects) desText.text += i;
-        //Ä«µå Á¤º¸ °¡Á®¿Í¼­ ÇØ´ç Ä«µå ÀÌ¹ÌÁö¶û ÅØ½ºÆ® ¼¼ÆÃ
-        //ÀÌ°Å´Â ±×³É Ä«µå¿¡ ¹«ºêÄ«µå ÁÖ°í °Å±â¼­ ¼¼ÆÃÇØµµ µÉ µí?
-    }
+        foreach (string i in moveCardData.effects)
+        {
+            desText.text += i;
+            desText.text += "\n";
+        }
+
+            //Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½Ø´ï¿½ Ä«ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+            //ï¿½Ì°Å´ï¿½ ï¿½×³ï¿½ Ä«ï¿½å¿¡ ï¿½ï¿½ï¿½ï¿½Ä«ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Å±â¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ ï¿½ï¿½ ï¿½ï¿½?
+        }
     public void MoveEffect()
     {
-
-
         CardsHand = transform.parent.gameObject;
 
         var eft = moveCardData.effects[0].Split(':');
 
-
         switch (eft[0])
         {
-            case "ÀÌµ¿":
-                MapSystem.instance.PlayerMove(int.Parse(eft[1]));                             
+            case "ï¿½Ìµï¿½":
+                MapSystem.instance.PlayerMove(int.Parse(eft[1]));
+                if (eft[1] == "-3~3")
+                {
+                    var moveValue = Random.Range(-3, 3);
+                    MapSystem.instance.PlayerMove(moveValue);
+                }
                 break;
-            case "ÁØºñ":
+            case "È¸ï¿½ï¿½":   
+                if(PlayerData.currentHP == 100)
+                {
+                    break;
+                }
+                else
+                {
+                    PlayerData.currentHP += 10;
+                    break;
+                };
+            case "ï¿½Øºï¿½":
+
+                break;
+            case "ï¿½ï¿½ï¿½ï¿½":
                 break;
             default:
                 MapSystem.instance.PlayerMove(0); 
-                break;
 
         }
 

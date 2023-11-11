@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerData // ÇÃ·¹ÀÌ¾î ÁøÇà »óÈ² ÀúÀå
+public class PlayerData // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½
 {
-    //ÇöÀç Ã¼·Â, º¸È£¸·, ¼ÒÁö ÀüÅõ Ä«µå, ¼ÒÁö ÀÌµ¿ Ä«µå, ¼ÒÁö À¯½Ç¹°, ÁÖ»çÀ§
+    //ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½, ï¿½ï¿½È£ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ Ä«ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¹ï¿½, ï¿½Ö»ï¿½ï¿½ï¿½
 
     public int maxHP;
     public int currentHP;
@@ -17,7 +17,6 @@ public class PlayManager : MonoBehaviour
 {
     public static PlayManager instance;
 
-    public PlayerData playerData;
     public TileData curTile;
     public int curTileNum = 0;
 
@@ -41,10 +40,8 @@ public class PlayManager : MonoBehaviour
 
     void SetStart()
     {
-        playerData = new PlayerData();
-
-        playerData.maxHP = 100;
-        playerData.currentHP = playerData.maxHP;
+        PlayerData.maxHP = 100;
+        PlayerData.currentHP = PlayerData.maxHP;
     }
 
 }

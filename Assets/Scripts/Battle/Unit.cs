@@ -22,9 +22,9 @@ public class Unit : MonoBehaviour
         currentHP = maxHP;
     }
 
-    public void SetUnit(PlayerData _playerData)
+    public void SetUnit()
     {
-        maxHP = _playerData.maxHP;
+        maxHP = PlayerData.maxHP;
         currentHP = maxHP;
     }
 

@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//ÀüÅõ »óÅÂ Á¾·ùµé
+//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
 
 public class BattleSystem : MonoBehaviour
 {
     public BattleManager battleManager;
 
-    public Unit[] units; // 0 ÇÃ·¹ÀÌ¾î // 1 ÀÌ»ó Àû
+    public Unit[] units; // 0 ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ // 1 ï¿½Ì»ï¿½ ï¿½ï¿½
     public BattleHUD[] unitHUDs;
 
     public BattleState state;
@@ -26,7 +26,7 @@ public class BattleSystem : MonoBehaviour
 
     void SetupBattle()
     {
-        //Unit, HUD ¹è¿­ Å¸ÀÔÀ¸·Î ÅëÇÕ
+        //Unit, HUD ï¿½è¿­ Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         foreach (Unit i in units) i.gameObject.SetActive(false);
         foreach (BattleHUD i in unitHUDs) i.gameObject.SetActive(false);
 
@@ -60,19 +60,19 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        print("ÇÃ·¹ÀÌ¾î °ø°Ý");
-        //Àû¿¡°Ô µ¥¹ÌÁö¸¦ ÀÔÈ÷±â
+        print("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         bool isDead = units[1].Takedamage(units[0].damage);
 
         unitHUDs[1].SetHP();
-        //dialogueText.text = "°ø°Ý ¼º°ø!"
+        //dialogueText.text = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!"
 
         yield return new WaitForSeconds(2f);
 
-        //ÀûÀÌ Á×¾ú´ÂÁö¸¦ È®ÀÎ
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         if (isDead)
         {
-            //»óÅÂÈ®ÀÎ ÈÄ ÅÏÀÇ »óÅÂ¸¦ º¯È­½ÃÅ´
+            //ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½È­ï¿½ï¿½Å´
             state = BattleState.WON;
             Destroy(units[1]);
             EndBattle();
@@ -81,8 +81,8 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        print("Àû °ø°Ý");
-        //dialogueText.text = enemyUnit.unitName + "°ø°Ý!"
+        print("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        //dialogueText.text = enemyUnit.unitName + "ï¿½ï¿½ï¿½ï¿½!"
 
         yield return new WaitForSeconds(1f);
 
@@ -109,20 +109,20 @@ public class BattleSystem : MonoBehaviour
     {
         if(state == BattleState.WON)
         {
-            //dialogueText.text = "½Â¸®!";
+            //dialogueText.text = "ï¿½Â¸ï¿½!";
             SceneManager.LoadScene("MoveScene");
         }
         else if (state == BattleState.LOST)
         {
-            //dialogueText.text = "ÆÐ¹è..."
+            //dialogueText.text = "ï¿½Ð¹ï¿½..."
         }
     }
 
     void PlayerTurn()
     {
-        //dialogueText.text = "Ä«µå¸¦ ¼±ÅÃÇÏ½Ê½Ã¿À";
+        //dialogueText.text = "Ä«ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ê½Ã¿ï¿½";
     }
-    //ÀÏ´Ü °ø°Ý¹öÆ°ÀÌ ÀÖ´Ù´Â °¡Á¤ÇÏ¿¡ ¸¸µë
+    //ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ý¹ï¿½Æ°ï¿½ï¿½ ï¿½Ö´Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void OnAttackButton()
     {
         if (state != BattleState.PLAYERTURN)

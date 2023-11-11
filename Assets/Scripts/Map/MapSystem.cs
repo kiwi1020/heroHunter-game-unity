@@ -24,7 +24,7 @@ public class MapSystem : MonoBehaviour
 
     public List<MapTile> tileMap = new List<MapTile>();
    
-    public int curTileNum
+    public static int curTileNum
     {
         get
         {
@@ -55,14 +55,6 @@ public class MapSystem : MonoBehaviour
     {
         setupMap();
     }
-
-    void Update()
-    {
-        if (tileMap[tileCount].transform.position == player.transform.position)
-        {
-            jumpState = false;
-        }
-    }
     
     void setupMap()
     {
@@ -81,7 +73,7 @@ public class MapSystem : MonoBehaviour
 
     void SetTileMapData()
     {
-        //¾ø´Â °æ¿ì
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
@@ -128,7 +120,7 @@ public class MapSystem : MonoBehaviour
         }
         else if(_n < 0)
         {
-
+            PlayerMoveBack(_n);
         }
         else
         {
@@ -150,7 +142,23 @@ public class MapSystem : MonoBehaviour
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack));
+        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack));
+    }
+
+    void PlayerMoveBack(int _stack)
+    {
+        _stack++;
+        curTileNum--;
+        MoveCameraToTargetTile(tileMap[curTileNum]);
+
+        playerRb = player.GetComponent<Rigidbody>();
+        stpos = player.transform;
+        endpos = tileMap[curTileNum].transform;
+        Vector3 topPos = stpos.position + ((endpos.position - stpos.position) / 2);
+        Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
+            new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
+            new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
+        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack));
     }
 
     void EndPlayerMove()
