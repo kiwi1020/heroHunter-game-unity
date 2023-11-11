@@ -32,17 +32,14 @@ public class BattleSystem : MonoBehaviour
 
         #region Unit Setting
 
-        //var tileData = (BattleTile)PlayManager.instance.curTile;
+        var tileData = (BattleTile)PlayManager.instance.curTile;
 
-<<<<<<< Updated upstream
         for(int i = 0; i< tileData.enemies.Count+1; i++)
         {
             units[i].gameObject.SetActive(true);
             unitHUDs[i].gameObject.SetActive(true);
-=======
         //enemyUnit.SetUnit(tileData.enemies[0]);
-        enemyUnit.SetUnit();
->>>>>>> Stashed changes
+        //enemyUnit.SetUnit();
 
             if(i == 0)
             {
