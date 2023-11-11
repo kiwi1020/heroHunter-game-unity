@@ -2,22 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BattleHUD : MonoBehaviour
 {
 
     //public Text nameText;
     public Slider hpSlider;
+    public TextMeshProUGUI hpText;
 
-    public void SetHUD(Unit unit)
+    Unit unit;
+
+    public void SetHUD(Unit _unit)
     {
-        //nameText.text = unit.unitName;
+        unit = _unit;
+
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
+
+        SetHP();
     }
 
-    public void SetHP(int hp)
+    public void SetHP()
     {
-        hpSlider.value = hp;
+        hpSlider.value = unit.currentHP;
+        hpText.text = $"{unit.maxHP}/{unit.currentHP}" ;
     }
 }

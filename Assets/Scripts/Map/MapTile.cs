@@ -33,15 +33,15 @@ public class MapTile : MonoBehaviour
                 break;
 
             case "선택":
-                MapSystem.instance.selectEvent.SetSelectEvent(this);
+                MapSystem.instance.selectEvent.SetEvent(this);
                 break;
 
             case "함정":
-                EndTileEffect();
+                MapSystem.instance.gainEvent.SetEvent(this);
                 break;
 
             case "보상":
-                EndTileEffect();
+                MapSystem.instance.gainEvent.SetEvent(this);
                 break;
 
             default:

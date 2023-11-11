@@ -93,6 +93,138 @@ ScriptedImporter:
     spritePosition: {x: 0, y: 0}
   mosaicSpriteImportData: []
   rigSpriteImportData:
+  - name: dice1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 210
+      y: 4
+      width: 15
+      height: 15
+    spriteID: 3db41d34d9e35cd4fae84b65e37fdb73
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 210, y: 4}
+    spritePosition: {x: 30, y: 125}
+  - name: dice2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 233
+      y: 4
+      width: 15
+      height: 15
+    spriteID: 12939ba41bb306d4ca4e6d125fb5d0f9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 233, y: 4}
+    spritePosition: {x: 47, y: 125}
+  - name: dice3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 210
+      y: 27
+      width: 15
+      height: 15
+    spriteID: 363aa771a4427e44ab1f832fd0cda3b3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 210, y: 27}
+    spritePosition: {x: 47, y: 108}
+  - name: dice4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 233
+      y: 27
+      width: 15
+      height: 15
+    spriteID: 57548e9a7431fbf4495f59d5a16b05e4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 233, y: 27}
+    spritePosition: {x: 64, y: 125}
+  - name: dice5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 206
+      y: 51
+      width: 15
+      height: 15
+    spriteID: e9fde8147401ba24ea039c850ed40f89
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 206, y: 51}
+    spritePosition: {x: 64, y: 108}
+  - name: dice6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 229
+      y: 51
+      width: 15
+      height: 15
+    spriteID: ba03f4dbf2f3f9542830f5bc8bdbbb82
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 229, y: 51}
+    spritePosition: {x: 81, y: 125}
   - name: IllustCase_1
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -144,8 +276,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 210
-      y: 4
+      x: 206
+      y: 74
       width: 15
       height: 15
     spriteID: ccda23c861f33e747b6a778422b9ced6
@@ -157,7 +289,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: 210, y: 4}
+    uvTransform: {x: 206, y: 74}
     spritePosition: {x: 30, y: 108}
   - name: Card_Front
     originalName: 
@@ -277,6 +409,66 @@ ScriptedImporter:
   resliceFromLayer: 0
   mosaicPSDLayers: []
   rigPSDLayers:
+  - name: dice1
+    spriteName: dice1
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3db41d34d9e35cd4fae84b65e37fdb73
+    layerID: 10
+    mosaicPosition: {x: 210, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: dice2
+    spriteName: dice2
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 12939ba41bb306d4ca4e6d125fb5d0f9
+    layerID: 11
+    mosaicPosition: {x: 233, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: dice3
+    spriteName: dice3
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 363aa771a4427e44ab1f832fd0cda3b3
+    layerID: 12
+    mosaicPosition: {x: 210, y: 27}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: dice4
+    spriteName: dice4
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 57548e9a7431fbf4495f59d5a16b05e4
+    layerID: 13
+    mosaicPosition: {x: 233, y: 27}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: dice5
+    spriteName: dice5
+    isGroup: 0
+    parentIndex: -1
+    spriteID: e9fde8147401ba24ea039c850ed40f89
+    layerID: 14
+    mosaicPosition: {x: 206, y: 51}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: dice6
+    spriteName: dice6
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ba03f4dbf2f3f9542830f5bc8bdbbb82
+    layerID: 15
+    mosaicPosition: {x: 229, y: 51}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   - name: IllustCase_1
     spriteName: IllustCase_1
     isGroup: 0
@@ -303,7 +495,7 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: ccda23c861f33e747b6a778422b9ced6
     layerID: 6
-    mosaicPosition: {x: 210, y: 4}
+    mosaicPosition: {x: 206, y: 74}
     flatten: 0
     isImported: 1
     isVisible: 1

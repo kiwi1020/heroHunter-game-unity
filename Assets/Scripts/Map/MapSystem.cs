@@ -13,7 +13,7 @@ public class MapSystem : MonoBehaviour
     public static bool moveCardDraw;
     public static bool jumpState = false;
 
-    public SelectEvent selectEvent;
+    public TileEvent selectEvent, gainEvent;
 
     public GameObject tilePrefab;
     public GameObject playerPrefab;
@@ -152,7 +152,6 @@ public class MapSystem : MonoBehaviour
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
         playerRb.DOPath(JumpPath, 1.5f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack));
     }
-
 
     void EndPlayerMove()
     {

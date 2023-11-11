@@ -543,3 +543,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpSlider: {fileID: 837614418602563257}
+  hpText: {fileID: 2296955952673846140}

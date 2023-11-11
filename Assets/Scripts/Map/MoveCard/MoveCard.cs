@@ -37,16 +37,11 @@ public class MoveCard : MonoBehaviour
             case "이동":
                 MapSystem.instance.PlayerMove(int.Parse(eft[1]));                             
                 break;
-            case "달리기":
-               
-                break;
-            case "뒷걸음질":
-                break;
             case "준비":
                 break;
-            case "도망치기":
+            default:
+                MapSystem.instance.PlayerMove(0); 
                 break;
-            default:break;
 
         }
 

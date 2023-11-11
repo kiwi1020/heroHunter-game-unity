@@ -7,80 +7,64 @@ public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
 
 public class BattleSystem : MonoBehaviour
 {
+    public BattleManager battleManager;
 
-    //플레이어와 적의 프리펩
-    public GameObject playerPrefab;//10-15 성욱 수정, MapSystem에서 player 설정
-    public GameObject enemyPrefab; //10-15 성욱 수정, MapTile에서 enemy 설정
-
-    //플레이어와 적이 나타날때 바닥에 있는 발판. 불필요시 삭제가능
-    public Transform playerBattleStation;
-    public Transform enemyBattleStation;
-
-    Unit playerUnit;
-    Unit enemyUnit;
-
-    GameObject playerGO;
-    GameObject enemyGO;
-    //텍스트 필요할시 주석해제
-    //public Text dialogueText;
-
-    public BattleHUD playerHUD;
-    public BattleHUD enemyHUD;
+    public Unit[] units; // 0 플레이어 // 1 이상 적
+    public BattleHUD[] unitHUDs;
 
     public BattleState state;
 
     void Start()
     {  
-        //전투 시작
         state = BattleState.START;
         SetupBattle();
     }
-    //10-15 성욱 수정, MapTile에서 Tile효과로 전투 시작
+
     public void StartBattle()
     {
     }
+
     void SetupBattle()
     {
-        //전투 시작시 플레이어와 적을 화면에 나타냄.
-        //player = GetComponent<MapSystem>().playerPrefab; //10-15 성욱 수정 
-        playerGO = Instantiate(playerPrefab);
-        playerUnit = playerGO.GetComponent<Unit>();
-        enemyGO = Instantiate(enemyPrefab);
-        enemyUnit = enemyGO.GetComponent<Unit>();
-        //적 조우시 텍스트 출력
-        //dialogueText.text = "...";
-        Debug.Log("Enemy Max HP: " + enemyUnit.maxHP);
+        //Unit, HUD 배열 타입으로 통합
+        foreach (Unit i in units) i.gameObject.SetActive(false);
+        foreach (BattleHUD i in unitHUDs) i.gameObject.SetActive(false);
 
-        playerHUD.SetHUD(playerUnit);
-        enemyHUD.SetHUD(enemyUnit);
-
-        #region 유닛 세팅
-
-        //적 세팅
+        #region Unit Setting
 
         var tileData = (BattleTile)PlayManager.instance.curTile;
 
-        enemyUnit.SetUnit(tileData.enemies[0]);
+        for(int i = 0; i< tileData.enemies.Count+1; i++)
+        {
+            units[i].gameObject.SetActive(true);
+            unitHUDs[i].gameObject.SetActive(true);
 
-        //플레이어 세팅
-
-        playerUnit.SetUnit(PlayManager.instance.playerData);
+            if(i == 0)
+            {
+                units[i].SetUnit(PlayManager.instance.playerData);
+                unitHUDs[i].SetHUD(units[i]);
+            }
+            else
+            {
+                units[i].SetUnit(tileData.enemies[i-1]);
+                unitHUDs[i].SetHUD(units[i]);
+            }
+        }
 
         #endregion
 
-        //플레이어턴 시작
+        //start Player Turn
         state = BattleState.PLAYERTURN;
         PlayerTurn();
-
     }
 
     IEnumerator PlayerAttack()
     {
         print("플레이어 공격");
         //적에게 데미지를 입히기
-        bool isDead = enemyUnit.Takedamage(playerUnit.damage);
+        bool isDead = units[1].Takedamage(units[0].damage);
 
-        enemyHUD.SetHP(enemyUnit.currentHP);
+        unitHUDs[1].SetHP();
         //dialogueText.text = "공격 성공!"
 
         yield return new WaitForSeconds(2f);
@@ -90,7 +74,7 @@ public class BattleSystem : MonoBehaviour
         {
             //상태확인 후 턴의 상태를 변화시킴
             state = BattleState.WON;
-            Destroy(enemyGO);
+            Destroy(units[1]);
             EndBattle();
         }
     }
@@ -102,16 +86,16 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        bool isDead = playerUnit.Takedamage(enemyUnit.damage);
+        bool isDead = units[0].Takedamage(units[1].damage);
 
-        playerHUD.SetHP(playerUnit.currentHP);
+        unitHUDs[0].SetHP();
 
         yield return new WaitForSeconds(1f);
 
         if (isDead)
         {
             state = BattleState.LOST;
-            Destroy(playerGO);
+            Destroy(units[0]);
             EndBattle();
         }
         else

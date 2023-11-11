@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public class PlayerData // 플레이어 진행 상황 저장
 {
     //현재 체력, 보호막, 소지 전투 카드, 소지 이동 카드, 소지 유실물, 주사위
 
     public int maxHP;
     public int currentHP;
+
+    public int diceCount = 1;
 }
 
 public class PlayManager : MonoBehaviour
