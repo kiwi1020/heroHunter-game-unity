@@ -41,7 +41,7 @@ public class BattleSystem : MonoBehaviour
 
             if(i == 0)
             {
-                units[i].SetUnit(PlayManager.instance.playerData);
+                units[i].SetUnit();
                 unitHUDs[i].SetHUD(units[i]);
             }
             else

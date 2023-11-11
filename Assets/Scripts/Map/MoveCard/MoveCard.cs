@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using System.Linq;
 public class MoveCard : MonoBehaviour
 {
     public MoveCardData moveCardData;
@@ -36,15 +36,25 @@ public class MoveCard : MonoBehaviour
 
         switch (eft[0])
         {
-            case "�̵�":
-                MapSystem.instance.PlayerMove(int.Parse(eft[1]));
-                if (eft[1] == "-3~3")
+            case "이동":
+                if(eft[1].Contains('~'))
                 {
-                    var moveValue = Random.Range(-3, 3);
+                    var eftValue = eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
+                    var moveValue = Random.Range(eftValue[0], eftValue[1]);
                     MapSystem.instance.PlayerMove(moveValue);
                 }
+                else
+                {
+                    MapSystem.instance.PlayerMove(int.Parse(eft[1]));
+                }
+
+                /*
+                if (eft[1] == "-3~3")
+                {
+                }
+                */
                 break;
-            case "ȸ��":   
+            case "회복":   
                 if(PlayerData.currentHP == 100)
                 {
                     break;
@@ -54,13 +64,9 @@ public class MoveCard : MonoBehaviour
                     PlayerData.currentHP += 10;
                     break;
                 };
-            case "�غ�":
-
-                break;
-            case "����":
-                break;
             default:
-                MapSystem.instance.PlayerMove(0); 
+                MapSystem.instance.PlayerMove(0);
+                break;
 
         }
 

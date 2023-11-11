@@ -7,8 +7,8 @@ public class PlayerData // �÷��̾� ���� ��Ȳ ����
 {
     //���� ü��, ��ȣ��, ���� ���� ī��, ���� �̵� ī��, ���� ���ǹ�, �ֻ���
 
-    public int maxHP;
-    public int currentHP;
+    public static int maxHP;
+    public static int currentHP;
 
     public int diceCount = 1;
 }
@@ -16,6 +16,7 @@ public class PlayerData // �÷��̾� ���� ��Ȳ ����
 public class PlayManager : MonoBehaviour
 {
     public static PlayManager instance;
+    public PlayerData playerData;
 
     public TileData curTile;
     public int curTileNum = 0;
