@@ -33,41 +33,84 @@ public class MoveCard : MonoBehaviour
         CardsHand = transform.parent.gameObject;
 
         var eft = moveCardData.effects[0].Split(':');
+        string[] eft2 = null;
 
         switch (eft[0])
         {
+            #region 이동카드 조건
             case "이동":
-                if(eft[1].Contains('~'))
+
+                if (eft[1].Contains('~'))
                 {
                     var eftValue = eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
-                    var moveValue = Random.Range(eftValue[0], eftValue[1]);
+                    var moveValue = Random.Range(eftValue[0], eftValue[1] + 1);
                     MapSystem.instance.PlayerMove(moveValue);
                 }
+
+                if(moveCardData.effects.Count > 1)
+                {
+                    eft2 = moveCardData.effects[1].Split(':');
+
+                    if (eft2[0].Contains("추격"))
+                    {
+                        int[] value = { -1, 1 };
+                        int moveDirection = 0;
+
+                        int initialTileNum = MapSystem.curTileNum;
+                        int finalTileNum = initialTileNum + int.Parse(eft[1]);
+
+                        MapSystem.instance.PlayerMove(int.Parse(eft[1]));
+
+                        //타일 이벤트 X?
+                        if (finalTileNum == MapSystem.curTileNum)
+                        {
+                            if (MapSystem.tileMap[MapSystem.curTileNum - 1].tileData.type == "전투" &&
+                                MapSystem.tileMap[MapSystem.curTileNum + 1].tileData.type == "전투")
+                            {
+                                // 두 방향에 모두 전투 타일이 있는 경우 랜덤으로 왼쪽 또는 오른쪽으로 이동
+                                moveDirection = Random.Range(0, 2) == 0 ? -1 : 1;
+                            }
+                            else if (MapSystem.tileMap[MapSystem.curTileNum - 1].tileData.type == "전투")
+                            {
+                                // 왼쪽에 전투 타일이 있는 경우 왼쪽으로 이동
+                                moveDirection = -1;
+                            }
+                            else if (MapSystem.tileMap[MapSystem.curTileNum + 1].tileData.type == "전투")
+                            {
+                                // 오른쪽에 전투 타일이 있는 경우 오른쪽으로 이동
+                                moveDirection = 1;
+                            }
+                            MapSystem.instance.PlayerMove(value[moveDirection]);
+                        }
+                    }
+                    else if (eft2[0].Contains("준비"))
+                    {
+                        MapSystem.instance.PlayerMove(int.Parse(eft[1]));
+                    }
+                    else if (eft2[0].Contains("추격"))
+                    {
+                        MapSystem.instance.PlayerMove(int.Parse(eft[1]));
+                    }
+                   
+                }              
+                
                 else
                 {
                     MapSystem.instance.PlayerMove(int.Parse(eft[1]));
                 }
-
-                /*
-                if (eft[1] == "-3~3")
-                {
-                }
-                */
                 break;
-            case "회복":   
-                if(PlayerData.currentHP == 100)
-                {
-                    break;
-                }
-                else
+            #endregion
+
+            case "회복":
+                if (PlayerData.currentHP < 100)
                 {
                     PlayerData.currentHP += 10;
-                    break;
-                };
+                }
+                break;
+
             default:
                 MapSystem.instance.PlayerMove(0);
                 break;
-
         }
 
         for (int i = 0; i <= CardsHand.transform.childCount - 1; i++)

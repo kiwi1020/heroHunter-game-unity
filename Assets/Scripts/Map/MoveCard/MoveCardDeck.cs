@@ -11,7 +11,7 @@ public class MoveCardDeck : MonoBehaviour
 
     public void SetHand()
     {
-        /*
+        
         if (MapSystem.moveCardDraw == true) // 이동카드 뽑기를 한번만 가능 
         {
             var center = -600 + Random.Range(-50, 50f) - 400 / 2 * handPoint;
@@ -39,32 +39,7 @@ public class MoveCardDeck : MonoBehaviour
                 cards[i].SetCard(CardPer());
             }
             MapSystem.moveCardDraw = false;
-        }
-        */
-        var center = -600 + Random.Range(-50, 50f) - 400 / 2 * handPoint;
-
-        foreach (MoveCard i in cards)
-        {
-            var cardRect = i.GetComponent<RectTransform>();
-
-            DOTween.Kill(cardRect);
-            cardRect.anchoredPosition = new Vector2(0, 0);
-
-            i.gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < handPoint; i++)
-        {
-            var cardRect = cards[i].GetComponent<RectTransform>();
-
-            cardRect.gameObject.SetActive(true);
-            cardRect.DOAnchorPos(new Vector3(center + 400 * i, Random.Range(-50, 250f)), 1 - i * 0.2f).SetEase(Ease.OutCirc);
-            cardRect.DORotate(new Vector3(0, 0, Random.Range(-10, 10)), 2);
-
-            //카드 조건 추가중
-
-            cards[i].SetCard(CardPer());
-        }
+        }       
     }
 
     // 이동 카드 조건

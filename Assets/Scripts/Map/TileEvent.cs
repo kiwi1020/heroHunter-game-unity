@@ -28,5 +28,6 @@ public class TileEvent : MonoBehaviour
     {
         mapTile.EndTileEffect();
         gameObject.SetActive(false);
+        MapSystem.moveCardDraw = true;
     }
 }

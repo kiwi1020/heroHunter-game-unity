@@ -8,10 +8,7 @@ public class MapSystem : MonoBehaviour
 {
     public static MapSystem instance;
 
-    public static int tileCount = 1;
-
     public static bool moveCardDraw;
-    public static bool jumpState = false;
 
     public TileEvent selectEvent, gainEvent;
 
@@ -22,7 +19,7 @@ public class MapSystem : MonoBehaviour
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
 
-    public List<MapTile> tileMap = new List<MapTile>();
+    public static List<MapTile> tileMap = new List<MapTile>();
    
     public static int curTileNum
     {
