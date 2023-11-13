@@ -169,19 +169,5 @@ public class MapSystem : MonoBehaviour
         Camera.main.transform.DOMove(new Vector3(_mapTile.transform.position.x, _mapTile.transform.position.y, Camera.main.transform.position.z), 1.5f);
     }
 
-    void SetPlayerPosition()
-    {
-        {
-            playerPosition = playerPrefab.transform.position;
-        }
-
-        Vector3 camtargetPos =  mainCam.transform.position + new Vector3(3, 2, 0); 
-        Vector3 bgtargetPos = background.transform.position + new Vector3(3, 2, 0); 
-
-        mainCam.transform.DOMove(camtargetPos, 1); 
-        background.transform.DOMove(bgtargetPos, 1);    
-     
-    }
-    
-    
+      
 }

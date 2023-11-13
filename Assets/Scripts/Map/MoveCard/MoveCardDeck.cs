@@ -52,6 +52,7 @@ public class MoveCardDeck : MonoBehaviour
         {
             string[] lastNames = { "뒷걸음질", "전략적 후퇴", "도망치기", "나침반 고장" };
             return GetRandomName(lastNames);
+            
         }
         else if (MapSystem.curTileNum >= 2) // 이동 -2 가능
         {
