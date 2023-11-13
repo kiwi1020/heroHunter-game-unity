@@ -489,7 +489,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8543600196824721915}
         m_TargetAssemblyTypeName: MoveCard, Assembly-CSharp
-        m_MethodName: MoveEffect
+        m_MethodName: SelectCard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

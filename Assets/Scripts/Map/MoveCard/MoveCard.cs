@@ -37,6 +37,14 @@ public class MoveCard : MonoBehaviour
 
         MoveEffect(remainEffect.Count); //카드가 가지고 있는 효과, 2개가 잇으면 2부터 효과를 발동할때마다 1씩 감소하는 메서드
 
+        CardsHand = transform.parent.gameObject; 
+
+        //카드 클릭 시 이동카드 안 보이게
+        for (int i = 0; i <= CardsHand.transform.childCount - 1; i++)
+        {
+            CardsHand.transform.GetChild(i).gameObject.SetActive(false);
+        }
+       
     }
 
     public void MoveEffect(int _stack)
