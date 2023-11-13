@@ -63,18 +63,18 @@ public class MoveCard : MonoBehaviour
                         /*
                         if (finalTileNum == MapSystem.curTileNum)
                         {
-                            if (MapSystem.tileMap[MapSystem.curTileNum - 1].tileData.type == "전투" &&
-                                MapSystem.tileMap[MapSystem.curTileNum + 1].tileData.type == "전투")
+                            if (PlayManager.instance.tileMapData[MapSystem.curTileNum - 1].type == "전투" &&
+                                PlayManager.instance.tileMapData[MapSystem.curTileNum + 1].type == "전투")
                             {
                                 // 두 방향에 모두 전투 타일이 있는 경우 랜덤으로 왼쪽 또는 오른쪽으로 이동
                                 moveDirection = Random.Range(0, 2) == 0 ? -1 : 1;
                             }
-                            else if (MapSystem.tileMap[MapSystem.curTileNum - 1].tileData.type == "전투")
+                            else if (PlayManager.instance.tileMapData[MapSystem.curTileNum - 1].type == "전투")
                             {
                                 // 왼쪽에 전투 타일이 있는 경우 왼쪽으로 이동
                                 moveDirection = -1;
                             }
-                            else if (MapSystem.tileMap[MapSystem.curTileNum + 1].tileData.type == "전투")
+                            else if (PlayManager.instance.tileMapData[MapSystem.curTileNum + 1].type == "전투")
                             {
                                 // 오른쪽에 전투 타일이 있는 경우 오른쪽으로 이동
                                 moveDirection = 1;
