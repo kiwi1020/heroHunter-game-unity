@@ -61,6 +61,11 @@ public class MapSystem : MonoBehaviour
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
 
+        foreach(MapTile i in tileMap)
+        {
+            print(i.name);
+        }
+
         player = Instantiate(playerPrefab, tileMap[curTileNum].transform.position, tileMap[curTileNum].transform.rotation); 
         if (!player.activeSelf)
         {
