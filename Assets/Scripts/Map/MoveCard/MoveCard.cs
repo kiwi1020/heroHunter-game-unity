@@ -12,6 +12,9 @@ public class MoveCard : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText, desText;
 
     GameObject CardsHand;
+
+    List<string> remainEffect = new List<string>();
+
     public void SetCard(string cardName)
     {
         moveCardData = DataManager.instance.AllMoveCardDatas[cardName];
@@ -25,9 +28,24 @@ public class MoveCard : MonoBehaviour
             desText.text += "\n";
         }
 
-        }
-    public void MoveEffect()
+    }
+
+    //카드 클릭 시 발동
+    public void SelectCard()
     {
+        remainEffect = moveCardData.effects;
+
+        MoveEffect(remainEffect.Count); //카드가 가지고 있는 효과, 2개가 잇으면 2부터 효과를 발동할때마다 1씩 감소하는 메서드
+
+    }
+
+    public void MoveEffect(int _stack)
+    {
+        MapSystem.instance.ActMoveCardEffect(remainEffect[0].Split(':'), this);
+        // this : 효과를 MapSystem에서 실행하고, 더 실행할 효과가 남았을 때 다시 돌아올 수 있도록
+        // remainEffect[0].Split(':') : 0번 인덱스 실행하고 삭제하면 그 다음 효과가 0번이 됨
+
+        /*
         CardsHand = transform.parent.gameObject;
 
         var eft = moveCardData.effects[0].Split(':');
@@ -59,8 +77,6 @@ public class MoveCard : MonoBehaviour
 
                         MapSystem.instance.PlayerMove(int.Parse(eft[1]));
 
-                        //타일 이벤트 X?
-                        /*
                         if (finalTileNum == MapSystem.curTileNum)
                         {
                             if (PlayManager.instance.tileMapData[MapSystem.curTileNum - 1].type == "전투" &&
@@ -81,7 +97,6 @@ public class MoveCard : MonoBehaviour
                             }
                             MapSystem.instance.PlayerMove(value[moveDirection]);
                         }
-                        */
                     }
                     else if (eft2[0].Contains("준비"))
                     {
@@ -117,6 +132,7 @@ public class MoveCard : MonoBehaviour
         {
             CardsHand.transform.GetChild(i).gameObject.SetActive(false);
         }
+        */
     }
-  
+
 }

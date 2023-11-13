@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UIElements;
+using System.Linq;
 
 public class MapSystem : MonoBehaviour
 {
@@ -111,6 +112,42 @@ public class MapSystem : MonoBehaviour
             tile.SetTile(DataManager.instance.AllTileDatas
                 [DataManager.instance.AllTileList[Random.Range(0, DataManager.instance.AllTileList.Count)]]);
             tileMap.Add(tile);
+        }
+    }
+
+    public void ActMoveCardEffect(string[] _eft, MoveCard _moveCard)
+    {
+        switch (_eft[0])
+        {
+            case "이동":
+
+                if (_eft[1].Contains('~'))
+                {
+                    var eftValue = _eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
+                    var moveValue = Random.Range(eftValue[0], eftValue[1] + 1);
+                    PlayerMove(moveValue);
+                }
+                else
+                {
+                    var moveValue = int.Parse(_eft[1]);
+                    PlayerMove(moveValue);
+                }
+                break;
+
+            case "추격":
+                break;
+
+            case "회복":
+                break;
+
+            case "준비":
+                break;
+
+            case "무시":
+                break;
+
+            default:
+                break;
         }
     }
     
