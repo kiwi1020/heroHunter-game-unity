@@ -25,8 +25,6 @@ public class MoveCard : MonoBehaviour
             desText.text += "\n";
         }
 
-            //ī�� ���� �����ͼ� �ش� ī�� �̹����� �ؽ�Ʈ ����
-            //�̰Ŵ� �׳� ī�忡 ����ī�� �ְ� �ű⼭ �����ص� �� ��?
         }
     public void MoveEffect()
     {
@@ -62,6 +60,7 @@ public class MoveCard : MonoBehaviour
                         MapSystem.instance.PlayerMove(int.Parse(eft[1]));
 
                         //타일 이벤트 X?
+                        /*
                         if (finalTileNum == MapSystem.curTileNum)
                         {
                             if (MapSystem.tileMap[MapSystem.curTileNum - 1].tileData.type == "전투" &&
@@ -82,6 +81,7 @@ public class MoveCard : MonoBehaviour
                             }
                             MapSystem.instance.PlayerMove(value[moveDirection]);
                         }
+                        */
                     }
                     else if (eft2[0].Contains("준비"))
                     {

@@ -19,7 +19,7 @@ public class MapSystem : MonoBehaviour
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
 
-    public static List<MapTile> tileMap = new List<MapTile>();
+    public List<MapTile> tileMap = new List<MapTile>();
    
     public static int curTileNum
     {
@@ -60,6 +60,11 @@ public class MapSystem : MonoBehaviour
         GenerateTileObjects(20);
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
+
+        foreach(MapTile i in tileMap)
+        {
+            print(i.name);
+        }
 
         player = Instantiate(playerPrefab, tileMap[curTileNum].transform.position, tileMap[curTileNum].transform.rotation); 
         if (!player.activeSelf)
