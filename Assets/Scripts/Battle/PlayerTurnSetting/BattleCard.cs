@@ -8,7 +8,7 @@ using TMPro;
 public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
 {
     RectTransform rect;
-    [SerializeField] TextMeshProUGUI cardNameText;
+    [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
 
     private void Awake()
     {
@@ -33,13 +33,17 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
 
     public void EnforceCard()
     {
-        cardNameText.text = "*강화됨";
+        cardNameText.text = "*"+ cardNameText.text;
+        cardNameText.color = Color.red;
+        cardDesText.text = "*물리피해 20";
     }
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag == null) return;
-        if (eventData.pointerDrag.gameObject.name.Contains("Dice"))
+        if (eventData.pointerDrag.GetComponent<Dice>() != null)
         {
+            eventData.pointerDrag.GetComponent<Dice>().Use();
+            EnforceCard();
         }
     }
 

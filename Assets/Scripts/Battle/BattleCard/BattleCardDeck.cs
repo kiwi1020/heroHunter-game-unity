@@ -13,6 +13,10 @@ public class BattleCardDeck : MonoBehaviour
 
     int curHandCardCount = 0;
 
+    private void Start()
+    {
+        SetHand(4);
+    }
     public void SetHand(int _handCardCount)
     {
         foreach (RectTransform i in battleCardPool) i.gameObject.SetActive(false);
