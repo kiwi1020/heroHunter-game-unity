@@ -7,13 +7,24 @@ public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
 
 public class BattleSystem : MonoBehaviour
 {
+    public static BattleSystem instance;
+
     public BattleManager battleManager;
 
-    public Unit[] units; // 0 �÷��̾� // 1 �̻� ��
+    public Unit[] units; 
     public BattleHUD[] unitHUDs;
+
+    public BattleCardDeck battleCardDeck;
 
     public BattleState state;
 
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
     void Start()
     {  
         state = BattleState.START;

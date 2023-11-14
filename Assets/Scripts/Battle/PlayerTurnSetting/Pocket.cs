@@ -39,7 +39,7 @@ public class Pocket : MonoBehaviour
             {
                 dices[i].gameObject.SetActive(true);
                 dices[i].DORotate(new Vector3(0, 0, Random.Range(-90, 90f)), Random.Range(0.5f, 1));
-                dices[i].DOAnchorPos(new Vector2(Random.Range(-100, 350f), Random.Range(100, 350f)), Random.Range(0.5f, 1));
+                dices[i].DOAnchorPos(new Vector2(Random.Range(50, 500f), Random.Range(-100, 400f)), Random.Range(0.5f, 1));
             }
         }
     }

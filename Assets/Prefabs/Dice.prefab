@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6640401279063642311}
   - component: {fileID: 6640401279063642305}
+  - component: {fileID: 6924047459207435260}
+  - component: {fileID: 8824957565368880262}
   - component: {fileID: 6640401279063642310}
   m_Layer: 5
   m_Name: Dice
@@ -46,6 +48,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6640401279063642308}
   m_CullTransparentMesh: 1
+--- !u!114 &6924047459207435260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640401279063642308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 059bde0cb20b4a3488a998c3c27cf11a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8824957565368880262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6640401279063642308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc322e367483072469ce60a6e91dc7d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6640401279063642310
 MonoBehaviour:
   m_ObjectHideFlags: 0
