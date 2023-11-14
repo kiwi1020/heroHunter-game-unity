@@ -7,14 +7,16 @@ using System.Linq;
 public class MoveCard : MonoBehaviour
 {
     public MoveCardData moveCardData;
-    
+    public static MoveCard instance;
+    public int cardEffectCount;
+
     [SerializeField] Image illust;
     [SerializeField] TextMeshProUGUI nameText, desText;
 
     GameObject CardsHand;
 
-    public List<string> remainEffect = new List<string>();
-
+    public List<string> remainEffect = new();
+    
     public void SetCard(string cardName)
     {
         moveCardData = DataManager.instance.AllMoveCardDatas[cardName];
@@ -25,7 +27,7 @@ public class MoveCard : MonoBehaviour
         foreach (string i in moveCardData.effects)
         {
             desText.text += i;
-            desText.text += "\n";
+            desText.text += "\n";        
         }
 
     }
@@ -35,7 +37,10 @@ public class MoveCard : MonoBehaviour
     {
         remainEffect = moveCardData.effects;
 
-        MoveEffect(remainEffect.Count); //카드가 가지고 있는 효과, 2개가 잇으면 2부터 효과를 발동할때마다 1씩 감소하는 메서드
+        cardEffectCount = 0;
+
+        MoveEffect(); //카드가 가지고 있는 효과, 2개가 잇으면 2부터 효과를 발동할때마다 1씩 감소하는 메서드
+        
 
         CardsHand = transform.parent.gameObject; 
 
@@ -47,13 +52,17 @@ public class MoveCard : MonoBehaviour
        
     }
 
-    public void MoveEffect(int _stack)
+    public void MoveEffect()
     {
-        MapSystem.instance.ActMoveCardEffect(remainEffect[0].Split(':'), this);
-
+        if (cardEffectCount != remainEffect.Count)
+        {
+            MapSystem.instance.ActMoveCardEffect(remainEffect[cardEffectCount].Split(':'), this);
+            cardEffectCount++;                
+        }
+        
         // this : 효과를 MapSystem에서 실행하고, 더 실행할 효과가 남았을 때 다시 돌아올 수 있도록
         // remainEffect[0].Split(':') : 0번 인덱스 실행하고 삭제하면 그 다음 효과가 0번이 됨
-       
-    }
+        
 
+    }
 }

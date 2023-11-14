@@ -9,7 +9,6 @@ public class MapTile : MonoBehaviour
 {
     public TileData tileData;
 
-    public GameObject EnemyPrefab; //적 프리팹 설정
     public TextMeshPro tileName; //타일이름 Text
     public Button startButton; //배틀시작 버튼
 
@@ -22,9 +21,7 @@ public class MapTile : MonoBehaviour
         tileName.text = tileData.name; 
     }
     public void TileEffect()
-    {
-        print("Act?");
-
+    {     
         PlayManager.instance.curTile = tileData;
         switch (tileData.type)
         {

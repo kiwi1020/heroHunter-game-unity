@@ -10,6 +10,7 @@ public class MapSystem : MonoBehaviour
     public static MapSystem instance;
 
     public static bool moveCardDraw;
+    public static bool allowHealing = true;
 
     public TileEvent selectEvent, gainEvent;
 
@@ -61,13 +62,6 @@ public class MapSystem : MonoBehaviour
         GenerateTileObjects(20);
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
-
-        /*
-        foreach(MapTile i in tileMap)
-        {
-            print(i.name);
-        }
-        */
 
         player = Instantiate(playerPrefab, tileMap[curTileNum].transform.position, tileMap[curTileNum].transform.rotation); 
         if (!player.activeSelf)
@@ -127,94 +121,108 @@ public class MapSystem : MonoBehaviour
                 {
                     var eftValue = _eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
                     var moveValue = Random.Range(eftValue[0], eftValue[1] + 1);
-                    PlayerMove(moveValue + PlayerData.readyCount);
+                    PlayerMove(moveValue + PlayerData.readyCount,_moveCard);
                     PlayerData.readyCount = 0;
                 }
                 else
                 {
                     var moveValue = int.Parse(_eft[1]);
-                    PlayerMove(moveValue + PlayerData.readyCount);
+                    PlayerMove(moveValue + PlayerData.readyCount, _moveCard);
                     PlayerData.readyCount = 0;
                 }
                 break;
 
             case "추격":
-                Debug.Log("추격 실행");  
-                /*         
+                                    
                 if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투" &&
                         PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
                 {
                     // 두 방향에 모두 전투 타일이 있는 경우 랜덤으로 왼쪽 또는 오른쪽으로 이동
-                    PlayerMove(Random.Range(0, 2) == 0 ? -1 : 1);
+                    PlayerMove(Random.Range(0, 2) == 0 ? -1 : 1, _moveCard);
                 }
                 else if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투")
                 {
                     // 왼쪽에 전투 타일이 있는 경우 왼쪽으로 이동
-                    PlayerMove(-1);
+                    PlayerMove(-1, _moveCard);
                 }
                 else if (PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
                 {
                     // 오른쪽에 전투 타일이 있는 경우 오른쪽으로 이동
-                    PlayerMove(1);
+                    PlayerMove(1,_moveCard);
                 }
-                */
+                
                 break;
 
-            case "회복":
-                /*
-                if (PlayerData.currentHP < 100)
+            case "회복":              
+                if (PlayerData.currentHP < 100 && allowHealing)
                 {
                     PlayerData.currentHP += 10;
+                    _moveCard.MoveEffect();                
                 }
-                */
+                moveCardDraw = true;
                 break;
 
             case "준비":
-                PlayerData.readyCount = int.Parse(_eft[1]);
+                PlayerData.readyCount += int.Parse(_eft[1]);
+                moveCardDraw = true;
+                Debug.Log(PlayerData.readyCount);
                 break;
-
+           
             case "무시":
+                print(_moveCard.moveCardData.name);
+                print(PlayManager.instance.tileMapData[curTileNum].type);
                 if (_moveCard.moveCardData.name == "조심스러운 발걸음")
                 {
-
+                    if(PlayManager.instance.tileMapData[curTileNum].type == "함정")
+                    {                        
+                        moveCardDraw = true;
+                    }
+                    else
+                    {                        
+                        EndCardEffect();
+                    }
                 }
-                else if (_moveCard.moveCardData.name == "전략적 후퇴") ;
+                else if (_moveCard.moveCardData.name == "전략적 후퇴")
                 {
-
+                    moveCardDraw = true;
                 }
                 break;
 
             case "제약":
+                allowHealing = false;            
                 break;
             default:
                 break;
         }
 
-        // 0번 인덱스 실행하고 삭제하면 그 다음 효과가 0번이 됨
-        // 현재 0번째 인덱스가 끝나기도 전에 다음 효과도 일어남
-        if (_moveCard.remainEffect.Count == 2)
-        {
-            _moveCard.remainEffect.RemoveAt(0);
-        } 
     }
     
-    public void PlayerMove(int _n = 0)
+    public void PlayerMove(int _n, MoveCard _moveCard)
     {
         if (0 < _n)
         {
-            PlayerMoveFoward(_n);
+            PlayerMoveFoward(_n, _moveCard);
         }
         else if(_n < 0)
         {
-            PlayerMoveBack(_n);
+            PlayerMoveBack(_n, _moveCard);
         }
-        else
+        else 
         {
-            EndPlayerMove();
+            //MoveCard에서 효과가 남아있는지 체크해서 발동
+            _moveCard.MoveEffect();
+
+            //이동이 끝났는데 이동카드에 남은 효과가 없으면 타일효과 발동
+            if (_moveCard.cardEffectCount == _moveCard.remainEffect.Count)
+            {
+                print("이동종료 이벤트 시작");
+                EndCardEffect();
+            }
+
         }
     }
 
-    void PlayerMoveFoward(int _stack)
+    void PlayerMoveFoward(int _stack, MoveCard _moveCard)
     {
 
         _stack--;
@@ -228,10 +236,10 @@ public class MapSystem : MonoBehaviour
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack));
+        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
 
-    void PlayerMoveBack(int _stack)
+    void PlayerMoveBack(int _stack, MoveCard _moveCard)
     {
         _stack++;
         curTileNum--;
@@ -244,12 +252,11 @@ public class MapSystem : MonoBehaviour
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack));
+        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
 
-    void EndPlayerMove()
+    void EndCardEffect()
     {
-
         tileMap[curTileNum].TileEffect();
     }
 
