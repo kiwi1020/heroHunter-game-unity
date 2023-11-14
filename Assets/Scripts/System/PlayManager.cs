@@ -9,6 +9,7 @@ public class PlayerData // �÷��̾� ���� ��Ȳ ����
 
     public static int maxHP;
     public static int currentHP;
+    public static int readyCount = 0;
 
     public int diceCount = 1;
 }

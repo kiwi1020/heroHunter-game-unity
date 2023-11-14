@@ -62,10 +62,12 @@ public class MapSystem : MonoBehaviour
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
 
+        /*
         foreach(MapTile i in tileMap)
         {
             print(i.name);
         }
+        */
 
         player = Instantiate(playerPrefab, tileMap[curTileNum].transform.position, tileMap[curTileNum].transform.rotation); 
         if (!player.activeSelf)
@@ -125,30 +127,75 @@ public class MapSystem : MonoBehaviour
                 {
                     var eftValue = _eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
                     var moveValue = Random.Range(eftValue[0], eftValue[1] + 1);
-                    PlayerMove(moveValue);
+                    PlayerMove(moveValue + PlayerData.readyCount);
+                    PlayerData.readyCount = 0;
                 }
                 else
                 {
                     var moveValue = int.Parse(_eft[1]);
-                    PlayerMove(moveValue);
+                    PlayerMove(moveValue + PlayerData.readyCount);
+                    PlayerData.readyCount = 0;
                 }
                 break;
 
             case "추격":
+                Debug.Log("추격 실행");  
+                /*         
+                if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투" &&
+                        PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
+                {
+                    // 두 방향에 모두 전투 타일이 있는 경우 랜덤으로 왼쪽 또는 오른쪽으로 이동
+                    PlayerMove(Random.Range(0, 2) == 0 ? -1 : 1);
+                }
+                else if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투")
+                {
+                    // 왼쪽에 전투 타일이 있는 경우 왼쪽으로 이동
+                    PlayerMove(-1);
+                }
+                else if (PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
+                {
+                    // 오른쪽에 전투 타일이 있는 경우 오른쪽으로 이동
+                    PlayerMove(1);
+                }
+                */
                 break;
 
             case "회복":
+                /*
+                if (PlayerData.currentHP < 100)
+                {
+                    PlayerData.currentHP += 10;
+                }
+                */
                 break;
 
             case "준비":
+                PlayerData.readyCount = int.Parse(_eft[1]);
                 break;
 
             case "무시":
+                if (_moveCard.moveCardData.name == "조심스러운 발걸음")
+                {
+
+                }
+                else if (_moveCard.moveCardData.name == "전략적 후퇴") ;
+                {
+
+                }
                 break;
 
+            case "제약":
+                break;
             default:
                 break;
         }
+
+        // 0번 인덱스 실행하고 삭제하면 그 다음 효과가 0번이 됨
+        // 현재 0번째 인덱스가 끝나기도 전에 다음 효과도 일어남
+        if (_moveCard.remainEffect.Count == 2)
+        {
+            _moveCard.remainEffect.RemoveAt(0);
+        } 
     }
     
     public void PlayerMove(int _n = 0)
@@ -202,6 +249,7 @@ public class MapSystem : MonoBehaviour
 
     void EndPlayerMove()
     {
+
         tileMap[curTileNum].TileEffect();
     }
 
