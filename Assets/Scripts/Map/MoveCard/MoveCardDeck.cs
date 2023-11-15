@@ -9,6 +9,7 @@ public class MoveCardDeck : MonoBehaviour
     [SerializeField] List<MoveCard> cards;
     [SerializeField] int handPoint; // 핸드를 몇 장 받을 지 정하는 능력치, 플레이어 능력치에서 가져옴. 임시로 여기에 선언
     [SerializeField] string[] commonNames;
+    [SerializeField] MoveCardData movecardData;
     public void SetHand()
     {
         /*
@@ -65,27 +66,27 @@ public class MoveCardDeck : MonoBehaviour
             //카드 조건 추가중
 
             cards[i].SetCard(CardPer());
-        }
-        MapSystem.moveCardDraw = false;
+        }        
     }
 
     // 이동 카드 조건
     public string CardPer()
     {
-        /*
+        
         if (MapSystem.allowHealing == true)
         {
-            commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "휴식", "추격", "조심스러운 발걸음", "발목 부상" };
+            commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "휴식", "추격", "조심스러운 발걸음"};
         }
         else
         { 
-            commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "추격", "조심스러운 발걸음", "발목 부상" };
+            commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "추격", "조심스러운 발걸음"};
             MapSystem.allowHealing = true;
         }
 
         if (MapSystem.curTileNum >= 3) // 이동 -3 가능
         {
-            string[] lastNames = { "뒷걸음질", "전략적 후퇴", "도망치기", "나침반 고장" };
+            string[] lastNames = 
+                commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴", "도망치기", "나침반 고장" }).ToArray();
             return GetRandomName(lastNames);
             
         }
@@ -96,7 +97,7 @@ public class MoveCardDeck : MonoBehaviour
         }
         else if (MapSystem.curTileNum >= 1) // 이동 -1 가능
         {
-            string[] basicNames = commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴" }).ToArray();
+            string[] basicNames = commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴", "발목 부상"}).ToArray();
             return GetRandomName(basicNames);
         }
         else if (MapSystem.curTileNum >= 0) // 이동 - 불가능 
@@ -107,9 +108,12 @@ public class MoveCardDeck : MonoBehaviour
         {
             return "";
         }
-        */
+        
+
+        /*
         commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "휴식", "추격", "조심스러운 발걸음", "발목 부상" };
         return commonNames[Random.Range(0,commonNames.Length)];
+        */
     }
 
     private string GetRandomName(string[] nameList)

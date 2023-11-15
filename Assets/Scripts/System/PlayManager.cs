@@ -7,7 +7,6 @@ public class PlayerData
 {
     public static int maxHP;
     public static int currentHP;
-    public static int readyCount = 0;
 
     public static List<BattleCardData> playerBattleCardDeck = new List<BattleCardData>();
 

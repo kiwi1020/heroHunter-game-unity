@@ -28,8 +28,7 @@ public class MoveCard : MonoBehaviour
         {
             desText.text += i;
             desText.text += "\n";        
-        }
-
+        }      
     }
 
     //카드 클릭 시 발동
@@ -49,17 +48,22 @@ public class MoveCard : MonoBehaviour
         {
             CardsHand.transform.GetChild(i).gameObject.SetActive(false);
         }
-       
+     
     }
 
     public void MoveEffect()
     {
+        
         if (cardEffectCount != remainEffect.Count)
         {
             MapSystem.instance.ActMoveCardEffect(remainEffect[cardEffectCount].Split(':'), this);
-            cardEffectCount++;                
+            cardEffectCount++;
+            MapSystem.allowEffect = true;
         }
-        
+        else if(cardEffectCount == remainEffect.Count && MapSystem.allowEffect)
+        {
+            MapSystem.instance.EndCardEffect();
+        }
         // this : 효과를 MapSystem에서 실행하고, 더 실행할 효과가 남았을 때 다시 돌아올 수 있도록
         // remainEffect[0].Split(':') : 0번 인덱스 실행하고 삭제하면 그 다음 효과가 0번이 됨
         

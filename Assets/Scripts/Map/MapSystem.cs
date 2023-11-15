@@ -11,6 +11,9 @@ public class MapSystem : MonoBehaviour
 
     public static bool moveCardDraw;
     public static bool allowHealing = true;
+    public static bool allowEffect = true;
+
+    public int readyCount;
 
     public TileEvent selectEvent, gainEvent;
 
@@ -121,14 +124,16 @@ public class MapSystem : MonoBehaviour
                 {
                     var eftValue = _eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
                     var moveValue = Random.Range(eftValue[0], eftValue[1] + 1);
-                    PlayerMove(moveValue + PlayerData.readyCount,_moveCard);
-                    PlayerData.readyCount = 0;
+                    PlayerMove(moveValue + readyCount,_moveCard);
+                    readyCount = 0;
                 }
                 else
                 {
                     var moveValue = int.Parse(_eft[1]);
-                    PlayerMove(moveValue + PlayerData.readyCount, _moveCard);
-                    PlayerData.readyCount = 0;
+                    PlayerMove(moveValue + readyCount, _moveCard);
+                    //2
+                    Debug.Log(moveValue + readyCount);
+                    readyCount = 0;
                 }
                 break;
 
@@ -150,6 +155,10 @@ public class MapSystem : MonoBehaviour
                     // 오른쪽에 전투 타일이 있는 경우 오른쪽으로 이동
                     PlayerMove(1,_moveCard);
                 }
+                else
+                {
+                    EndCardEffect();
+                }
                 
                 break;
 
@@ -162,12 +171,15 @@ public class MapSystem : MonoBehaviour
                 moveCardDraw = true;
                 break;
 
+            // 수정 필요함
             case "준비":
-                PlayerData.readyCount += int.Parse(_eft[1]);
+                readyCount = int.Parse(_eft[1]);
                 moveCardDraw = true;
-                Debug.Log(PlayerData.readyCount);
+                //1
+                Debug.Log(readyCount);
+                EndCardEffect();
                 break;
-           
+           // 수정 필요함
             case "무시":
                 print(_moveCard.moveCardData.name);
                 print(PlayManager.instance.tileMapData[curTileNum].type);
@@ -176,6 +188,7 @@ public class MapSystem : MonoBehaviour
                     if(PlayManager.instance.tileMapData[curTileNum].type == "함정")
                     {                        
                         moveCardDraw = true;
+                        allowEffect = false;
                     }
                     else
                     {                        
@@ -184,6 +197,7 @@ public class MapSystem : MonoBehaviour
                 }
                 else if (_moveCard.moveCardData.name == "전략적 후퇴")
                 {
+                    allowEffect = false;
                     moveCardDraw = true;
                 }
                 break;
@@ -199,7 +213,7 @@ public class MapSystem : MonoBehaviour
     
     public void PlayerMove(int _n, MoveCard _moveCard)
     {
-        if (0 < _n)
+        if (_n >0)
         {
             PlayerMoveFoward(_n, _moveCard);
         }
@@ -210,15 +224,7 @@ public class MapSystem : MonoBehaviour
         else 
         {
             //MoveCard에서 효과가 남아있는지 체크해서 발동
-            _moveCard.MoveEffect();
-
-            //이동이 끝났는데 이동카드에 남은 효과가 없으면 타일효과 발동
-            if (_moveCard.cardEffectCount == _moveCard.remainEffect.Count)
-            {
-                print("이동종료 이벤트 시작");
-                EndCardEffect();
-            }
-
+            _moveCard.MoveEffect();         
         }
     }
 
@@ -255,8 +261,9 @@ public class MapSystem : MonoBehaviour
         playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
 
-    void EndCardEffect()
+    public void EndCardEffect()
     {
+        
         tileMap[curTileNum].TileEffect();
     }
 
