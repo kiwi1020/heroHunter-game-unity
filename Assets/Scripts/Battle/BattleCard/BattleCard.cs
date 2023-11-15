@@ -36,6 +36,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         BattleSystem.instance.battleCardDeck.SetHandCardPosition();
+        Zoom(false);
     }
 
     public void EnforceCard()

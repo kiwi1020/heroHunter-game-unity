@@ -14,7 +14,7 @@ public class BattleSystem : MonoBehaviour
     public BattleHUD[] unitHUDs;
 
     public BattleCardDeck battleCardDeck;
-    public int curDiceCount;
+    public int curDiceCount; // 해당턴의 다이스 개수, 사용하면 줄어드는 거
 
     public BattleState state;
 

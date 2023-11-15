@@ -9,6 +9,7 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
 {
     Canvas canvas;
     RectTransform rect;
+    PointerEventData pointerEventData;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
         DOTween.Kill(rect); // 이전 움직임 취소
 
         rect.DORotate(Vector3.zero, 0.3f); // 정방향으로 
+        pointerEventData = eventData;
     }
 
     public void OnDrag(PointerEventData eventData) 
@@ -28,8 +30,14 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
         rect.anchoredPosition += eventData.delta / canvas.scaleFactor; //마우스 좌표 따라오게 하는거
     }
 
-    public void OnEndDrag(PointerEventData eventData) 
+    public void StopDrag()
     {
+        OnEndDrag(pointerEventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        pointerEventData = eventData;
     }
         /*
         public void OnBeginDrag(PointerEventData eventData)

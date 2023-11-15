@@ -24,11 +24,12 @@ public class Pocket : MonoBehaviour
             isOpen = false;
             image.sprite = sprites[1];
 
-            foreach(RectTransform i in dices)
+            for(int i = 0; i<BattleSystem.instance.curDiceCount; i++)
             {
-                i.GetComponent<Image>().raycastTarget = true;
-                i.DORotate(new Vector3(0, 0, 0),0.5f);
-                i.DOAnchorPos(new Vector2(0,0),0.5f).OnComplete(()=> i.gameObject.SetActive(false));
+                DOTween.Kill(dices[i]);
+                dices[i].GetComponent<Image>().raycastTarget = true;
+                dices[i].DORotate(new Vector3(0, 0, 0), 0.5f);
+                dices[i].DOAnchorPos(new Vector2(0, 0), 0.5f).OnComplete(() => dices[i].gameObject.SetActive(false));
             }
         }
         else
