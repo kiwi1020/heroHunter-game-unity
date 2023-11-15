@@ -17,6 +17,7 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     public void Use()
     {
+        BattleSystem.instance.curDiceCount--;
         gameObject.SetActive(false);
     }
 

@@ -29,6 +29,19 @@ public class SkillData
         enforcedEffects.Add(_name);
     }
 }
+public class BattleCardData
+{
+    public string name, cost, targetingMode;
+    public SkillData skillData;
+
+    public BattleCardData(string _name, SkillData _skillData, string _cost, string _targetingMode)
+    {
+        name = _name;
+        skillData = _skillData;
+        cost = _cost;
+        targetingMode = _targetingMode;
+    }
+}
 public class TileData
 {
     public string name, type;
@@ -110,6 +123,7 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, SkillData> AllSkillDatas = new Dictionary<string, SkillData>();
     public Dictionary<string, MonsterData> AllMonsterDatas = new Dictionary<string, MonsterData>();
     public Dictionary<string, EnemySnA> AllEnemySnAs = new Dictionary<string, EnemySnA>();
+    public Dictionary<string, BattleCardData> AllBattleCardDatas = new Dictionary<string, BattleCardData>();
 
     //List : 랜덤으로 추출 시 사용
     public List<string> AllTileList = new List<string>();
@@ -221,6 +235,16 @@ public class DataManager : MonoBehaviour
 
             AllEnemySnAs.Add(e[0], new EnemySnA(e[0], e[1], e[2], new List<string>() { e[3], e[4], e[5], e[6], e[7], e[8] }));
         }
+
+        // 5. BattleCard
+        line = TextData[5].Split('\n');
+        for (int i = 1; i < line.Length; i++)
+        {
+            line[i] = line[i].Trim();
+            string[] e = line[i].Split('\t');
+
+            AllBattleCardDatas.Add(e[0], new BattleCardData(e[0], AllSkillDatas[e[1]], e[2], e[3]));
+        }
         #endregion
     }
     #region 데이터 불러오기
@@ -230,6 +254,7 @@ public class DataManager : MonoBehaviour
     const string skillURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=706366216";
     const string monsterURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=1086732162";
     const string enemySnAURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=980303362";
+    const string battleCardURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=0";
 
     [ContextMenu("Load Data")]
     void GetLang()
@@ -258,6 +283,10 @@ public class DataManager : MonoBehaviour
         www = UnityWebRequest.Get(enemySnAURL);
         yield return www.SendWebRequest();
         SetDataList(www.downloadHandler.text, 4);
+
+        www = UnityWebRequest.Get(battleCardURL);
+        yield return www.SendWebRequest();
+        SetDataList(www.downloadHandler.text, 5);
 
         Debug.Log("Success Load");
     }

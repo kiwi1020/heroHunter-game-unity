@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerData // �÷��̾� ���� ��Ȳ ����
+public class PlayerData 
 {
-    //���� ü��, ��ȣ��, ���� ���� ī��, ���� �̵� ī��, ���� ���ǹ�, �ֻ���
-
     public static int maxHP;
     public static int currentHP;
     public static int readyCount = 0;
 
-    public int diceCount = 1;
+    public static List<BattleCardData> playerBattleCardDeck = new List<BattleCardData>();
+
+    public static int diceCount = 2;
 }
 
 public class PlayManager : MonoBehaviour
@@ -45,6 +45,12 @@ public class PlayManager : MonoBehaviour
     {
         PlayerData.maxHP = 100;
         PlayerData.currentHP = PlayerData.maxHP;
+
+        for(int i = 0; i<10; i++) // 임시
+        {
+            PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
+            PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["속사"]);
+        }
     }
 
 }

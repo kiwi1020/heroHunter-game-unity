@@ -14,6 +14,14 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
     {
         rect = GetComponent<RectTransform>();
     }
+
+    public void SetCard(BattleCardData _battleCardData)
+    {
+        cardNameText.text = _battleCardData.name;
+        cardNameText.color = Color.white;
+        cardDesText.text = _battleCardData.skillData.effects[0];
+    }
+
     public void Zoom(bool _zoom) // true면 확대, 카드 Eventtrigger 컴포넌트에서 사용, 마우스가 닿으면 확대, 떨어지면 축소
     {
         if(_zoom)
@@ -29,7 +37,6 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
     {
         BattleSystem.instance.battleCardDeck.SetHandCardPosition();
     }
-
 
     public void EnforceCard()
     {

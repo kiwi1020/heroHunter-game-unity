@@ -26,6 +26,7 @@ public class Pocket : MonoBehaviour
 
             foreach(RectTransform i in dices)
             {
+                i.GetComponent<Image>().raycastTarget = true;
                 i.DORotate(new Vector3(0, 0, 0),0.5f);
                 i.DOAnchorPos(new Vector2(0,0),0.5f).OnComplete(()=> i.gameObject.SetActive(false));
             }
@@ -35,7 +36,7 @@ public class Pocket : MonoBehaviour
             isOpen = true;
             image.sprite = sprites[0];
 
-            for(int i = 0; i<PlayManager.instance.playerData.diceCount; i++)
+            for(int i = 0; i<PlayerData.diceCount; i++)
             {
                 dices[i].gameObject.SetActive(true);
                 dices[i].DORotate(new Vector3(0, 0, Random.Range(-90, 90f)), Random.Range(0.5f, 1));

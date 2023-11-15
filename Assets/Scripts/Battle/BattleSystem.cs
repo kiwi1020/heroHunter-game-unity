@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//���� ���� ������
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
 
 public class BattleSystem : MonoBehaviour
@@ -15,6 +14,7 @@ public class BattleSystem : MonoBehaviour
     public BattleHUD[] unitHUDs;
 
     public BattleCardDeck battleCardDeck;
+    public int curDiceCount;
 
     public BattleState state;
 
@@ -37,7 +37,6 @@ public class BattleSystem : MonoBehaviour
 
     void SetupBattle()
     {
-        //Unit, HUD �迭 Ÿ������ ����
         foreach (Unit i in units) i.gameObject.SetActive(false);
         foreach (BattleHUD i in unitHUDs) i.gameObject.SetActive(false);
 
@@ -49,8 +48,8 @@ public class BattleSystem : MonoBehaviour
         {
             units[i].gameObject.SetActive(true);
             unitHUDs[i].gameObject.SetActive(true);
-        //enemyUnit.SetUnit(tileData.enemies[0]);
-        //enemyUnit.SetUnit();
+            //enemyUnit.SetUnit(tileData.enemies[0]);
+            //enemyUnit.SetUnit();
 
             if(i == 0)
             {
@@ -64,6 +63,8 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
+        curDiceCount = PlayerData.diceCount;
+
         #endregion
 
         //start Player Turn
@@ -73,19 +74,14 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        print("�÷��̾� ����");
-        //������ �������� ������
         bool isDead = units[1].Takedamage(units[0].damage);
 
         unitHUDs[1].SetHP();
-        //dialogueText.text = "���� ����!"
 
         yield return new WaitForSeconds(2f);
 
-        //���� �׾������� Ȯ��
         if (isDead)
         {
-            //����Ȯ�� �� ���� ���¸� ��ȭ��Ŵ
             state = BattleState.WON;
             Destroy(units[1]);
             EndBattle();
@@ -94,8 +90,6 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        print("�� ����");
-        //dialogueText.text = enemyUnit.unitName + "����!"
 
         yield return new WaitForSeconds(1f);
 
@@ -122,20 +116,17 @@ public class BattleSystem : MonoBehaviour
     {
         if(state == BattleState.WON)
         {
-            //dialogueText.text = "�¸�!";
             SceneManager.LoadScene("MoveScene");
         }
         else if (state == BattleState.LOST)
         {
-            //dialogueText.text = "�й�..."
         }
     }
 
     void PlayerTurn()
     {
-        //dialogueText.text = "ī�带 �����Ͻʽÿ�";
+        curDiceCount = PlayerData.diceCount;
     }
-    //�ϴ� ���ݹ�ư�� �ִٴ� �����Ͽ� ����
     public void OnAttackButton()
     {
         if (state != BattleState.PLAYERTURN)
