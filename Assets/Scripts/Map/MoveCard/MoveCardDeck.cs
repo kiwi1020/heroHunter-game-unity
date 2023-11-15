@@ -13,7 +13,7 @@ public class MoveCardDeck : MonoBehaviour
     public void SetHand()
     {
         /*
-        if (MapSystem.moveCardDraw == true) // 이동카드 뽑기를 한번만 가능 
+        if (MapSystem.instance.moveCardDraw == true) // 이동카드 뽑기를 한번만 가능 
         {
             var center = -600 + Random.Range(-50, 50f) - 400 / 2 * handPoint;
 
@@ -73,26 +73,26 @@ public class MoveCardDeck : MonoBehaviour
     public string CardPer()
     {
         
-        if (MapSystem.allowHealing == true)
+        if (MapSystem.instance.allowHealing == true)
         {
             commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "휴식", "추격", "조심스러운 발걸음"};
         }
         else
         { 
             commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "추격", "조심스러운 발걸음"};
-            MapSystem.allowHealing = true;
+            MapSystem.instance.allowEffect = true;
         }
 
         if (MapSystem.curTileNum >= 3) // 이동 -3 가능
         {
             string[] lastNames = 
-                commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴", "도망치기", "나침반 고장" }).ToArray();
+                commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴", "도망치기", "나침반 고장", "발목 부상"}).ToArray();
             return GetRandomName(lastNames);
             
         }
         else if (MapSystem.curTileNum >= 2) // 이동 -2 가능
         {
-            string[] middleNames = commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴" }).ToArray();
+            string[] middleNames = commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴","발목 부상" }).ToArray();
             return GetRandomName(middleNames);
         }
         else if (MapSystem.curTileNum >= 1) // 이동 -1 가능

@@ -58,9 +58,9 @@ public class MoveCard : MonoBehaviour
         {
             MapSystem.instance.ActMoveCardEffect(remainEffect[cardEffectCount].Split(':'), this);
             cardEffectCount++;
-            MapSystem.allowEffect = true;
+            MapSystem.instance.allowEffect = true;
         }
-        else if(cardEffectCount == remainEffect.Count && MapSystem.allowEffect)
+        else if(cardEffectCount == remainEffect.Count && MapSystem.instance.allowEffect)
         {
             MapSystem.instance.EndCardEffect();
         }

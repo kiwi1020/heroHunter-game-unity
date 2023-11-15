@@ -9,11 +9,11 @@ public class MapSystem : MonoBehaviour
 {
     public static MapSystem instance;
 
-    public static bool moveCardDraw;
-    public static bool allowHealing = true;
-    public static bool allowEffect = true;
+    public bool moveCardDraw;
+    public bool allowHealing = true;
+    public bool allowEffect = true;
 
-    public int readyCount;
+    public static int readyCount;
 
     public TileEvent selectEvent, gainEvent;
 
@@ -124,16 +124,13 @@ public class MapSystem : MonoBehaviour
                 {
                     var eftValue = _eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
                     var moveValue = Random.Range(eftValue[0], eftValue[1] + 1);
-                    PlayerMove(moveValue + readyCount,_moveCard);
-                    readyCount = 0;
+                    PlayerMove(moveValue + readyCount,_moveCard);                   
                 }
                 else
                 {
                     var moveValue = int.Parse(_eft[1]);
-                    PlayerMove(moveValue + readyCount, _moveCard);
-                    //2
-                    Debug.Log(moveValue + readyCount);
-                    readyCount = 0;
+                    Debug.Log(moveValue);
+                    PlayerMove(moveValue + readyCount, _moveCard);               
                 }
                 break;
 
@@ -175,8 +172,7 @@ public class MapSystem : MonoBehaviour
             case "준비":
                 readyCount = int.Parse(_eft[1]);
                 moveCardDraw = true;
-                //1
-                Debug.Log(readyCount);
+                print(readyCount);
                 EndCardEffect();
                 break;
            // 수정 필요함
@@ -264,7 +260,7 @@ public class MapSystem : MonoBehaviour
     public void EndCardEffect()
     {
         
-        tileMap[curTileNum].TileEffect();
+        tileMap[curTileNum].TileEffect();     
     }
 
     void MoveCameraToTargetTile(MapTile _mapTile)

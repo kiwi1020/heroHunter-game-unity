@@ -41,29 +41,10 @@ public class MapTile : MonoBehaviour
                 MapSystem.instance.gainEvent.SetEvent(this);
                 break;
 
-            default:
-                EndTileEffect();
+            default:               
                 break;
 
         }
-    }
-
-
-    public void EndTileEffect()
-    {
-        MapSystem.moveCardDraw = true;
-    }
-
-    //타일 위치 지정, 만일 타일 미리 배치할 경우 삭제
-    public void SetTilePosition(int x, int y)
-    {
-        gameObject.transform.position = new Vector2(x, y);
-    }
-
-    //타일 Trasform 반환, 위와 동일
-    public Transform GetTileTransform()
-    {
-        return gameObject.transform;
     }
 
     //배틀시작 버튼
