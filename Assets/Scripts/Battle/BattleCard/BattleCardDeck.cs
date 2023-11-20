@@ -43,8 +43,8 @@ public class BattleCardDeck : MonoBehaviour
         {
             var randomInt = Random.Range(0, instantBattleCardData.Count);
             var battleCard = battleCardPool[i].GetComponent<BattleCard>();
-            instantBattleCardData.RemoveAt(randomInt);
             battleCard.SetCard(instantBattleCardData[randomInt]);
+            instantBattleCardData.RemoveAt(randomInt);
         }
     }
 

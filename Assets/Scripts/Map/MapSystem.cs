@@ -46,6 +46,7 @@ public class MapSystem : MonoBehaviour
     Vector3 playerPosition;
     #endregion
 
+    public static bool jumpState = false;
     void Awake()
     {
         if(instance == null)
@@ -75,8 +76,6 @@ public class MapSystem : MonoBehaviour
 
     void SetTileMapData()
     {
-        //���� ���
-
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
             for(int i = 0; i< tileMap.Count; i++)
@@ -129,7 +128,6 @@ public class MapSystem : MonoBehaviour
                 else
                 {
                     var moveValue = int.Parse(_eft[1]);
-                    Debug.Log(moveValue);
                     PlayerMove(moveValue + readyCount, _moveCard);               
                 }
                 break;
@@ -154,7 +152,7 @@ public class MapSystem : MonoBehaviour
                 }
                 else
                 {
-                    EndCardEffect();
+                    _moveCard.MoveEffect();
                 }
                 
                 break;
@@ -171,14 +169,11 @@ public class MapSystem : MonoBehaviour
             // 수정 필요함
             case "준비":
                 readyCount = int.Parse(_eft[1]);
-                moveCardDraw = true;
-                print(readyCount);
-                EndCardEffect();
+                moveCardDraw = true; 
+                _moveCard.MoveEffect();
                 break;
            // 수정 필요함
             case "무시":
-                print(_moveCard.moveCardData.name);
-                print(PlayManager.instance.tileMapData[curTileNum].type);
                 if (_moveCard.moveCardData.name == "조심스러운 발걸음")
                 {
                     if(PlayManager.instance.tileMapData[curTileNum].type == "함정")
@@ -219,7 +214,7 @@ public class MapSystem : MonoBehaviour
         }
         else 
         {
-            //MoveCard에서 효과가 남아있는지 체크해서 발동
+            if (readyCount > 0) readyCount = 0;
             _moveCard.MoveEffect();         
         }
     }
@@ -268,6 +263,4 @@ public class MapSystem : MonoBehaviour
         if (curTileNum < 2) return;
         Camera.main.transform.DOMove(new Vector3(_mapTile.transform.position.x, _mapTile.transform.position.y, Camera.main.transform.position.z), 1.5f);
     }
-
-      
 }
