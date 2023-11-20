@@ -1,57 +1,107 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
-public class WeightRandomPick : MonoBehaviour
+public class WeightRandomPick<T>
 {
-    public List<Card> deck = new List<Card>();  // 카드 덱
-    public int total = 0;  // 카드들의 가중치 총 합
-
-    void Start()
+    public double SumOfWeights
     {
-        for (int i = 0; i < deck.Count; i++)
+        get
         {
-            // 스크립트가 활성화 되면 카드 덱의 모든 카드의 총 가중치를 구해줍니다.
-            total += deck[i].weight;
-        }
-        // 실행
-        ResultSelect();
-    }
-
-    public List<Card> result = new List<Card>();  // 랜덤하게 선택된 카드를 담을 리스트
-
-    public Transform parent;
-    public GameObject cardprefab;
-
-    public void ResultSelect()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            // 가중치 랜덤을 돌리면서 결과 리스트에 넣어줍니다.
-            result.Add(RandomCard());
-            // 비어 있는 카드를 생성하고
-            CardUI cardUI = Instantiate(cardprefab, parent).GetComponent<CardUI>();
-            // 생성 된 카드에 결과 리스트의 정보를 넣어줍니다.
-            cardUI.CardUISet(result[i]);
+            CalculateSumIfDirty();
+            return _sumOfWeights;
         }
     }
-    // 가중치 랜덤의 설명은 영상을 참고.
-    public Card RandomCard()
+
+    private System.Random randomInstance;
+
+    private readonly Dictionary<T, double> itemWeightDict;
+    private readonly Dictionary<T, double> normalizedItemWeightDict; // 확률이 정규화된 아이템 목록
+
+    
+    private bool isDirty;
+    private double _sumOfWeights;
+
+    public WeightRandomPick()
     {
-        int weight = 0;
-        int selectNum = 0;
+        randomInstance = new System.Random();
+        itemWeightDict = new Dictionary<T, double>();
+        normalizedItemWeightDict = new Dictionary<T, double>();
+        isDirty = true;
+        _sumOfWeights = 0.0;
+    }
 
-        selectNum = Mathf.RoundToInt(total * Random.Range(0.0f, 1.0f));
+    public WeightRandomPick(int randomSeed)
+    {
+        randomInstance = new System.Random(randomSeed);
+        itemWeightDict = new Dictionary<T, double>();
+        normalizedItemWeightDict = new Dictionary<T, double>();
+        isDirty = true;
+        _sumOfWeights = 0.0;
+    }
 
-        for (int i = 0; i < deck.Count; i++)
+    public void Add(T item, double weight)
+    {
+        itemWeightDict.Add(item, weight);
+        isDirty = true;
+    }
+
+  
+    /// <summary> 랜덤 뽑기 </summary>
+    public T GetRandomPick()
+    {
+        // 랜덤 계산
+        double chance = randomInstance.NextDouble(); // [0.0, 1.0)
+        chance *= SumOfWeights;
+
+        return GetRandomPick(chance);
+    }
+
+    /// <summary> 직접 랜덤 값을 지정하여 뽑기 </summary>
+    public T GetRandomPick(double randomValue)
+    {
+        if (randomValue < 0.0) randomValue = 0.0;
+        if (randomValue > SumOfWeights) randomValue = SumOfWeights - 0.00000001;
+
+        double current = 0.0;
+        foreach (var pair in itemWeightDict)
         {
-            weight += deck[i].weight;
-            if (selectNum <= weight)
+            current += pair.Value;
+
+            if (randomValue < current)
             {
-                Card temp = new Card(deck[i]);
-                return temp;
+                return pair.Key;
             }
         }
-        return null;
+
+        throw new Exception($"Unreachable - [Random Value : {randomValue}, Current Value : {current}]");
+        //return itemPairList[itemPairList.Count - 1].item; // Last Item
+    }
+
+    private void CalculateSumIfDirty()
+    {
+        if (!isDirty) return;
+        isDirty = false;
+
+        _sumOfWeights = 0.0;
+        foreach (var pair in itemWeightDict)
+        {
+            _sumOfWeights += pair.Value;
+        }
+
+        // 정규화 딕셔너리도 업데이트
+        UpdateNormalizedDict();
+    }
+
+    /// <summary> 정규화된 딕셔너리 업데이트 </summary>
+    private void UpdateNormalizedDict()
+    {
+        normalizedItemWeightDict.Clear();
+        foreach (var pair in itemWeightDict)
+        {
+            normalizedItemWeightDict.Add(pair.Key, pair.Value / _sumOfWeights);
+        }
     }
 }

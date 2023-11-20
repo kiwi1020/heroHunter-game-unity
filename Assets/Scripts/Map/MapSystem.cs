@@ -57,6 +57,7 @@ public class MapSystem : MonoBehaviour
     void Start()
     {
         setupMap();
+        
     }
     
     void setupMap()

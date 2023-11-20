@@ -76,17 +76,24 @@ public class BattleTile : TileData
 public class MoveCardData
 {
     public string name;
-    public List<string> effects = new List<string>();
+    public string weight;
+    public List<string> effects = new List<string>();     
 
     public MoveCardData(string _name)
     {
-        name = _name;
+        name = _name;       
     }
     public void AddEffect(string _name)
     {
         if (_name == "없음") return;
         effects.Add(_name);
     }
+    public void SetRandomWeight(string _name)
+    {
+        if (_name == "같음") return;
+        weight = _name;
+    }
+   
 }
 public class MonsterData 
 {
@@ -157,8 +164,8 @@ public class DataManager : MonoBehaviour
         // 0. MoveCardData
         string[]  line = TextData[1].Split('\n');
         for (int i = 1; i < line.Length; i++)
-        {
-            line[i] = line[i].Trim();
+        {            
+            line[i] = line[i].Trim();       
             string[] e = line[i].Split('\t');
 
             if (!AllMoveCardDatas.ContainsKey(e[0]))
@@ -169,6 +176,7 @@ public class DataManager : MonoBehaviour
             }
             
             AllMoveCardDatas[e[0]].AddEffect(e[1]);
+            AllMoveCardDatas[e[0]].SetRandomWeight(e[2]);
         }
 
         // 1. SkillData
