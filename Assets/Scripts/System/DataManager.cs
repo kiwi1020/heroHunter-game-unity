@@ -178,7 +178,6 @@ public class DataManager : MonoBehaviour
             AllMoveCardDatas[e[0]].AddEffect(e[1]);
             AllMoveCardDatas[e[0]].SetRandomWeight(e[2]);
         }
-
         // 1. SkillData
         line = TextData[2].Split('\n');
         for (int i = 1; i < line.Length; i++)

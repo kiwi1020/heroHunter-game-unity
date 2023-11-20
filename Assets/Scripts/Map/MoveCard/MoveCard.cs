@@ -30,7 +30,6 @@ public class MoveCard : MonoBehaviour
             desText.text += "\n";        
         }  
         
-        //
     }
 
     //카드 클릭 시 발동

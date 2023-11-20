@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-// 날짜 : 2021-03-09 AM 1:08:48
-// 작성자 : Rito
+
 
 /*
     [가중치 랜덤 뽑기]

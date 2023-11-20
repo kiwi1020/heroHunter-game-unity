@@ -37,7 +37,13 @@ public class MapSystem : MonoBehaviour
             PlayManager.instance.curTileNum = value;
         }
     }
-
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
     #region player
     GameObject player;
     Transform stpos;
@@ -46,18 +52,9 @@ public class MapSystem : MonoBehaviour
     Vector3 playerPosition;
     #endregion
 
-    public static bool jumpState = false;
-    void Awake()
-    {
-        if(instance == null)
-        {
-            instance = this;
-        }
-    }
     void Start()
     {
-        setupMap();
-        
+        setupMap();       
     }
     
     void setupMap()

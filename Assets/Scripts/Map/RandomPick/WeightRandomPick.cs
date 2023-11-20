@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class WeightRandomPick<T>
 {
+
+    /// <summary> 전체 아이템의 가중치 합 </summary>
     public double SumOfWeights
     {
         get
@@ -20,10 +22,11 @@ public class WeightRandomPick<T>
     private readonly Dictionary<T, double> itemWeightDict;
     private readonly Dictionary<T, double> normalizedItemWeightDict; // 확률이 정규화된 아이템 목록
 
-    
+    /// <summary> 가중치 합이 계산되지 않은 상태인지 여부 </summary>
     private bool isDirty;
     private double _sumOfWeights;
 
+    /// <summary> WeightRandomPick 객체 </summary>
     public WeightRandomPick()
     {
         randomInstance = new System.Random();
@@ -42,6 +45,7 @@ public class WeightRandomPick<T>
         _sumOfWeights = 0.0;
     }
 
+    /// <summary> 새로운 아이템-가중치 쌍 추가 </summary>
     public void Add(T item, double weight)
     {
         itemWeightDict.Add(item, weight);
@@ -79,7 +83,7 @@ public class WeightRandomPick<T>
         throw new Exception($"Unreachable - [Random Value : {randomValue}, Current Value : {current}]");
         //return itemPairList[itemPairList.Count - 1].item; // Last Item
     }
-
+    /// <summary> 모든 아이템의 가중치 합 계산해놓기 </summary>
     private void CalculateSumIfDirty()
     {
         if (!isDirty) return;
