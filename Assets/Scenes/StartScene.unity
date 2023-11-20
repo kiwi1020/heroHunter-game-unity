@@ -404,6 +404,11 @@ MonoBehaviour:
   AllMoveCardList: []
   AllSkillList: []
   AllMonsterList: []
+  AllustList:
+  - name: "\uAC77\uAE30"
+    sprite: {fileID: -1335457876451595483, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uBE44\uC5F4\uD55C \uCC0C\uB974\uAE30"
+    sprite: {fileID: -4033717237397229138, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
   TextData:
   - "\uC774\uB984\t\uD0C0\uC785\t\uC124\uBA85\t\uD6A8\uACFC\r\n\uB0AD\uB5A0\uB7EC\uC9C0\t\uD568\uC815\t\uBB34\uC791\uC704
     \uCE74\uB4DC \uD55C \uC7A5 \uC81C\uAC70\t\uBB34\uC791\uC704 \uCE74\uB4DC \uD55C

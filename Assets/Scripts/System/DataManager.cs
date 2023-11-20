@@ -6,6 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 #region 데이터 정의
+[System.Serializable]
+public class SpriteAndName
+{
+    public string name;
+    public Sprite sprite;
+}
+
 public class SkillData
 {
     public string name;
@@ -130,6 +137,9 @@ public class DataManager : MonoBehaviour
     public List<string> AllMoveCardList = new List<string>();
     public List<string> AllSkillList = new List<string>();
     public List<string> AllMonsterList = new List<string>();
+
+    //
+    public List<SpriteAndName> AllustList = new List<SpriteAndName>();
 
 
     public string[] TextData = new string[13];

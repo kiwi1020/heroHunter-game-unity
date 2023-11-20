@@ -17,6 +17,7 @@ public class BattleSystem : MonoBehaviour
     public int curDiceCount; // 해당턴의 다이스 개수, 사용하면 줄어드는 거
 
     public BattleState state;
+    public Targeter targeter;
 
     void Awake()
     {
@@ -70,6 +71,11 @@ public class BattleSystem : MonoBehaviour
         //start Player Turn
         state = BattleState.PLAYERTURN;
         PlayerTurn();
+    }
+
+    public void UseBattleCard()
+    {
+
     }
 
     IEnumerator PlayerAttack()
