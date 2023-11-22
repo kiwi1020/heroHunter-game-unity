@@ -70,11 +70,6 @@ public class MoveCardDeck : MonoBehaviour
             string[] middleNames = commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴","발목 부상" }).ToArray();
             return GetRandomName(middleNames);
         }
-        else if (MapSystem.curTileNum >= 1) // 이동 -1 가능
-        {
-            string[] basicNames = commonNames.Concat(new string[] { "뒷걸음질", "전략적 후퇴", "발목 부상"}).ToArray();
-            return GetRandomName(basicNames);
-        }
         else if (MapSystem.curTileNum >= 0) // 이동 - 불가능 
         {
             return GetRandomName(commonNames);
