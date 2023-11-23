@@ -51,24 +51,25 @@ public class BattleCardData
 }
 public class TileData
 {
-    public string name, type;
+    public string name, type, weight;
 
-    public TileData(string _name, string _type)
+    public TileData(string _name, string _type, string _weight)
     {
         name = _name;
         type = _type;
-    }
+        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+    }  
 }
 public class BattleTile : TileData
 {
     public List<MonsterData> enemies = new List<MonsterData>();
 
-    public BattleTile(string _name, string _type, string _effect) : base(_name,  _type)
+    public BattleTile(string _name, string _type, string _effect, string _weight) : base(_name,  _type, _weight)
     {
         name = _name;
         type = _type;
+        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
         enemies = _effect.Split(',').Select(x=> DataManager.instance.AllMonsterDatas[x]).ToList();
-
     }
 
     //적에 대한 정보
@@ -88,10 +89,11 @@ public class MoveCardData
         if (_name == "없음") return;
         effects.Add(_name);
     }
-    public void SetRandomWeight(string _name)
+    //가중치(확률) 
+    public void SetRandomWeight(string _weight)
     {
-        if (_name == "같음") return;
-        weight = _name;
+        if (_weight == "같음") return;
+        weight = _weight;
     }
    
 }
@@ -223,23 +225,24 @@ public class DataManager : MonoBehaviour
 
             TileData tileData = null;
 
+            //성욱: 가중치 추가(e[4]), 타일 생성 규칙 정할 시 수정
             switch (e[1])
             {
                 case "함정":
-                    tileData = new TileData(e[0], e[1]);
+                    tileData = new TileData(e[0], e[1], e[4]);
                     break;
                 case "전투":
-                    tileData = new BattleTile(e[0], e[1], e[2]);
+                    tileData = new BattleTile(e[0], e[1], e[2], e[4]);
                     break;
                 case "선택":
-                    tileData = new TileData(e[0], e[1]);
+                    tileData = new TileData(e[0], e[1], e[4]);
                     break;
 
                 default:
-                    tileData = new TileData(e[0], e[1]);
+                    tileData = new TileData(e[0], e[1], e[4]);
                     break;
             }
-            AllTileDatas.Add(e[0], tileData);
+            AllTileDatas.Add(e[0], tileData);           
             AllTileList.Add(e[0]);
         }
 

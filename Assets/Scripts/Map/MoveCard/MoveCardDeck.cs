@@ -8,8 +8,10 @@ public class MoveCardDeck : MonoBehaviour
 {
     [SerializeField] List<MoveCard> cards;
     [SerializeField] int handPoint; // 핸드를 몇 장 받을 지 정하는 능력치, 플레이어 능력치에서 가져옴. 임시로 여기에 선언
-    [SerializeField] string[] commonNames;
     [SerializeField] MoveCardData movecardData;
+
+    private string[] commonNames;
+
     public void SetHand()
     {   
         
@@ -86,8 +88,8 @@ public class MoveCardDeck : MonoBehaviour
          
         foreach (string name in nameList)
         {
-            //int CardWeight = int.Parse(DataManager.instance.AllMoveCardDatas[name].weight);       
-            wrPicker.Add(name,1);
+            int CardWeight = int.Parse(DataManager.instance.AllMoveCardDatas[name].weight);       
+            wrPicker.Add(name,CardWeight);
         }
 
         return wrPicker.GetRandomPick(); ;

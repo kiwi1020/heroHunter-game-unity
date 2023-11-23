@@ -70,7 +70,7 @@ public class MapSystem : MonoBehaviour
         {
             player.SetActive(true);
         }
-    }
+    }    
 
     void SetTileMapData()
     {
@@ -79,16 +79,12 @@ public class MapSystem : MonoBehaviour
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
             string previousTileType;
+            int BattleCount = 0;
+
 
             for(int i = 0; i< tileMap.Count; i++)
             {              
-                /*
-                if (i < PlayManager.instance.tileMapData.Count) continue;
-
-                var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList
-                    [Random.Range(0, DataManager.instance.AllTileList.Count)]];
-                PlayManager.instance.tileMapData.Add(tileData);
-                */  
+                
                 //처음: 시작, 끝: 보스 타일로 고정
                 if (i == 0)
                 {
@@ -102,20 +98,38 @@ public class MapSystem : MonoBehaviour
                 }
                 //동일한 유형(타입)의 연속 타일 방지(완료)
                 //->
-                //전투는 연속 타일 가능(3번까지만, 수정 중)
+                //전투는 연속 타일 가능(3번까지만, 완료)
+                //->
+                //음..
                 else
                 {
-                    previousTileType = PlayManager.instance.tileMapData[i-1].type;  
+                    previousTileType = PlayManager.instance.tileMapData[i-1].type;
                     do
-                    {                      
+                    {
+                        /*
                         var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList
-                        [Random.Range(2, DataManager.instance.AllTileList.Count)]];                      
-
+                        [Random.Range(2, DataManager.instance.AllTileList.Count)]];
+                        */
+                        var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
                         string currentTileType = tileData.type;
-
-                        if(previousTileType != currentTileType)
+                       
+                        if (previousTileType == "전투" && currentTileType == "전투")
+                        {
+                            BattleCount++;                           
+                            if (BattleCount > 2)
+                            {                                                                
+                                continue;
+                            }
+                            else { 
+                                PlayManager.instance.tileMapData.Add (tileData);
+                                break;
+                            }
+                        }
+                        
+                        else if(previousTileType != currentTileType)
                         {
                             PlayManager.instance.tileMapData.Add (tileData);
+                            BattleCount = 0;
                             break;
                         }
                     }
@@ -127,6 +141,20 @@ public class MapSystem : MonoBehaviour
 
         //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
+    }
+    private string GetRandomTile()
+    {
+        string[] TileName = new string[] { "낭떠러지", "고블린", "신비한 석상", "무덤", "재래시장", "늪지대", "설산", "도적떼", "도박장", "행운" };
+
+        var wrPicker = new WeightRandomPick<string>();
+
+        foreach (string name in TileName)
+        {
+            int TileWeight = int.Parse(DataManager.instance.AllTileDatas[name].weight);
+            wrPicker.Add(name, TileWeight);
+        }
+
+        return wrPicker.GetRandomPick(); ;
     }
 
     void GenerateTileObjects(int _count)
