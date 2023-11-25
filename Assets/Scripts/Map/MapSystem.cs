@@ -264,6 +264,8 @@ public class MapSystem : MonoBehaviour
             default:
                 break;
         }
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(2);
 
     }
     

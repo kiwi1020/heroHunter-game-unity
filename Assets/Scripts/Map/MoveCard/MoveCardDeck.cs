@@ -43,7 +43,10 @@ public class MoveCardDeck : MonoBehaviour
             }
             MapSystem.instance.moveCardDraw = false;                
         }
-        
+
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(1);
+
     }
 
     // 이동 카드 조건

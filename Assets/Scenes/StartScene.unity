@@ -1170,6 +1170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fade: {fileID: 2018684366}
+  AudioManager: {fileID: 0}
 --- !u!1 &698156607
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,9 +2080,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 3ec0980288a4c1d42b5a7e8c65815a5f, type: 2}
   bgmSource: {fileID: 1522945104}
+  audioSource: {fileID: 0}
   bgmClips:
   - {fileID: 8300000, guid: 8e406e1c33dc5f544aa4f32ffb47eb55, type: 3}
-  UIClips: []
+  UIClips:
+  - {fileID: 8300000, guid: 99c58116fda46fe4096ca752beedd4f5, type: 3}
+  - {fileID: 8300000, guid: bcb855b2709dfd64b85b9c94bbb695a7, type: 3}
+  - {fileID: 8300000, guid: 9a0d6d1f4bbfec74ab79a3f10749f903, type: 3}
+  - {fileID: 8300000, guid: 716ec9042f53a7f4f8ab268353e73a1f, type: 3}
   bgmSlider: {fileID: 0}
   sfxSlider: {fileID: 0}
 --- !u!82 &1522945104

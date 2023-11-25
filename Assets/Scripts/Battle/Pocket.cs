@@ -43,6 +43,8 @@ public class Pocket : MonoBehaviour
                 dices[i].DORotate(new Vector3(0, 0, Random.Range(-90, 90f)), Random.Range(0.5f, 1));
                 dices[i].DOAnchorPos(new Vector2(Random.Range(50, 500f), Random.Range(-100, 400f)), Random.Range(0.5f, 1));
             }
+            GameObject AudioManager = GameObject.Find("AudioManager");
+            AudioManager.GetComponent<SoundManager>().UISfxPlay(3);
         }
     }
 }

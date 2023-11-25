@@ -21,6 +21,8 @@ public class BattleCardDeck : MonoBehaviour
         SetBattleCardDeck();
         SetHandCardData();
         SetHand(curHandCardCount);
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(1);
     }
 
     void SetBattleCardDeck()
