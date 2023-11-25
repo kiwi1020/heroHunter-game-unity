@@ -186,6 +186,7 @@ public class DataManager : MonoBehaviour
         {
             line[i] = line[i].Trim();
             string[] e = line[i].Split('\t');
+            //print(e[0]);
 
             if (!AllSkillDatas.ContainsKey(e[0]))
             {
