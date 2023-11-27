@@ -30,6 +30,7 @@ public class Unit : MonoBehaviour
 
     public bool Takedamage(int dmg)
     {
+        print(gameObject.name);
         currentHP -= dmg;
         if (currentHP <= 0)
             return true;

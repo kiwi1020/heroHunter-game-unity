@@ -144,7 +144,7 @@ public class MapSystem : MonoBehaviour
     }
     private string GetRandomTile()
     {
-        string[] TileName = new string[] { "낭떠러지", "고블린", "신비한 석상", "무덤", "재래시장", "늪지대", "설산", "도적떼", "도박장", "행운" };
+        string[] TileName = new string[] { "낭떠러지", "경비대", "신비한 석상", "무덤", "재래시장", "늪지대", "설산", "도적떼", "도박장", "행운" };
 
         var wrPicker = new WeightRandomPick<string>();
 

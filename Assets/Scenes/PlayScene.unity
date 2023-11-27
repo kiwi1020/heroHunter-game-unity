@@ -2819,6 +2819,8 @@ MonoBehaviour:
   curDiceCount: 0
   state: 0
   targeter: {fileID: 1931731366}
+  skill: {fileID: 0}
+  battlecard: {fileID: 0}
 --- !u!114 &994014025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4282,7 +4284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1930974036325602106, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2102052342953682274, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
       propertyPath: m_labelHash
@@ -5719,6 +5721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a08e24dda565c4199603033721b655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMode: 0
+  isTargeting: 0
 --- !u!1 &1936330374
 GameObject:
   m_ObjectHideFlags: 0
