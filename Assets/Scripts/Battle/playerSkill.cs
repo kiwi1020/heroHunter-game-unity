@@ -33,4 +33,15 @@ public class playerSkill : MonoBehaviour
         int enforcedDmg = int.Parse(sk[1]);
         player.damage = enforcedDmg;
     }
+    public void useSkill(string _name)
+    {
+        if (_name == "갈라치기")
+        {
+            Skill1();
+        }
+        else if(_name == "검격")
+        {
+            Skill2();
+        }
+    }
 }

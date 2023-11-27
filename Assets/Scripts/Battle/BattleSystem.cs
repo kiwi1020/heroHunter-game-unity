@@ -19,6 +19,11 @@ public class BattleSystem : MonoBehaviour
     public BattleState state;
     public Targeter targeter;
 
+    public playerSkill skill;
+    public BattleCard battlecard;
+
+    //public Animator 
+
     void Awake()
     {
         if (instance == null)
@@ -77,9 +82,9 @@ public class BattleSystem : MonoBehaviour
 
     }
 
-    public void UseBattleCard()
+    public void UseBattleCard(BattleCardData _battleCardData)
     {
-
+        StartCoroutine(PlayerAttack());
     }
 
     IEnumerator PlayerAttack()
@@ -89,7 +94,7 @@ public class BattleSystem : MonoBehaviour
         unitHUDs[1].SetHP();
 
         yield return new WaitForSeconds(2f);
-
+        EfterPlayerTurn();
         if (isDead)
         {
             state = BattleState.WON;
@@ -98,8 +103,19 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
+    void EfterPlayerTurn()
+    {
+        if (battleCardDeck.curHandCardCount > 0) return;
+
+        StartCoroutine(EnemyTurn());
+        state = BattleState.ENEMYTURN;
+
+
+    }
+
     IEnumerator EnemyTurn()
     {
+        print("1");
 
         yield return new WaitForSeconds(1f);
 
@@ -158,5 +174,7 @@ public class BattleSystem : MonoBehaviour
 
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
+
+        //카드들 used false로 다 바구기
     }
 }

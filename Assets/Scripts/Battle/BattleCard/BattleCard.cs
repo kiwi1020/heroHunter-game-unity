@@ -61,11 +61,9 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         if (eventData.pointerDrag.GetComponent<BattleCard>() != null)
         {
             //1. 구역 내에서 / 2. 대상 위에서만
-            print("드랍하긴함");
             if (BattleSystem.instance.targeter.isTargeting)
             {
                 print(BattleSystem.instance.targeter.isTargeting);
-                print("후륭해");
                 UseCard();
             }
             GameObject AudioManager = GameObject.Find("AudioManager");
@@ -87,7 +85,9 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
     public void UseCard()
     {
-        BattleSystem.instance.UseBattleCard();
+        BattleSystem.instance.battleCardDeck.UseCard(this);
+        BattleSystem.instance.UseBattleCard(battleCardData);
+        gameObject.SetActive(false);
     }
 
 }

@@ -13,8 +13,10 @@ public class BattleCardDeck : MonoBehaviour
     //안 쓰고 내려놓으면 다시 원상태로 복귀
 
     List<BattleCardData> instantBattleCardData = new List<BattleCardData>();
+    List<BattleCard> curHands = new List<BattleCard>();
 
-    int curHandCardCount = 5;
+
+    public int curHandCardCount = 3;
 
     private void Start()
     {
@@ -27,7 +29,7 @@ public class BattleCardDeck : MonoBehaviour
 
     void SetBattleCardDeck()
     {
-        instantBattleCardData = PlayerData.playerBattleCardDeck.ToList();
+        instantBattleCardData = PlayerData.playerBattleCardDeck.ToList(); // 덱 
     }
 
     public void SetHand(int _handCardCount)
@@ -47,19 +49,29 @@ public class BattleCardDeck : MonoBehaviour
             var battleCard = battleCardPool[i].GetComponent<BattleCard>();
             battleCard.SetCard(instantBattleCardData[randomInt]);
             instantBattleCardData.RemoveAt(randomInt);
+            curHands.Add(battleCard);
         }
     }
 
     public void SetHandCardPosition()
     {
-        //손패 위치 잡는거
-        for (int i = 0; i < curHandCardCount; i++)
+        int i = 0;
+        foreach(BattleCard j in curHands)
         {
-            battleCardPool[i].gameObject.SetActive(true);
-            battleCardPool[i].DOAnchorPos(new Vector2(800 + (curHandCardCount * 20) - (200 - 10 * curHandCardCount) * (curHandCardCount - i + 1),
-                -400 - System.MathF.Abs(curHandCardCount / 2 - i) * 20), 0.2f * (i + 1));
-            battleCardPool[i].DORotate(new Vector3(0, 0, -5 + (5 * curHandCardCount) - (10 * i)), 0.2f * (i + 1));
 
+            j.gameObject.SetActive(true);
+            j.GetComponent<RectTransform>().DOAnchorPos(new Vector2(800 + (curHandCardCount * 20) - (200 - 10 * curHandCardCount) * (curHandCardCount - i + 1),
+                -400 - System.MathF.Abs(curHandCardCount / 2 - i) * 20), 0.2f * (i + 1));
+            j.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, -5 + (5 * curHandCardCount) - (10 * i)), 0.2f * (i + 1));
+
+            i++;
         }
+
+    }
+    public void UseCard(BattleCard _battleCard)
+    {
+        curHandCardCount--;
+        curHands.Remove(_battleCard);
+        SetHandCardPosition();
     }
 }
