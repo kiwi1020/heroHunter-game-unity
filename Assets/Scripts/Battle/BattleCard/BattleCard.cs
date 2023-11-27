@@ -68,7 +68,8 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
                 print("ÈÄ¸¢ÇØ");
                 UseCard();
             }
-
+            GameObject AudioManager = GameObject.Find("AudioManager");
+            AudioManager.GetComponent<SoundManager>().UISfxPlay(5);
         }
     }
 

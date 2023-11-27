@@ -71,6 +71,10 @@ public class BattleSystem : MonoBehaviour
         //start Player Turn
         state = BattleState.PLAYERTURN;
         PlayerTurn();
+
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().BgSoundPlay(1);
+
     }
 
     public void UseBattleCard()
@@ -116,6 +120,8 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.PLAYERTURN;
             PlayerTurn();
         }
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
     }
 
     void EndBattle()
@@ -123,6 +129,8 @@ public class BattleSystem : MonoBehaviour
         if(state == BattleState.WON)
         {
             SceneManager.LoadScene("MoveScene");
+            GameObject AudioManager = GameObject.Find("AudioManager");
+            AudioManager.GetComponent<SoundManager>().BgSoundPlay(0);
         }
         else if (state == BattleState.LOST)
         {
@@ -132,6 +140,8 @@ public class BattleSystem : MonoBehaviour
     void PlayerTurn()
     {
         curDiceCount = PlayerData.diceCount;
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
     }
     public void OnAttackButton()
     {
