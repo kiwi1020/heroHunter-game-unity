@@ -21,6 +21,8 @@ public class MoveCard : MonoBehaviour
     {
         moveCardData = DataManager.instance.AllMoveCardDatas[cardName];
 
+        illust.sprite = DataManager.instance.AlllMoveCardIllusts.Find(x => x.name == moveCardData.name).sprite;
+
         nameText.text = moveCardData.name;
 
         desText.text = "";
