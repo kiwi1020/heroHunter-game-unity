@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,7 +46,7 @@ public class Unit : MonoBehaviour
 
     public void Effect_PlayerAnimation()
     {
-        //BattleSystem.instance.플레이어 공격 메서드
+        BattleSystem.instance.EffectBattleCard();  
     }
 
     public void Finish_PlayerAnimation()

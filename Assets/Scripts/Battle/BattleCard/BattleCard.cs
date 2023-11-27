@@ -86,10 +86,10 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
     public void UseCard()
     {
+        rect.DOScale(new Vector3(1f, 1f, 1f), 0f);
         BattleSystem.instance.battleCardDeck.UseCard(this);
         BattleSystem.instance.UseBattleCard(battleCardData);
         gameObject.SetActive(false);
-        //
     }
 
 }

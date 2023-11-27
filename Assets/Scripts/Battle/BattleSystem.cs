@@ -22,8 +22,9 @@ public class BattleSystem : MonoBehaviour
     public playerSkill skill;
     public BattleCard battlecard;
 
-    public List<BattleCardData> curUsedBattleCardDatas = new List<BattleCardData>();
+    public List<BattleCardData> usedBattleCardQueue = new List<BattleCardData>(); // 사용 대기중인 배틀 카드
 
+    bool cardActing = false;
 
     //public Animator 
 
@@ -80,6 +81,8 @@ public class BattleSystem : MonoBehaviour
 
         //start Player Turn
         state = BattleState.PLAYERTURN;
+
+        battleCardDeck.SetBattleCardDeck();
         PlayerTurn();
 
         GameObject AudioManager = GameObject.Find("AudioManager");
@@ -95,11 +98,22 @@ public class BattleSystem : MonoBehaviour
         curDiceCount = PlayerData.diceCount;
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
+
+        battleCardDeck.SetPlayerTurn();
     }
 
     public void UseBattleCard(BattleCardData _battleCardData)
     {
-        //StartCoroutine(PlayerAttack());
+        usedBattleCardQueue.Add(_battleCardData);
+
+        ActBattleCardSkill();
+    }
+
+    void ActBattleCardSkill()
+    {
+        if (cardActing || usedBattleCardQueue.Count < 1) return;
+
+        cardActing = true;
 
         Act_PlayerAnimation(0); // 스킬별로 타입이 있도록 하기
     }
@@ -112,14 +126,16 @@ public class BattleSystem : MonoBehaviour
 
     //Unit -> Effect_PlayerAnimation 및 Finish_PlayerAnimation 작동
 
-    IEnumerator PlayerAttack()
+    public void EffectBattleCard()
     {
         bool isDead = units[1].Takedamage(units[0].damage);
 
+        units[1].animator.SetInteger("type", 2);
+        units[1].animator.SetInteger("job", 0);
+        units[1].animator.SetTrigger("change");
+
         unitHUDs[1].SetHP();
 
-        yield return new WaitForSeconds(2f);
-        EfterPlayerTurn();
         if (isDead)
         {
             state = BattleState.WON;
@@ -130,26 +146,37 @@ public class BattleSystem : MonoBehaviour
 
     public void EfterPlayerTurn()
     {
-        if (battleCardDeck.curHandCardCount > 0) return;
+        usedBattleCardQueue.RemoveAt(0);
+
+        cardActing = false;
+
+        ActBattleCardSkill();
+
+        //모든 카드를 썻으면 자동으로 적 턴
+
+        if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
+
+        print("call");
 
         StartCoroutine(EnemyTurn());
         state = BattleState.ENEMYTURN;
     }
 
     #endregion
-
+    
     #region EnemyTurn
 
     IEnumerator EnemyTurn()
     {
-        yield return new WaitForSeconds(1f);
+
+        print("call1");
+
 
         bool isDead = units[0].Takedamage(units[1].damage);
 
         unitHUDs[0].SetHP();
 
-        yield return new WaitForSeconds(1f);
-
+        yield return new WaitForSeconds(2f);
         if (isDead)
         {
             state = BattleState.LOST;
@@ -187,7 +214,7 @@ public class BattleSystem : MonoBehaviour
         if (state != BattleState.PLAYERTURN)
             return;
 
-        StartCoroutine(PlayerAttack());
+        EffectBattleCard();
     }
 
     public void OnFinishButton()

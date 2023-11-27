@@ -300,7 +300,7 @@ public class MapSystem : MonoBehaviour
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
+        playerRb.DOPath(JumpPath, 1f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
 
     void PlayerMoveBack(int _stack, MoveCard _moveCard)

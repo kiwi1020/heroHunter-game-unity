@@ -16,27 +16,26 @@ public class BattleCardDeck : MonoBehaviour
     List<BattleCard> curHands = new List<BattleCard>();
 
 
-    public int curHandCardCount = 3;
+    public int curHandCardCount = 3; // 이거는 실시간으로 변경되는 손패 개수
 
-    private void Start()
+    public void SetPlayerTurn()
     {
-        SetBattleCardDeck();
+        print("in?");
+        curHandCardCount = 3;
         SetHandCardData();
-        SetHand(curHandCardCount);
+        SetHand(); //초기화할 손패 개수
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().UISfxPlay(1);
     }
 
-    void SetBattleCardDeck()
+    public void SetBattleCardDeck()
     {
         instantBattleCardData = PlayerData.playerBattleCardDeck.ToList(); // 덱 
     }
 
-    public void SetHand(int _handCardCount)
+    public void SetHand() //매개변수 굳이?
     {
         foreach (RectTransform i in battleCardPool) i.gameObject.SetActive(false);
-
-        curHandCardCount = _handCardCount;
 
         SetHandCardPosition();
     }
