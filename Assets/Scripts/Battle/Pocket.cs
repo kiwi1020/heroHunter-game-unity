@@ -17,6 +17,10 @@ public class Pocket : MonoBehaviour
     {
         image = GetComponent<Image>();
     }
+    void OffDices()
+    {
+        foreach (RectTransform i in dices) i.gameObject.SetActive(false);
+    }
     public void PocketClick()
     {
         if(isOpen)
@@ -24,12 +28,14 @@ public class Pocket : MonoBehaviour
             isOpen = false;
             image.sprite = sprites[1];
 
-            for(int i = 0; i<BattleSystem.instance.curDiceCount; i++)
+            for (int i = 0; i < BattleSystem.instance.curDiceCount; i++)
             {
+                if (!dices[i].gameObject.activeSelf) continue;
+
                 DOTween.Kill(dices[i]);
                 dices[i].GetComponent<Image>().raycastTarget = true;
                 dices[i].DORotate(new Vector3(0, 0, 0), 0.5f);
-                dices[i].DOAnchorPos(new Vector2(0, 0), 0.5f).OnComplete(() => dices[i].gameObject.SetActive(false));
+                dices[i].DOAnchorPos(new Vector2(0, 0), 0.5f).OnComplete(() => OffDices());
             }
         }
         else
@@ -37,8 +43,9 @@ public class Pocket : MonoBehaviour
             isOpen = true;
             image.sprite = sprites[0];
 
-            for(int i = 0; i<PlayerData.diceCount; i++)
+            for(int i = 0; i< BattleSystem.instance.curDiceCount; i++)
             {
+                //if (!dices[i].gameObject.activeSelf) continue;
                 dices[i].gameObject.SetActive(true);
                 dices[i].DORotate(new Vector3(0, 0, Random.Range(-90, 90f)), Random.Range(0.5f, 1));
                 dices[i].DOAnchorPos(new Vector2(Random.Range(50, 500f), Random.Range(-100, 400f)), Random.Range(0.5f, 1));

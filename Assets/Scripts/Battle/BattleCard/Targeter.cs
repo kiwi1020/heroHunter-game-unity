@@ -8,29 +8,12 @@ public class Targeter : MonoBehaviour
     public bool useMode = false, isTargeting = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(useMode) print("충돌");
-
-
-        if(collision.gameObject.name.Contains("EnemyMan"))
-        {
-            print("거기야!!");
-            print(isTargeting);
-            isTargeting = true;
-
-            print(isTargeting + "  !");
-        }
+        if(collision.gameObject.name.Contains("EnemyMan")) isTargeting = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("EnemyMan"))
-        {
-            print("나감");
-            print(isTargeting);
-            isTargeting = false;
-
-            print(isTargeting+"  !");
-        }
+        if (collision.gameObject.name.Contains("EnemyMan")) isTargeting = false;
     }
 
     public void SetPosition(Vector3 _pos, BattleCardData _battleCardData)

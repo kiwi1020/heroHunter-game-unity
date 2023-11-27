@@ -10,6 +10,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     BattleCardData battleCardData;
     RectTransform rect;
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
+    [SerializeField] Image illust;
 
     public bool targeting = false;
 
@@ -21,6 +22,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     public void SetCard(BattleCardData _battleCardData)
     {
         battleCardData = _battleCardData;
+        illust.sprite = DataManager.instance.AlllBattleCardIllusts.Find(x => x.name == battleCardData.name).sprite;
         cardNameText.text = _battleCardData.name;
         cardNameText.color = Color.white;
         cardDesText.text = _battleCardData.skillData.effects[0];
@@ -63,7 +65,6 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
             //1. 구역 내에서 / 2. 대상 위에서만
             if (BattleSystem.instance.targeter.isTargeting)
             {
-                print(BattleSystem.instance.targeter.isTargeting);
                 UseCard();
             }
             GameObject AudioManager = GameObject.Find("AudioManager");
@@ -88,6 +89,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         BattleSystem.instance.battleCardDeck.UseCard(this);
         BattleSystem.instance.UseBattleCard(battleCardData);
         gameObject.SetActive(false);
+        //
     }
 
 }

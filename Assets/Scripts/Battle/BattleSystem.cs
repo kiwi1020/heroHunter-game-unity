@@ -22,6 +22,9 @@ public class BattleSystem : MonoBehaviour
     public playerSkill skill;
     public BattleCard battlecard;
 
+    public List<BattleCardData> curUsedBattleCardDatas = new List<BattleCardData>();
+
+
     //public Animator 
 
     void Awake()
@@ -37,6 +40,8 @@ public class BattleSystem : MonoBehaviour
         SetupBattle();
     }
 
+    #region BattleSetting
+
     public void StartBattle()
     {
     }
@@ -50,21 +55,21 @@ public class BattleSystem : MonoBehaviour
 
         var tileData = (BattleTile)PlayManager.instance.curTile;
 
-        for(int i = 0; i< tileData.enemies.Count+1; i++)
+        for (int i = 0; i < tileData.enemies.Count + 1; i++)
         {
             units[i].gameObject.SetActive(true);
             unitHUDs[i].gameObject.SetActive(true);
             //enemyUnit.SetUnit(tileData.enemies[0]);
             //enemyUnit.SetUnit();
 
-            if(i == 0)
+            if (i == 0)
             {
                 units[i].SetUnit();
                 unitHUDs[i].SetHUD(units[i]);
             }
             else
             {
-                units[i].SetUnit(tileData.enemies[i-1]);
+                units[i].SetUnit(tileData.enemies[i - 1]);
                 unitHUDs[i].SetHUD(units[i]);
             }
         }
@@ -79,13 +84,33 @@ public class BattleSystem : MonoBehaviour
 
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().BgSoundPlay(1);
+    }
 
+    #endregion
+
+    #region PlayerTurn
+
+    void PlayerTurn()
+    {
+        curDiceCount = PlayerData.diceCount;
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
     }
 
     public void UseBattleCard(BattleCardData _battleCardData)
     {
-        StartCoroutine(PlayerAttack());
+        //StartCoroutine(PlayerAttack());
+
+        Act_PlayerAnimation(0); // 스킬별로 타입이 있도록 하기
     }
+
+    public void Act_PlayerAnimation(int _type)
+    {
+        units[0].animator.SetInteger("type", _type);
+        units[0].animator.SetTrigger("attack");
+    }
+
+    //Unit -> Effect_PlayerAnimation 및 Finish_PlayerAnimation 작동
 
     IEnumerator PlayerAttack()
     {
@@ -103,20 +128,20 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    void EfterPlayerTurn()
+    public void EfterPlayerTurn()
     {
         if (battleCardDeck.curHandCardCount > 0) return;
 
         StartCoroutine(EnemyTurn());
         state = BattleState.ENEMYTURN;
-
-
     }
+
+    #endregion
+
+    #region EnemyTurn
 
     IEnumerator EnemyTurn()
     {
-        print("1");
-
         yield return new WaitForSeconds(1f);
 
         bool isDead = units[0].Takedamage(units[1].damage);
@@ -142,7 +167,7 @@ public class BattleSystem : MonoBehaviour
 
     void EndBattle()
     {
-        if(state == BattleState.WON)
+        if (state == BattleState.WON)
         {
             SceneManager.LoadScene("MoveScene");
             GameObject AudioManager = GameObject.Find("AudioManager");
@@ -153,12 +178,10 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    void PlayerTurn()
-    {
-        curDiceCount = PlayerData.diceCount;
-        GameObject AudioManager = GameObject.Find("AudioManager");
-        AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
-    }
+    #endregion
+
+    #region TEST
+
     public void OnAttackButton()
     {
         if (state != BattleState.PLAYERTURN)
@@ -177,4 +200,6 @@ public class BattleSystem : MonoBehaviour
 
         //카드들 used false로 다 바구기
     }
+
+    #endregion
 }

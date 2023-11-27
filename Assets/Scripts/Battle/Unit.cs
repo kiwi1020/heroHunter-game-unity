@@ -11,7 +11,14 @@ public class Unit : MonoBehaviour
 
     public int maxHP;
     public int currentHP;
-    //public int barrier;
+
+    public Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
 
     public void SetUnit(MonsterData _monsterData)
     {
@@ -30,11 +37,21 @@ public class Unit : MonoBehaviour
 
     public bool Takedamage(int dmg)
     {
-        print(gameObject.name);
         currentHP -= dmg;
         if (currentHP <= 0)
             return true;
         else
             return false;
     }
+
+    public void Effect_PlayerAnimation()
+    {
+        //BattleSystem.instance.플레이어 공격 메서드
+    }
+
+    public void Finish_PlayerAnimation()
+    {
+        BattleSystem.instance.EfterPlayerTurn();
+    }
+
 }

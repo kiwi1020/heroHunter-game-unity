@@ -26,6 +26,7 @@ public class MoveCard : MonoBehaviour
         nameText.text = moveCardData.name;
 
         desText.text = "";
+
         foreach (string i in moveCardData.effects)
         {
             desText.text += i;
