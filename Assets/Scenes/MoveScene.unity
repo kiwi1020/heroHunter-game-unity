@@ -472,7 +472,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: " \uAE38\uC744 \uAC00\uB2E4\uAC00 \uBC1C\uACAC\uD55C \uC0AC\uB0E5\uAFBC\uC744
-    \uAD00\uCC30\uD558\uBA70 \uC4F8\uB9CC\uD55C \uC9C0\uC2DD\uC744 \uC5BB\uC5BC\uC2B5\uB2C8\uB2E4."
+    \uAD00\uCC30\uD558\uBA70 \uC4F8\uB9CC\uD55C \uC9C0\uC2DD\uC744 \uC5BB\uC5C8\uC2B5\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5fa2ca9a2b2616948b3277c18fad61aa, type: 2}
   m_sharedMaterial: {fileID: -3583179381800276983, guid: 5fa2ca9a2b2616948b3277c18fad61aa, type: 2}
@@ -2875,9 +2875,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileName: {fileID: 0}
   startButton: {fileID: 0}
-  GetBattleCard:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &871669296
 MonoBehaviour:
   m_ObjectHideFlags: 0

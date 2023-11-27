@@ -724,6 +724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardNameText: {fileID: 3340531163405781579}
   cardDesText: {fileID: 3340531162176538475}
+  illust: {fileID: 3340531163693311205}
 --- !u!1 &3340531163405781573
 GameObject:
   m_ObjectHideFlags: 0
