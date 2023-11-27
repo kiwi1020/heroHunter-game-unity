@@ -409,7 +409,40 @@ MonoBehaviour:
     sprite: {fileID: -1335457876451595483, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
   - name: "\uBE44\uC5F4\uD55C \uCC0C\uB974\uAE30"
     sprite: {fileID: -4033717237397229138, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
-  AlllMoveCardIllusts: []
+  AlllMoveCardIllusts:
+  - name: "\uD734\uC2DD"
+    sprite: {fileID: 1737432226192384036, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uCD94\uACA9"
+    sprite: {fileID: -3595601789026199814, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uC870\uC2EC\uC2A4\uB7EC\uC6B4 \uBC1C\uAC78\uC74C"
+    sprite: {fileID: 2787657608610612732, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uB3C4\uB9DD\uCE58\uAE30"
+    sprite: {fileID: 567180677974370097, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uB098\uCE5C\uBC18 \uACE0\uC7A5"
+    sprite: {fileID: 4109934101849113912, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uB098\uCE68\uBC18"
+    sprite: {fileID: -818717655041822491, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uBC1C\uBAA9 \uBD80\uC0C1"
+    sprite: {fileID: 8957868989721373769, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uB2EC\uB9AC\uAE30"
+    sprite: {fileID: -7391086195199755591, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  - name: "\uC804\uB7B5\uC801 \uD6C4\uD1F4"
+    sprite: {fileID: 2787657608610612732, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
+  AlllBattleCardIllusts:
+  - name: "\uAC08\uB77C\uCE58\uAE30"
+    sprite: {fileID: -4137063815883568952, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
+  - name: "\uAE09\uC18C\uCC0C\uB974\uAE30"
+    sprite: {fileID: 7227976369640365241, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
+  - name: "\uB4A4\uD1B5\uC218\uCE58\uAE30"
+    sprite: {fileID: -5201501074936679637, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
+  - name: "\uBEA8\uB54C\uB9AC\uAE30"
+    sprite: {fileID: -7169159563712612720, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
+  - name: "\uC131\uAE09\uD55C \uD310\uB2E8"
+    sprite: {fileID: -7949123522255275970, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
+  - name: "\uC18D\uC0AC"
+    sprite: {fileID: -2683289953063342971, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
+  - name: "\uBE44\uC5F4\uD55C \uCC0C\uB974\uAE30"
+    sprite: {fileID: 7583020280037716066, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
   TextData:
   - "\uC774\uB984\t\uD0C0\uC785\t\uC124\uBA85\t\uD6A8\uACFC\t\uD655\uB960\r\n\uC2DC\uC791\t\uC5C6\uC74C\t\uC5C6\uC74C\t\uC5C6\uC74C\t0\r\n\uBCF4\uC2A4\t\uC804\uD22C\t\uC220\uCDE8\uD55C
     \uACBD\uBE44\uB300\uC6D0,\uC220\uCDE8\uD55C \uACBD\uBE44\uB300\uC6D0\t\uC220\uCDE8\uD55C
