@@ -12,13 +12,21 @@ public class MapTile : MonoBehaviour
     public TextMeshPro tileName; //타일이름 Text
     public Button startButton; //배틀시작 버튼
 
-    
+    public List<GameObject> GetBattleCard;
+
     //타일이름 설정, 이름은 정한 후 수정
     public void SetTile(TileData _tileData)
     {
-        tileData = _tileData;
-
-        tileName.text = tileData.name; 
+        tileData = _tileData;       
+        //시작타일은 타일 이름이 없도록 수정함
+        if(tileData.name == "시작")
+        {
+            tileName.text = "";
+        }
+        else
+        {
+            tileName.text = tileData.name;
+        }
     }
     public void TileEffect()
     {     
@@ -38,7 +46,11 @@ public class MapTile : MonoBehaviour
                 break;
 
             case "보상":
-                MapSystem.instance.gainEvent.SetEvent(this);
+                MapSystem.instance.gainEvent.SetEvent(this);                
+                foreach(GameObject i in GetBattleCard)
+                {
+                    i.SetActive(true);
+                }
                 break;
 
             default:               

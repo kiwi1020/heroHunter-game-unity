@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance;
     public AudioMixer mixer;
     public AudioSource bgmSource;
+    public AudioSource audioSource;
     public AudioClip[] bgmClips;
     public AudioClip[] UIClips;
 
@@ -53,7 +54,11 @@ public class SoundManager : MonoBehaviour
         AudioSource audioSource = sfx.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = mixer.FindMatchingGroups("Sfx")[0];
         audioSource.clip = UIClips[_n];
+        audioSource.volume = 0.1f;
         audioSource.Play();
+
+        if (_n == 0)
+            DontDestroyOnLoad(sfx);
 
         Destroy(sfx, UIClips[_n].length);
     }

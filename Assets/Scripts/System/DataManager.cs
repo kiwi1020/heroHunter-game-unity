@@ -6,6 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 #region 데이터 정의
+[System.Serializable]
+public class SpriteAndName
+{
+    public string name;
+    public Sprite sprite;
+}
+
 public class SkillData
 {
     public string name;
@@ -44,24 +51,25 @@ public class BattleCardData
 }
 public class TileData
 {
-    public string name, type;
+    public string name, type, weight;
 
-    public TileData(string _name, string _type)
+    public TileData(string _name, string _type, string _weight)
     {
         name = _name;
         type = _type;
-    }
+        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+    }  
 }
 public class BattleTile : TileData
 {
     public List<MonsterData> enemies = new List<MonsterData>();
 
-    public BattleTile(string _name, string _type, string _effect) : base(_name,  _type)
+    public BattleTile(string _name, string _type, string _effect, string _weight) : base(_name,  _type, _weight)
     {
         name = _name;
         type = _type;
+        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
         enemies = _effect.Split(',').Select(x=> DataManager.instance.AllMonsterDatas[x]).ToList();
-
     }
 
     //적에 대한 정보
@@ -69,17 +77,25 @@ public class BattleTile : TileData
 public class MoveCardData
 {
     public string name;
-    public List<string> effects = new List<string>();
+    public string weight;
+    public List<string> effects = new List<string>();     
 
     public MoveCardData(string _name)
     {
-        name = _name;
+        name = _name;       
     }
     public void AddEffect(string _name)
     {
         if (_name == "없음") return;
         effects.Add(_name);
     }
+    //가중치(확률) 
+    public void SetRandomWeight(string _weight)
+    {
+        if (_weight == "같음") return;
+        weight = _weight;
+    }
+   
 }
 public class MonsterData 
 {
@@ -131,6 +147,9 @@ public class DataManager : MonoBehaviour
     public List<string> AllSkillList = new List<string>();
     public List<string> AllMonsterList = new List<string>();
 
+    //
+    public List<SpriteAndName> AllustList = new List<SpriteAndName>();
+
 
     public string[] TextData = new string[13];
     void Awake()
@@ -147,8 +166,8 @@ public class DataManager : MonoBehaviour
         // 0. MoveCardData
         string[]  line = TextData[1].Split('\n');
         for (int i = 1; i < line.Length; i++)
-        {
-            line[i] = line[i].Trim();
+        {            
+            line[i] = line[i].Trim();       
             string[] e = line[i].Split('\t');
 
             if (!AllMoveCardDatas.ContainsKey(e[0]))
@@ -159,14 +178,15 @@ public class DataManager : MonoBehaviour
             }
             
             AllMoveCardDatas[e[0]].AddEffect(e[1]);
+            AllMoveCardDatas[e[0]].SetRandomWeight(e[2]);
         }
-
         // 1. SkillData
         line = TextData[2].Split('\n');
         for (int i = 1; i < line.Length; i++)
         {
             line[i] = line[i].Trim();
             string[] e = line[i].Split('\t');
+            //print(e[0]);
 
             if (!AllSkillDatas.ContainsKey(e[0]))
             {
@@ -206,23 +226,24 @@ public class DataManager : MonoBehaviour
 
             TileData tileData = null;
 
+            //성욱: 가중치 추가(e[4]), 타일 생성 규칙 정할 시 수정
             switch (e[1])
             {
                 case "함정":
-                    tileData = new TileData(e[0], e[1]);
+                    tileData = new TileData(e[0], e[1], e[4]);
                     break;
                 case "전투":
-                    tileData = new BattleTile(e[0], e[1], e[2]);
+                    tileData = new BattleTile(e[0], e[1], e[2], e[4]);
                     break;
                 case "선택":
-                    tileData = new TileData(e[0], e[1]);
+                    tileData = new TileData(e[0], e[1], e[4]);
                     break;
 
                 default:
-                    tileData = new TileData(e[0], e[1]);
+                    tileData = new TileData(e[0], e[1], e[4]);
                     break;
             }
-            AllTileDatas.Add(e[0], tileData);
+            AllTileDatas.Add(e[0], tileData);           
             AllTileList.Add(e[0]);
         }
 

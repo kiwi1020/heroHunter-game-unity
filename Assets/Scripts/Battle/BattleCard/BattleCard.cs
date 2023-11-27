@@ -5,10 +5,13 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using TMPro;
-public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
+public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHandler
 {
+    BattleCardData battleCardData;
     RectTransform rect;
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
+
+    public bool targeting = false;
 
     private void Awake()
     {
@@ -17,6 +20,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
 
     public void SetCard(BattleCardData _battleCardData)
     {
+        battleCardData = _battleCardData;
         cardNameText.text = _battleCardData.name;
         cardNameText.color = Color.white;
         cardDesText.text = _battleCardData.skillData.effects[0];
@@ -37,6 +41,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
     {
         BattleSystem.instance.battleCardDeck.SetHandCardPosition();
         Zoom(false);
+        BattleSystem.instance.targeter.SetUseMode(false);
     }
 
     public void EnforceCard()
@@ -53,6 +58,35 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler
             eventData.pointerDrag.GetComponent<Dice>().Use();
             EnforceCard();
         }
+        if (eventData.pointerDrag.GetComponent<BattleCard>() != null)
+        {
+            //1. 구역 내에서 / 2. 대상 위에서만
+            print("드랍하긴함");
+            if (BattleSystem.instance.targeter.isTargeting)
+            {
+                print(BattleSystem.instance.targeter.isTargeting);
+                print("후륭해");
+                UseCard();
+            }
+
+        }
+    }
+
+    public Vector3 ReturnWorldPoint()
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return pos;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
+        BattleSystem.instance.targeter.SetUseMode(true);
+    }
+
+    public void UseCard()
+    {
+        BattleSystem.instance.UseBattleCard();
     }
 
 }

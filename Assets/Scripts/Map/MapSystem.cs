@@ -37,7 +37,13 @@ public class MapSystem : MonoBehaviour
             PlayManager.instance.curTileNum = value;
         }
     }
-
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
     #region player
     GameObject player;
     Transform stpos;
@@ -46,17 +52,9 @@ public class MapSystem : MonoBehaviour
     Vector3 playerPosition;
     #endregion
 
-    public static bool jumpState = false;
-    void Awake()
-    {
-        if(instance == null)
-        {
-            instance = this;
-        }
-    }
     void Start()
     {
-        setupMap();
+        setupMap();       
     }
     
     void setupMap()
@@ -72,26 +70,96 @@ public class MapSystem : MonoBehaviour
         {
             player.SetActive(true);
         }
-    }
+    }    
 
     void SetTileMapData()
     {
+        //처음 1회만 실행하여 타일 데이터를 생성
+        //수정(시작,보스, 조건)
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
-            for(int i = 0; i< tileMap.Count; i++)
-            {
-                if (i < PlayManager.instance.tileMapData.Count) continue;
+            string previousTileType;
+            int BattleCount = 0;
 
-                var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList[Random.Range(0, DataManager.instance.AllTileList.Count)]];
-                PlayManager.instance.tileMapData.Add(tileData);
+
+            for(int i = 0; i< tileMap.Count; i++)
+            {              
+                
+                //처음: 시작, 끝: 보스 타일로 고정
+                if (i == 0)
+                {
+                    var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList[0]];
+                    PlayManager.instance.tileMapData.Add(tileData);
+                }
+                else if (i == tileMap.Count - 1)
+                {
+                    var tileData = DataManager.instance.AllTileDatas["보스"];
+                    PlayManager.instance.tileMapData.Add(tileData);
+                }
+                //동일한 유형(타입)의 연속 타일 방지(완료)
+                //->
+                //전투는 연속 타일 가능(3번까지만, 완료)
+                //->
+                //음..
+                else
+                {
+                    previousTileType = PlayManager.instance.tileMapData[i-1].type;
+                    do
+                    {
+                        /*
+                        var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList
+                        [Random.Range(2, DataManager.instance.AllTileList.Count)]];
+                        */
+                        var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
+                        string currentTileType = tileData.type;
+                       
+                        if (previousTileType == "전투" && currentTileType == "전투")
+                        {
+                            BattleCount++;                           
+                            if (BattleCount > 2)
+                            {                                                                
+                                continue;
+                            }
+                            else { 
+                                PlayManager.instance.tileMapData.Add (tileData);
+                                break;
+                            }
+                        }
+                        
+                        else if(previousTileType != currentTileType)
+                        {
+                            PlayManager.instance.tileMapData.Add (tileData);
+                            BattleCount = 0;
+                            break;
+                        }
+                    }
+                    while (true);                                      
+                }
+
             }
         }
 
+        //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
+    }
+    private string GetRandomTile()
+    {
+        string[] TileName = new string[] { "낭떠러지", "고블린", "신비한 석상", "무덤", "재래시장", "늪지대", "설산", "도적떼", "도박장", "행운" };
+
+        var wrPicker = new WeightRandomPick<string>();
+
+        foreach (string name in TileName)
+        {
+            int TileWeight = int.Parse(DataManager.instance.AllTileDatas[name].weight);
+            wrPicker.Add(name, TileWeight);
+        }
+
+        return wrPicker.GetRandomPick(); ;
     }
 
     void GenerateTileObjects(int _count)
     {
+        //무브씬에 타일 위치를 정하고 생성
         for (int i = 0; i < _count; i++)
         {
             var tile = Instantiate(tilePrefab).GetComponent<MapTile>();
@@ -106,9 +174,6 @@ public class MapSystem : MonoBehaviour
                 var lastTilePosition = tileMap[tileMap.Count - 1].transform.position;
                 tile.transform.position = new Vector3(lastTilePosition.x + 3.5f, lastTilePosition.y + 2.5f);
             }
-
-            tile.SetTile(DataManager.instance.AllTileDatas
-                [DataManager.instance.AllTileList[Random.Range(0, DataManager.instance.AllTileList.Count)]]);
             tileMap.Add(tile);
         }
     }
@@ -199,6 +264,8 @@ public class MapSystem : MonoBehaviour
             default:
                 break;
         }
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(2);
 
     }
     
