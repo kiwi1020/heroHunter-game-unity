@@ -418,7 +418,7 @@ MonoBehaviour:
     sprite: {fileID: 2787657608610612732, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
   - name: "\uB3C4\uB9DD\uCE58\uAE30"
     sprite: {fileID: 567180677974370097, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
-  - name: "\uB098\uCE5C\uBC18 \uACE0\uC7A5"
+  - name: "\uB098\uCE68\uBC18 \uACE0\uC7A5"
     sprite: {fileID: 4109934101849113912, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
   - name: "\uB098\uCE68\uBC18"
     sprite: {fileID: -818717655041822491, guid: d10180088bfffce4dac200f5e9e16c0f, type: 3}
