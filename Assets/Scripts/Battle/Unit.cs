@@ -54,4 +54,13 @@ public class Unit : MonoBehaviour
         BattleSystem.instance.EfterPlayerTurn();
     }
 
+    public void Effect_EnemyAnimation()
+    {
+        BattleSystem.instance.EffectEnemySkill();
+    }
+
+    public void Finish_EnemyAnimation()
+    {
+        BattleSystem.instance.EfterEnemyTurn();
+    }
 }

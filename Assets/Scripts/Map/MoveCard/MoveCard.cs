@@ -46,12 +46,6 @@ public class MoveCard : MonoBehaviour
         
         CardsHand = transform.parent.gameObject; 
 
-        //카드 클릭 시 이동카드 안 보이게
-        for (int i = 0; i <= CardsHand.transform.childCount - 1; i++)
-        {
-            CardsHand.transform.GetChild(i).gameObject.SetActive(false);
-        }
-     
     }
 
     public void MoveEffect()

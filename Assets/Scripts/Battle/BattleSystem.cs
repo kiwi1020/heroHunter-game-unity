@@ -60,8 +60,6 @@ public class BattleSystem : MonoBehaviour
         {
             units[i].gameObject.SetActive(true);
             unitHUDs[i].gameObject.SetActive(true);
-            //enemyUnit.SetUnit(tileData.enemies[0]);
-            //enemyUnit.SetUnit();
 
             if (i == 0)
             {
@@ -118,7 +116,7 @@ public class BattleSystem : MonoBehaviour
         Act_PlayerAnimation(0); // 스킬별로 타입이 있도록 하기
     }
 
-    public void Act_PlayerAnimation(int _type)
+    void Act_PlayerAnimation(int _type)
     {
         units[0].animator.SetInteger("type", _type);
         units[0].animator.SetTrigger("attack");
@@ -156,9 +154,7 @@ public class BattleSystem : MonoBehaviour
 
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
 
-        print("call");
-
-        StartCoroutine(EnemyTurn());
+        EnemyTurn();
         state = BattleState.ENEMYTURN;
     }
 
@@ -166,31 +162,41 @@ public class BattleSystem : MonoBehaviour
     
     #region EnemyTurn
 
-    IEnumerator EnemyTurn()
+    void EnemyTurn()
     {
+        Act_EnemyAnimation();
+    }
 
-        print("call1");
+    void Act_EnemyAnimation()
+    {
+        //job은 미리 설정
+        units[1].animator.SetInteger("type", 1);
+        units[1].animator.SetTrigger("change");
+    }
 
-
+    public void EffectEnemySkill()
+    {
         bool isDead = units[0].Takedamage(units[1].damage);
 
         unitHUDs[0].SetHP();
 
-        yield return new WaitForSeconds(2f);
         if (isDead)
         {
             state = BattleState.LOST;
             Destroy(units[0]);
             EndBattle();
         }
-        else
-        {
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
-        }
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
+
     }
+
+    public void EfterEnemyTurn()
+    {
+        state = BattleState.PLAYERTURN;
+        PlayerTurn();
+    }
+
 
     void EndBattle()
     {
@@ -223,7 +229,7 @@ public class BattleSystem : MonoBehaviour
             return;
 
         state = BattleState.ENEMYTURN;
-        StartCoroutine(EnemyTurn());
+        EnemyTurn();
 
         //카드들 used false로 다 바구기
     }

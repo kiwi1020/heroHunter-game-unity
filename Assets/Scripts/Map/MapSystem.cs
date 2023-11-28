@@ -17,12 +17,13 @@ public class MapSystem : MonoBehaviour
 
     public TileEvent selectEvent, gainEvent;
 
-    public GameObject tilePrefab;
-    public GameObject playerPrefab;
+    public GameObject tilePrefab, playerPrefab;
+    public GameObject cardHideButton;
 
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
+
 
     public List<MapTile> tileMap = new List<MapTile>();
    
@@ -180,6 +181,8 @@ public class MapSystem : MonoBehaviour
 
     public void ActMoveCardEffect(string[] _eft, MoveCard _moveCard)
     {
+        cardHideButton.SetActive(false);
+
         switch (_eft[0])
         {
             case "이동":
@@ -316,12 +319,11 @@ public class MapSystem : MonoBehaviour
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
+        playerRb.DOPath(JumpPath, 1f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
 
     public void EndCardEffect()
     {
-        
         tileMap[curTileNum].TileEffect();     
     }
 

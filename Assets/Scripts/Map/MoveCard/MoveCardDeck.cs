@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using System.Linq;
 
@@ -9,44 +10,80 @@ public class MoveCardDeck : MonoBehaviour
     [SerializeField] List<MoveCard> cards;
     [SerializeField] int handPoint; // 핸드를 몇 장 받을 지 정하는 능력치, 플레이어 능력치에서 가져옴. 임시로 여기에 선언
     [SerializeField] MoveCardData movecardData;
-    
-    private string[] commonNames;
+
+    string[] commonNames;
+
+    bool isCardPositionSet = false;
 
     public void SetHand()
     {   
-        
         if (MapSystem.instance.moveCardDraw == true) // 이동카드 뽑기를 한번만 가능 
         {
+            PositioningCard();
+
+            //카드 조건 추가 중
+            for (int i = 0; i < handPoint; i++) 
+                cards[i].SetCard(CardPer());
+
+            MapSystem.instance.moveCardDraw = false;
+            MapSystem.instance.cardHideButton.SetActive(true);
+        }
+
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(1);
+
+    }
+
+    public void PositioningCard() //이동하는 부분만 분리
+    {
+        if(!isCardPositionSet)
+        {
+
+            ResetCardPosition();
+
+            //카드 뿌리기
             var center = -600 + Random.Range(-50, 50f) - 400 / 2 * handPoint;
-
-            foreach (MoveCard i in cards)
-            {
-                var cardRect = i.GetComponent<RectTransform>();
-
-                DOTween.Kill(cardRect);
-                cardRect.anchoredPosition = new Vector2(0, 0);
-
-                i.gameObject.SetActive(false);
-            }
 
             for (int i = 0; i < handPoint; i++)
             {
                 var cardRect = cards[i].GetComponent<RectTransform>();
 
                 cardRect.gameObject.SetActive(true);
-                cardRect.DOAnchorPos(new Vector3(center + 400 * i, Random.Range(-50, 250f)), 1 - i * 0.2f).SetEase(Ease.OutCirc);
+                cardRect.DOAnchorPos(new Vector3(center + 400 * i, Random.Range(-50, 250f)), 1 - i * 0.2f).SetEase(Ease.OutCirc).OnComplete(() => cardRect.GetComponent<Button>().interactable = true);
                 cardRect.DORotate(new Vector3(0, 0, Random.Range(-10, 10)), 2);
 
-                //카드 조건 추가중
-
-                cards[i].SetCard(CardPer());
+                isCardPositionSet = true;
             }
-            MapSystem.instance.moveCardDraw = false;                
         }
+        else // 카드 치우기
+        {
 
-        GameObject AudioManager = GameObject.Find("AudioManager");
-        AudioManager.GetComponent<SoundManager>().UISfxPlay(1);
+            ResetCardPosition();
 
+            foreach (MoveCard i in cards)
+            {
+                //카드 사라지는 효과 추가 11-28
+                var cardRect = i.GetComponent<RectTransform>();
+
+                i.GetComponent<Button>().interactable = false;
+
+                cardRect.DOAnchorPos(new Vector3(-680, -600), 1).SetEase(Ease.OutCirc);
+                cardRect.DORotate(new Vector3(0, 0, 0), 1).OnComplete(() => i.gameObject.SetActive(false));
+            }
+
+            isCardPositionSet = false;
+        }
+    }
+
+    void ResetCardPosition()//위치 리셋
+    {
+        foreach (MoveCard i in cards)
+        {
+            var cardRect = i.GetComponent<RectTransform>();
+
+            DOTween.Kill(cardRect);
+            if(MapSystem.instance.moveCardDraw) cardRect.anchoredPosition = new Vector2(0, 0);
+        }
     }
 
     // 이동 카드 조건
@@ -97,5 +134,7 @@ public class MoveCardDeck : MonoBehaviour
 
         return wrPicker.GetRandomPick(); ;
     }
+
+
 
 }

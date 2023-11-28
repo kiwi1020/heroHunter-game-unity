@@ -20,7 +20,6 @@ public class BattleCardDeck : MonoBehaviour
 
     public void SetPlayerTurn()
     {
-        print("in?");
         curHandCardCount = 3;
         SetHandCardData();
         SetHand(); //초기화할 손패 개수
