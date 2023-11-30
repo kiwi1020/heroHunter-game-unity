@@ -104,11 +104,11 @@ public class MapSystem : MonoBehaviour
                 //음..
                 else
                 {
-                    /* 타일 이벤트 확인할 때 사용(삭제 예정)
+                    /*타일 이벤트 확인할 때 사용(삭제 예정)
                     var tileData = DataManager.instance.AllTileDatas["신비한 석상"];
                     PlayManager.instance.tileMapData.Add(tileData);
                     */
-
+                    
                     previousTileType = PlayManager.instance.tileMapData[i-1].type;
                     do
                     {
