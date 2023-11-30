@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using TMPro;
 
@@ -7,8 +8,8 @@ public class TileEvent : MonoBehaviour
 {
     public MapTile mapTile;
 
-    [SerializeField] TextMeshProUGUI title, des;
-    [SerializeField] TextMeshProUGUI[] optionText;
+    public TextMeshProUGUI DesName; // UI Des Text
+    public TextMeshProUGUI resultText; // Result Text
 
     public void SetEvent(MapTile _mapTile)
     {

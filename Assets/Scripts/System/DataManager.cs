@@ -55,25 +55,27 @@ public class BattleCardData
 
 public class TileData
 {
-    public string name, type,, weight;
+    public string name, type, desc, weight;
 
-    public TileData(string _name, string _type, string _weight)
+    public TileData(string _name, string _type, string _weight, string _desc)
     {
         name = _name;
         type = _type;
         weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+        desc = _desc;
     }  
 }
 public class BattleTile : TileData
 {
     public List<MonsterData> enemies = new List<MonsterData>();
 
-    public BattleTile(string _name, string _type, string _effect, string _weight) : base(_name,  _type, _weight)
+    public BattleTile(string _name, string _type, string _effect, string _weight, string _desc) : base(_name,  _type, _weight, _desc)
     {
         name = _name;
         type = _type;
         weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
         enemies = _effect.Split(',').Select(x=> DataManager.instance.AllMonsterDatas[x]).ToList();
+        desc  = _desc;
     }
 
     //적에 대한 정보
@@ -263,17 +265,17 @@ public class DataManager : MonoBehaviour
             switch (e[1])
             {
                 case "함정":
-                    tileData = new TileData(e[0], e[1], e[4]);
+                    tileData = new TileData(e[0], e[1], e[4], e[2]);
                     break;
                 case "전투":
-                    tileData = new BattleTile(e[0], e[1], e[2], e[4]);
+                    tileData = new BattleTile(e[0], e[1], e[3], e[4], e[2]);
                     break;
                 case "선택":
-                    tileData = new TileData(e[0], e[1], e[4]);
+                    tileData = new TileData(e[0], e[1], e[4], e[2]);
                     break;
 
                 default:
-                    tileData = new TileData(e[0], e[1], e[4]);
+                    tileData = new TileData(e[0], e[1], e[4], e[2]);
                     break;
             }
             AllTileDatas.Add(e[0], tileData);           
