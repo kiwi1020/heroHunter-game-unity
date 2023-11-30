@@ -29,6 +29,7 @@ public class MapTile : MonoBehaviour
     public void TileEffect()
     {     
         PlayManager.instance.curTile = tileData;
+
         switch (tileData.type)
         {
             case "¿¸≈ı":

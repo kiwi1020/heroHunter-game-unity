@@ -49,9 +49,13 @@ public class BattleCardData
         targetingMode = _targetingMode;
     }
 }
+
+
+
+
 public class TileData
 {
-    public string name, type, weight;
+    public string name, type,, weight;
 
     public TileData(string _name, string _type, string _weight)
     {
@@ -74,6 +78,33 @@ public class BattleTile : TileData
 
     //적에 대한 정보
 }
+public class SelectTile : TileData
+{
+
+    public SelectTile(string _name, string _type, string _effect, string _weight) : base(_name, _type, _weight)
+    {
+        name = _name;
+        type = _type;
+        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+    }
+
+    //적에 대한 정보
+}
+
+public class GainTile : TileData
+{
+    public GainTile(string _name, string _type, string _effect, string _weight) : base(_name, _type, _weight)
+    {
+        name = _name;
+        type = _type;
+        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+    }
+
+    //적에 대한 정보
+}
+
+
+
 public class MoveCardData
 {
     public string name;

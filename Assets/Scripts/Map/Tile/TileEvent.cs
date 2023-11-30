@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TileEvent : MonoBehaviour
 {
     public MapTile mapTile;
+
+    [SerializeField] TextMeshProUGUI title, des;
+    [SerializeField] TextMeshProUGUI[] optionText;
 
     public void SetEvent(MapTile _mapTile)
     {
         gameObject.SetActive(true);
 
         mapTile = _mapTile;
+
     }
 
 
