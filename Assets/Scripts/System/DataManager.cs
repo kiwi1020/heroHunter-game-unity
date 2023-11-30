@@ -80,9 +80,9 @@ public class BattleTile : TileData
 
     //적에 대한 정보
 }
+/* 타일 종류에 따라서 상속받는 클래스 더 만들려던거 아직 형식을 못 정해서 완성을 못 한 것
 public class SelectTile : TileData
 {
-
     public SelectTile(string _name, string _type, string _effect, string _weight) : base(_name, _type, _weight)
     {
         name = _name;
@@ -104,7 +104,7 @@ public class GainTile : TileData
 
     //적에 대한 정보
 }
-
+*/
 
 
 public class MoveCardData
