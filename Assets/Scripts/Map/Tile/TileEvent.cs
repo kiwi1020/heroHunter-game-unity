@@ -38,6 +38,31 @@ public class TileEvent : MonoBehaviour
                 break;
             case "재래시장":
                 MapSystem.instance.selectEvent.DesName.text = mapTile.tileData.desc;
+                GameObject Comp = GameObject.Find("SelectUI").transform.Find("Comp").gameObject;
+                Comp.SetActive(true);
+
+                GameObject cardObjects = GameObject.Find("BattleCard3");
+
+                for (int i = 0; i < 3; i++)
+                {
+                    GameObject getCard = cardObjects.transform.GetChild(i).gameObject;
+
+                    string[] BattleCardNames = new string[] { "갈라치기", "급소 찌르기", "뒤통수치기", "뺨때리기", "성급한판단", "속사", "비열한 찌르기" };
+
+                    // 랜덤으로 BattleCardNames에서 카드 이름을 선택
+                    string randomCardName = BattleCardNames[Random.Range(0, BattleCardNames.Length)];
+
+                    // 선택한 카드 이름으로 실제 데이터를 얻어옴
+                    BattleCardData card = DataManager.instance.AllBattleCardDatas[randomCardName];
+
+                    // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
+                    var battleCard = getCard.GetComponent<GetBattleCard>();
+                    battleCard.SetCard(card);
+
+                    PlayerData.playerBattleCardDeck.Add(card);
+
+                }
+
                 break;
             case "도박장":
                 MapSystem.instance.selectEvent.DesName.text = mapTile.tileData.desc;               
