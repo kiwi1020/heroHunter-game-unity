@@ -18,6 +18,7 @@ public class BattleSystem : MonoBehaviour
 
     public BattleState state;
     public Targeter targeter;
+    public Unit playerSkillTarget;
 
     public playerSkill skill;
     public BattleCard battlecard;
@@ -61,15 +62,14 @@ public class BattleSystem : MonoBehaviour
             units[i].gameObject.SetActive(true);
             unitHUDs[i].gameObject.SetActive(true);
 
-            if (i == 0)
+            if (i == 0) // Player
             {
                 units[i].SetUnit();
                 unitHUDs[i].SetHUD(units[i]);
             }
-            else
+            else // Enemy
             {
-                units[i].SetUnit(tileData.enemies[i - 1]);
-                unitHUDs[i].SetHUD(units[i]);
+                SetEnemyUnit(units[i], unitHUDs[i], tileData.enemies[i - 1]);
             }
         }
 
@@ -87,6 +87,13 @@ public class BattleSystem : MonoBehaviour
         AudioManager.GetComponent<SoundManager>().BgSoundPlay(1);
     }
 
+    void SetEnemyUnit(Unit _unit, BattleHUD _hud, MonsterData _data)
+    {
+        _unit.SetUnit(_data);
+        _unit.GetComponent<EnemyUnitSkin>().ChangeSkin(DataManager.instance.AllEnemySnAs[_unit.unitName].skinNames);
+        _hud.SetHUD(_unit);
+    }
+
     #endregion
 
     #region PlayerTurn
@@ -102,7 +109,7 @@ public class BattleSystem : MonoBehaviour
 
     public void UseBattleCard(BattleCardData _battleCardData)
     {
-        usedBattleCardQueue.Add(_battleCardData);
+        usedBattleCardQueue.Add(_battleCardData); //사용한 카드 스킬 대기열에 올림
 
         ActBattleCardSkill();
     }
@@ -126,20 +133,39 @@ public class BattleSystem : MonoBehaviour
 
     public void EffectBattleCard()
     {
-        bool isDead = units[1].Takedamage(units[0].damage);
-
         units[1].animator.SetInteger("type", 2);
         units[1].animator.SetInteger("job", 0);
         units[1].animator.SetTrigger("change");
 
+
+        foreach(string i in usedBattleCardQueue[0].skillData.effects)
+        {
+            var eft = i.Split(':');
+
+            if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2])) return;
+
+            switch (eft[0])
+            {
+                case "물리피해":
+                    SkillUseSystem.Damage(playerSkillTarget, int.Parse(eft[1]));
+                    break;
+                case "관통피해":
+                    break;
+            }
+        }
+
         unitHUDs[1].SetHP();
 
-        if (isDead)
-        {
-            state = BattleState.WON;
-            Destroy(units[1]);
-            EndBattle();
-        }
+        /*
+                bool isDead = units[1].Takedamage(units[0].damage);
+
+                if (isDead)
+                {
+                    state = BattleState.WON;
+                    Destroy(units[1]);
+                    EndBattle();
+                }
+        */
     }
 
     public void EfterPlayerTurn()
@@ -176,9 +202,11 @@ public class BattleSystem : MonoBehaviour
 
     public void EffectEnemySkill()
     {
+        unitHUDs[0].SetHP();
+
+        /*
         bool isDead = units[0].Takedamage(units[1].damage);
 
-        unitHUDs[0].SetHP();
 
         if (isDead)
         {
@@ -188,7 +216,7 @@ public class BattleSystem : MonoBehaviour
         }
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
-
+        */
     }
 
     public void EfterEnemyTurn()
@@ -213,6 +241,7 @@ public class BattleSystem : MonoBehaviour
 
     #endregion
 
+
     #region TEST
 
     public void OnAttackButton()
@@ -235,4 +264,92 @@ public class BattleSystem : MonoBehaviour
     }
 
     #endregion
+
+
+}
+
+public class SkillUseSystem
+{
+
+    public static void Damage(Unit _target, int _damage)
+    {
+        int remainDamage = 0;
+
+        if(_target.shield > 0)
+        {
+            remainDamage = _target.shield < _damage ? _damage - _target.shield : 0; // 보호막보다 큰 데미지는 체력을 까도록
+            _target.shield = _target.shield < _damage ? 0 : _target.shield - _damage; //보호막 데미지
+        }
+        else
+        {
+            remainDamage = _damage;
+        }
+
+        _target.currentHP -= remainDamage; // 체력 데미지
+    }
+
+    public static void PiercingDamage()
+    {
+
+    }
+
+    public static void DotDamage()
+    {
+
+    }
+
+    public static void IncreaseDamage()
+    {
+
+    }
+
+    public static void ExplosiveDamage()
+    {
+
+    }
+
+    //
+
+    public static void Stun()
+    {
+
+    }
+
+    public static void Heal()
+    {
+
+    }
+
+    public static void Shield()
+    {
+
+    }
+
+    public static void Evade()
+    {
+
+    }
+
+    public static void Cleanse()
+    {
+
+    }
+
+    public static void Resist()
+    {
+
+    }
+
+    //
+
+    public static void Reroll()
+    {
+
+    }
+
+    public static void Copy()
+    {
+
+    }
+
 }

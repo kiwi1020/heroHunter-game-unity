@@ -12,6 +12,8 @@ public class Unit : MonoBehaviour
     public int maxHP;
     public int currentHP;
 
+    public int shield;
+
     public Animator animator;
 
     private void Awake()
@@ -19,6 +21,7 @@ public class Unit : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    #region Setting
 
     public void SetUnit(MonsterData _monsterData)
     {
@@ -27,12 +30,48 @@ public class Unit : MonoBehaviour
 
         maxHP = _monsterData.hp[0];
         currentHP = maxHP;
+
+        shield = _monsterData.hp[1];
     }
 
     public void SetUnit()
     {
         maxHP = PlayerData.maxHP;
         currentHP = maxHP;
+    }
+
+    #endregion
+
+    #region Animation
+
+    //플레이어
+    public void Effect_PlayerAnimation()
+    {
+        BattleSystem.instance.EffectBattleCard();  
+    }
+
+    public void Finish_PlayerAnimation()
+    {
+        BattleSystem.instance.EfterPlayerTurn();
+    }
+
+    //적
+    public void Effect_EnemyAnimation()
+    {
+        BattleSystem.instance.EffectEnemySkill();
+    }
+
+    public void Finish_EnemyAnimation()
+    {
+        BattleSystem.instance.EfterEnemyTurn();
+    }
+
+    #endregion
+
+    public void Hit()
+    {
+        //피격 모션
+        //피해량
     }
 
     public bool Takedamage(int dmg)
@@ -44,23 +83,5 @@ public class Unit : MonoBehaviour
             return false;
     }
 
-    public void Effect_PlayerAnimation()
-    {
-        BattleSystem.instance.EffectBattleCard();  
-    }
 
-    public void Finish_PlayerAnimation()
-    {
-        BattleSystem.instance.EfterPlayerTurn();
-    }
-
-    public void Effect_EnemyAnimation()
-    {
-        BattleSystem.instance.EffectEnemySkill();
-    }
-
-    public void Finish_EnemyAnimation()
-    {
-        BattleSystem.instance.EfterEnemyTurn();
-    }
 }

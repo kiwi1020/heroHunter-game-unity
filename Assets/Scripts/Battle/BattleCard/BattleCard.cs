@@ -19,6 +19,8 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         rect = GetComponent<RectTransform>();
     }
 
+    #region Setting
+
     public void SetCard(BattleCardData _battleCardData)
     {
         battleCardData = _battleCardData;
@@ -27,6 +29,10 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         cardNameText.color = Color.white;
         cardDesText.text = _battleCardData.skillData.effects[0];
     }
+
+    #endregion
+
+    #region Interect
 
     public void Zoom(bool _zoom) // true면 확대, 카드 Eventtrigger 컴포넌트에서 사용, 마우스가 닿으면 확대, 떨어지면 축소
     {
@@ -45,12 +51,10 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         Zoom(false);
         BattleSystem.instance.targeter.SetUseMode(false);
     }
-
-    public void EnforceCard()
+    public void OnDrag(PointerEventData eventData)
     {
-        cardNameText.text = "*"+ cardNameText.text;
-        cardNameText.color = Color.red;
-        cardDesText.text = "*물리피해 20";
+        BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
+        BattleSystem.instance.targeter.SetUseMode(true);
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -71,19 +75,19 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
             AudioManager.GetComponent<SoundManager>().UISfxPlay(5);
         }
     }
-
     public Vector3 ReturnWorldPoint()
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return pos;
     }
+    #endregion
 
-    public void OnDrag(PointerEventData eventData)
+    public void EnforceCard()
     {
-        BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
-        BattleSystem.instance.targeter.SetUseMode(true);
+        cardNameText.text = "*"+ cardNameText.text;
+        cardNameText.color = Color.red;
+        cardDesText.text = "*물리피해 20";
     }
-
     public void UseCard()
     {
         rect.DOScale(new Vector3(1f, 1f, 1f), 0f);
@@ -91,5 +95,6 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         BattleSystem.instance.UseBattleCard(battleCardData);
         gameObject.SetActive(false);
     }
+
 
 }

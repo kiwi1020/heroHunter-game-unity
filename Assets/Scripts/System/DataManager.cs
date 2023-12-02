@@ -20,20 +20,11 @@ public class SkillData
     public List<string> effects = new List<string>();
     public List<string> enforcedEffects = new List<string>();
 
-    public SkillData(string _name)
+    public SkillData(string _name, string[] _effects, string[] _enforcedEffects)
     {
         name = _name;
-    }
-
-    public void AddEffect(string _name)
-    {
-        if (_name == "없음") return;
-        effects.Add(_name);
-    }
-    public void AddEnforcedEffect(string _name)
-    {
-        if (_name == "없음") return;
-        enforcedEffects.Add(_name);
+        effects = _effects.ToList();
+        enforcedEffects = _enforcedEffects.ToList();
     }
 }
 public class BattleCardData
@@ -49,9 +40,6 @@ public class BattleCardData
         targetingMode = _targetingMode;
     }
 }
-
-
-
 
 public class TileData
 {
@@ -221,17 +209,13 @@ public class DataManager : MonoBehaviour
         {
             line[i] = line[i].Trim();
             string[] e = line[i].Split('\t');
-            //print(e[0]);
 
-            if (!AllSkillDatas.ContainsKey(e[0]))
-            {
-                var skillData = new SkillData(e[0]);
-                AllSkillDatas.Add(e[0], skillData);
-                AllSkillList.Add(e[0]);
-            }
+            print(e[0]);
 
-            AllSkillDatas[e[0]].AddEffect(e[1]);
-            AllSkillDatas[e[0]].AddEnforcedEffect(e[2]);
+            var skillData = new SkillData(e[0],e[1].Split(','), e[1].Split(','));
+
+            AllSkillDatas.Add(e[0], skillData);
+            AllSkillList.Add(e[0]);
 
         }
 

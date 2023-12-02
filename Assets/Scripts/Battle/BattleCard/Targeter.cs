@@ -8,12 +8,20 @@ public class Targeter : MonoBehaviour
     public bool useMode = false, isTargeting = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.name.Contains("EnemyMan")) isTargeting = true;
+        if (collision.gameObject.name.Contains("EnemyMan"))
+        {
+            isTargeting = true;
+            BattleSystem.instance.playerSkillTarget = collision.GetComponent<Unit>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("EnemyMan")) isTargeting = false;
+        if (collision.gameObject.name.Contains("EnemyMan"))
+        {
+            isTargeting = false;
+            BattleSystem.instance.playerSkillTarget = null;
+        }
     }
 
     public void SetPosition(Vector3 _pos, BattleCardData _battleCardData)
