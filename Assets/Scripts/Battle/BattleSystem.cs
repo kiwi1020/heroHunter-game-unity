@@ -150,6 +150,11 @@ public class BattleSystem : MonoBehaviour
                     SkillUseSystem.Damage(playerSkillTarget, int.Parse(eft[1]));
                     break;
                 case "관통피해":
+                    SkillUseSystem.PiercingDamage(playerSkillTarget, int.Parse(eft[1]));
+                    break;
+                case "지속피해":
+                    int Turn = 3;
+                    SkillUseSystem.DotDamage(playerSkillTarget, int.Parse(eft[1]), Turn);
                     break;
             }
         }
@@ -288,14 +293,26 @@ public class SkillUseSystem
         _target.currentHP -= remainDamage; // 체력 데미지
     }
 
-    public static void PiercingDamage()
+    public static void PiercingDamage(Unit _target, int _damage)
     {
-
+        _target.currentHP -= _damage;
     }
 
-    public static void DotDamage()
+    public static void DotDamage(Unit _target, int _damage, int remainTurn)
     {
-
+        int remainDamage = 0;
+        if (remainTurn >= 1) {
+            if (_target.shield > 0)
+            {
+                remainDamage = _target.shield < _damage ? _damage - _target.shield : 0; // 보호막보다 큰 데미지는 체력을 까도록
+                _target.shield = _target.shield < _damage ? 0 : _target.shield - _damage; //보호막 데미지
+            }
+            else
+            {
+                remainDamage = _damage;
+            }
+            _target.currentHP -= remainDamage; // 체력 데미지
+        }
     }
 
     public static void IncreaseDamage()
