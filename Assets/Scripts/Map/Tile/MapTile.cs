@@ -36,7 +36,6 @@ public class MapTile : MonoBehaviour
             case "전투":
                 OnBattleStartButton();
                 break;
-
             case "선택":
                 MapSystem.instance.tileEffect_UI.SetEvent(this);               
                 break;

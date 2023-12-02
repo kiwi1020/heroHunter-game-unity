@@ -154,11 +154,10 @@ public class TileEvent : MonoBehaviour
         if(scene.name =="MoveScene" && PlayManager.instance.isStone) 
         {
             MapSystem.instance.tileEffect_UI.gameObject.SetActive(true);
-            Option.SetActive(true);
             SetGetBattleCard(mapTile.tileData.cardCount[1]);
             PlayManager.instance.isStone=false;
         }
-        else
+        else if(scene.name == "MoveScene" && !PlayManager.instance.isStone)
         {
             SetGetBattleCard(mapTile.tileData.cardCount[1]);
         }
