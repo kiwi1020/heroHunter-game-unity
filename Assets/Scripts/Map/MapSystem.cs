@@ -15,7 +15,7 @@ public class MapSystem : MonoBehaviour
 
     public static int readyCount;
 
-    public TileEvent selectEvent, gainEvent;
+    public TileEvent selectEvent, gainEvent, tileEffect_UI;
 
     public GameObject tilePrefab, playerPrefab;
     public GameObject cardHideButton;
@@ -89,7 +89,7 @@ public class MapSystem : MonoBehaviour
                 //처음: 시작, 끝: 보스 타일로 고정
                 if (i == 0)
                 {
-                    var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList[0]];
+                    var tileData = DataManager.instance.AllTileDatas["시작"];
                     PlayManager.instance.tileMapData.Add(tileData);
                 }
                 else if (i == tileMap.Count - 1)
@@ -105,7 +105,7 @@ public class MapSystem : MonoBehaviour
                 else
                 {
                     //타일 이벤트 확인할 때 사용(삭제 예정)
-                    var tileData = DataManager.instance.AllTileDatas["경비대"];
+                    var tileData = DataManager.instance.AllTileDatas["행운"];
                     PlayManager.instance.tileMapData.Add(tileData);
                     
                     /*

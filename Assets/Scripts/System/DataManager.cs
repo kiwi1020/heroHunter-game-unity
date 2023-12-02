@@ -43,27 +43,34 @@ public class BattleCardData
 
 public class TileData
 {
-    public string name, type, desc, weight;
+    public string name, type, desc, weight, title, GetOrDelete;
 
-    public TileData(string _name, string _type, string _weight, string _desc)
+    public int[] cardCount; //0은 획득 또는 제거 가능한 카드 수, 1은 UI에 나타날 카드 수
+    public TileData(string _name, string _type, string _title, string _desc, string _GetOrDelete,int[] _cardCount,string _weight)
     {
         name = _name;
         type = _type;
         weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+        cardCount = _cardCount;
+        GetOrDelete = _GetOrDelete; 
         desc = _desc;
+        title = _title;
     }  
 }
 public class BattleTile : TileData
 {
     public List<MonsterData> enemies = new List<MonsterData>();
 
-    public BattleTile(string _name, string _type, string _effect, string _weight, string _desc) : base(_name,  _type, _weight, _desc)
+    public BattleTile(string _name, string _type, string _effect, string _title, string _desc, string _GetOrDelete, int[] _cardCount, string _weight) : base(_name,  _type, _title, _desc, _GetOrDelete, _cardCount, _weight)
     {
         name = _name;
         type = _type;
         weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
         enemies = _effect.Split(',').Select(x=> DataManager.instance.AllMonsterDatas[x]).ToList();
         desc  = _desc;
+        title= _title;
+        cardCount= _cardCount;
+        GetOrDelete = _GetOrDelete; 
     }
 
     //적에 대한 정보
@@ -167,7 +174,7 @@ public class DataManager : MonoBehaviour
     public List<string> AllMoveCardList = new List<string>();
     public List<string> AllSkillList = new List<string>();
     public List<string> AllMonsterList = new List<string>();
-
+    public List<string> AllBattleCardList = new List<string>();
     //
     public List<SpriteAndName> AllustList = new List<SpriteAndName>();
     public List<SpriteAndName> AlllMoveCardIllusts = new List<SpriteAndName>();
@@ -210,8 +217,6 @@ public class DataManager : MonoBehaviour
             line[i] = line[i].Trim();
             string[] e = line[i].Split('\t');
 
-            print(e[0]);
-
             var skillData = new SkillData(e[0],e[1].Split(','), e[1].Split(','));
 
             AllSkillDatas.Add(e[0], skillData);
@@ -249,17 +254,16 @@ public class DataManager : MonoBehaviour
             switch (e[1])
             {
                 case "함정":
-                    tileData = new TileData(e[0], e[1], e[4], e[2]);
+                    tileData = new TileData(e[0], e[1], e[2],e[3],e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
                     break;
                 case "전투":
-                    tileData = new BattleTile(e[0], e[1], e[3], e[4], e[2]);
+                    tileData = new BattleTile(e[0], e[1], e[4], e[2], e[3], e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
                     break;
                 case "선택":
-                    tileData = new TileData(e[0], e[1], e[4], e[2]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
                     break;
-
                 default:
-                    tileData = new TileData(e[0], e[1], e[4], e[2]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
                     break;
             }
             AllTileDatas.Add(e[0], tileData);           
@@ -284,6 +288,7 @@ public class DataManager : MonoBehaviour
             string[] e = line[i].Split('\t');
 
             AllBattleCardDatas.Add(e[0], new BattleCardData(e[0], AllSkillDatas[e[1]], e[2], e[3]));
+            AllBattleCardList.Add(e[0]);
         }
         #endregion
     }
