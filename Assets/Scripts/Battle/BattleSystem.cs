@@ -10,7 +10,7 @@ public class BattleSystem : MonoBehaviour
 
     public BattleManager battleManager;
 
-    public Unit[] units; 
+    public Unit[] units; // 플레이어, 적, 적, 적 
     public BattleHUD[] unitHUDs;
 
     public BattleCardDeck battleCardDeck;
@@ -38,6 +38,8 @@ public class BattleSystem : MonoBehaviour
     }
     void Start()
     {  
+        for(int i = 0; i < units.Length; i++) units[i].battleHUD = unitHUDs[i];
+        //
         state = BattleState.START;
         SetupBattle();
     }
@@ -137,29 +139,7 @@ public class BattleSystem : MonoBehaviour
         units[1].animator.SetInteger("job", 0);
         units[1].animator.SetTrigger("change");
 
-
-        foreach(string i in usedBattleCardQueue[0].skillData.effects)
-        {
-            var eft = i.Split(':');
-
-            if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2])) return;
-
-            switch (eft[0])
-            {
-                case "물리피해":
-                    SkillUseSystem.Damage(playerSkillTarget, int.Parse(eft[1]));
-                    break;
-                case "관통피해":
-                    SkillUseSystem.PiercingDamage(playerSkillTarget, int.Parse(eft[1]));
-                    break;
-                case "지속피해":
-                    int Turn = 3;
-                    SkillUseSystem.DotDamage(playerSkillTarget, int.Parse(eft[1]), Turn);
-                    break;
-            }
-        }
-
-        unitHUDs[1].SetHP();
+        SkillUseSystem.Divide_Target(playerSkillTarget, units[0], usedBattleCardQueue[0].skillData);
 
         /*
                 bool isDead = units[1].Takedamage(units[0].damage);
@@ -184,9 +164,19 @@ public class BattleSystem : MonoBehaviour
         //모든 카드를 썻으면 자동으로 적 턴
 
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
-
+        print("1");
+        ActEnemySideEffect();
         EnemyTurn();
         state = BattleState.ENEMYTURN;
+    }
+
+    public void ActEnemySideEffect()
+    {
+        print("2");
+        for (int i = 1; i<units.Length; i++)
+        {
+            if(units[i].gameObject.activeSelf) units[i].ActSideEffect();
+        }
     }
 
     #endregion
@@ -276,95 +266,109 @@ public class BattleSystem : MonoBehaviour
 public class SkillUseSystem
 {
 
-    public static void Damage(Unit _target, int _damage)
+    public static void Divide_Target(Unit _target, Unit _caster, SkillData _skillData)
     {
-        int remainDamage = 0;
 
-        if(_target.shield > 0)
+
+        foreach (string i in _skillData.effects)
         {
-            remainDamage = _target.shield < _damage ? _damage - _target.shield : 0; // 보호막보다 큰 데미지는 체력을 까도록
-            _target.shield = _target.shield < _damage ? 0 : _target.shield - _damage; //보호막 데미지
-        }
-        else
-        {
-            remainDamage = _damage;
-        }
+            var eft = i.Split(':');
 
-        _target.currentHP -= remainDamage; // 체력 데미지
-    }
+            if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2])) return;
 
-    public static void PiercingDamage(Unit _target, int _damage)
-    {
-        _target.currentHP -= _damage;
-    }
 
-    public static void DotDamage(Unit _target, int _damage, int remainTurn)
-    {
-        int remainDamage = 0;
-        if (remainTurn >= 1) {
-            if (_target.shield > 0)
+            var damage = float.Parse(eft[1]) + float.Parse(eft[1]) * _caster.stack[0];
+
+            switch (eft[0])
             {
-                remainDamage = _target.shield < _damage ? _damage - _target.shield : 0; // 보호막보다 큰 데미지는 체력을 까도록
-                _target.shield = _target.shield < _damage ? 0 : _target.shield - _damage; //보호막 데미지
+                case "물리피해":
+                    Damage(_target, (int)damage);
+                    _caster.stack[0] = 0;
+                    break;
+                case "관통피해":
+                    PiercingDamage(_target, (int)damage);
+                    _caster.stack[0] = 0;
+                    break;
+                case "지속피해":
+                    DotDamage(_target, (int)damage);
+                    _caster.stack[0] = 0;
+                    break;
+                case "추가피해":
+                    IncreaseDamage(_caster, float.Parse(eft[1]));
+                    break;
             }
-            else
-            {
-                remainDamage = _damage;
-            }
-            _target.currentHP -= remainDamage; // 체력 데미지
         }
     }
 
-    public static void IncreaseDamage()
+    static void Damage(Unit _target, int _damage)
     {
-
+        _target.Takedamage(_damage);
     }
 
-    public static void ExplosiveDamage()
+    static void PiercingDamage(Unit _target, int _damage)
+    {
+        _target.Takedamage(_damage, true);
+    }
+
+
+    //유닛한테 쌓아야할듯? 스택을
+
+    static void DotDamage(Unit _target, int _damage)
+    {
+        _target.dotDamage[0] += _damage;
+    }
+    //=> battleSystem의 efter turn에서 여기서 쌓인 도트데미지를 가하고 한 턴씩 미루는 메서드를 구현
+
+    static void IncreaseDamage(Unit _target, float _damage)
+    {
+        _target.stack[0] += _damage;
+    }
+
+    static void ExplosiveDamage()
     {
 
     }
 
     //
 
-    public static void Stun()
+    static void Stun()
     {
 
     }
 
-    public static void Heal()
+    static void Heal()
     {
 
     }
 
-    public static void Shield()
+    static void Shield()
     {
 
     }
 
-    public static void Evade()
+    static void Evade()
     {
 
     }
 
-    public static void Cleanse()
+    static void Cleanse()
     {
 
     }
 
-    public static void Resist()
+    static void Resist()
     {
 
     }
 
     //
 
-    public static void Reroll()
+    static void Reroll()
     {
 
     }
 
-    public static void Copy()
+    static void Copy()
     {
 
     }

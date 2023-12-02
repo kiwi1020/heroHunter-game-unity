@@ -381,6 +381,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 642662815}
     m_Modifications:
+    - target: {fileID: -2495358252478350479, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
+      propertyPath: battleHUD
+      value: 
+      objectReference: {fileID: 1815524800}
+    - target: {fileID: -2495358252478350479, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
+      propertyPath: stack.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2495358252478350479, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
+      propertyPath: sideEffect.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 502139696582631106, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.36730933
@@ -2865,6 +2877,7 @@ MonoBehaviour:
   curDiceCount: 0
   state: 0
   targeter: {fileID: 1931731366}
+  playerSkillTarget: {fileID: 0}
   skill: {fileID: 0}
   battlecard: {fileID: 0}
 --- !u!114 &994014025
@@ -3433,6 +3446,18 @@ PrefabInstance:
     - target: {fileID: 4185669324192796165, guid: bbe4e4359a867ae4dbcbccb838f09ded, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350624201921007626, guid: bbe4e4359a867ae4dbcbccb838f09ded, type: 3}
+      propertyPath: battleHUD
+      value: 
+      objectReference: {fileID: 1845094423}
+    - target: {fileID: 5350624201921007626, guid: bbe4e4359a867ae4dbcbccb838f09ded, type: 3}
+      propertyPath: stack.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350624201921007626, guid: bbe4e4359a867ae4dbcbccb838f09ded, type: 3}
+      propertyPath: sideEffect.Array.size
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6514459234750437488, guid: bbe4e4359a867ae4dbcbccb838f09ded, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4366,6 +4391,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 642662815}
     m_Modifications:
+    - target: {fileID: -2495358252478350479, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
+      propertyPath: battleHUD
+      value: 
+      objectReference: {fileID: 470387208}
+    - target: {fileID: -2495358252478350479, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
+      propertyPath: stack.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2495358252478350479, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
+      propertyPath: sideEffect.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 502139696582631106, guid: e4cfadeba8e62744689c33ddcc239dc6, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.3673091

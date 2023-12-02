@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] BattleHUD battleHUD; 
+    public BattleHUD battleHUD; 
 
     public string unitName, unitType;
     public int damage;
@@ -15,6 +15,15 @@ public class Unit : MonoBehaviour
     public int shield;
 
     public Animator animator;
+
+    #region SubEffect
+
+    public int[] dotDamage = new int[3] { 0, 0, 0 }; // 3턴으로 시작해서 3개짜리
+
+    public float[] stack = new float[6] { 0,0,0 ,0,0,0 }; // increase / exp / stun / evade / clean /resist
+    public int[] sideEffect = new int[6] { 0,0,0 ,0,0,0 }; // increase / exp / stun / evade / clean /resist
+
+    #endregion
 
     private void Awake()
     {
@@ -74,13 +83,44 @@ public class Unit : MonoBehaviour
         //피해량
     }
 
-    public bool Takedamage(int dmg)
+    public void ActSideEffect()
     {
-        currentHP -= dmg;
-        if (currentHP <= 0)
-            return true;
+        print("4");
+        ActDotDamage();
+    }
+    void ActDotDamage()
+    {
+        print("5");
+        foreach(int i in dotDamage)
+        {
+            Debug.Log("dot call");
+            print(i);
+            Takedamage(i);
+        }
+
+        dotDamage[2] = dotDamage[1];
+        dotDamage[1] = dotDamage[0];
+        dotDamage[0] = 0;
+
+    }
+    public void Takedamage(int _damage, bool _p = false)
+    {
+        int remainDamage = 0;
+
+        if (shield > 0 && _p == false)
+        {
+            remainDamage = shield < _damage ? _damage - shield : 0; // 보호막보다 큰 데미지는 체력을 까도록
+            shield = shield < _damage ? 0 : shield - _damage; //보호막 데미지
+        }
         else
-            return false;
+        {
+            remainDamage = _damage;
+        }
+
+        currentHP -= remainDamage; // 체력 데미지
+
+        battleHUD.SetHP();
+
     }
 
 

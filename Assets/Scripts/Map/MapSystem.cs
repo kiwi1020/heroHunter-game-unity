@@ -79,8 +79,8 @@ public class MapSystem : MonoBehaviour
         //수정(시작,보스, 조건)
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
-            string previousTileType;
-            int BattleCount = 0; 
+            //string previousTileType;
+            //int BattleCount = 0; 
 
 
             for(int i = 0; i< tileMap.Count; i++)
@@ -105,7 +105,7 @@ public class MapSystem : MonoBehaviour
                 else
                 {
                     //타일 이벤트 확인할 때 사용(삭제 예정)
-                    var tileData = DataManager.instance.AllTileDatas["행운"];
+                    var tileData = DataManager.instance.AllTileDatas["경비대"];
                     PlayManager.instance.tileMapData.Add(tileData);
                     
                     /*
