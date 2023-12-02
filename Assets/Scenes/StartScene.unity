@@ -440,7 +440,7 @@ MonoBehaviour:
   AlllBattleCardIllusts:
   - name: "\uAC08\uB77C\uCE58\uAE30"
     sprite: {fileID: -4137063815883568952, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
-  - name: "\uAE09\uC18C\uCC0C\uB974\uAE30"
+  - name: "\uAE09\uC18C \uCC0C\uB974\uAE30"
     sprite: {fileID: 7227976369640365241, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
   - name: "\uB4A4\uD1B5\uC218\uCE58\uAE30"
     sprite: {fileID: -5201501074936679637, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
@@ -450,8 +450,6 @@ MonoBehaviour:
     sprite: {fileID: -7949123522255275970, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
   - name: "\uC18D\uC0AC"
     sprite: {fileID: -2683289953063342971, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
-  - name: "\uBE44\uC5F4\uD55C \uCC0C\uB974\uAE30"
-    sprite: {fileID: 7583020280037716066, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
   - name: "\uBE44\uC5F4\uD55C \uCC0C\uB974\uAE30"
     sprite: {fileID: 7583020280037716066, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
   TextData:
@@ -471,7 +469,7 @@ MonoBehaviour:
     \uC2DC\uD5D8\uD558\uB294 \uD589\uC6B4]\t\uB3C4\uBC15\uC7A5 \uB51C\uB7EC\uC640
     \uD640,\uC9DD \uAC8C\uC784\uC744 \uC2DC\uC791\uD569\uB2C8\uB2E4.   \t\uC131\uACF5:
     3\uAC1C\uC758 \uCE74\uB4DC \uC911 \uD55C\uAC1C \uC120\uD0DD, \uC2E4\uD328 : \uBB34\uC791\uC704
-    \uCE74\uB4DC \uD55C\uC7A5 \uC81C\uAC70 \t\uD68D\uB4DD/\uC81C\uAC70\t2/3\t2/3\t20\r\n\uB0AD\uB5A0\uB7EC\uC9C0\t\uD568\uC815\t[\uBBF8\uB044\uB7EC\uC6B4
+    \uCE74\uB4DC \uD55C\uC7A5 \uC81C\uAC70 \t\uD68D\uB4DD\t2/3\t2/3\t20\r\n\uB0AD\uB5A0\uB7EC\uC9C0\t\uD568\uC815\t[\uBBF8\uB044\uB7EC\uC6B4
     \uC808\uBCBD]\t\uB0AD\uB5A0\uB7EC\uC9C0\uC5D0 \uC18C\uC9C0\uD55C \uCE74\uB4DC
     1\uAC1C\uB97C \uC2E4\uC218\uB85C \uB5A8\uC5B4\uD2B8\uB838\uC2B5\uB2C8\uB2E4.\t\uBB34\uC791\uC704
     \uCE74\uB4DC \uD55C \uC7A5 \uC81C\uAC70\t\uC81C\uAC70\t1/1\t0/0\t20\r\n\uC2DC\uC791\t-\t-\t-\t-\t-\t0/0\t0/0\t0\r\n\uBCF4\uC2A4\t\uC804\uD22C\t-\t-\t\uC220\uCDE8\uD55C
