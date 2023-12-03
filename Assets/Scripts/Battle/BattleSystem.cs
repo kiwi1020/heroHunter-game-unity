@@ -13,6 +13,9 @@ public class BattleSystem : MonoBehaviour
     public Unit[] units; // 플레이어, 적, 적, 적 
     public BattleHUD[] unitHUDs;
 
+    public GameObject floatingTextPrefab;
+    List<FloatingText> floatingTextQueue = new List<FloatingText>();
+
     public BattleCardDeck battleCardDeck;
     public int curDiceCount; // 해당턴의 다이스 개수, 사용하면 줄어드는 거
 
@@ -20,12 +23,14 @@ public class BattleSystem : MonoBehaviour
     public Targeter targeter;
     public Unit playerSkillTarget;
 
+
     public playerSkill skill;
     public BattleCard battlecard;
 
     public List<BattleCardData> usedBattleCardQueue = new List<BattleCardData>(); // 사용 대기중인 배틀 카드
 
     bool cardActing = false;
+    bool floating = false;
 
     //public Animator 
 
@@ -164,7 +169,6 @@ public class BattleSystem : MonoBehaviour
         //모든 카드를 썻으면 자동으로 적 턴
 
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
-        print("1");
         ActEnemySideEffect();
         EnemyTurn();
         state = BattleState.ENEMYTURN;
@@ -172,7 +176,6 @@ public class BattleSystem : MonoBehaviour
 
     public void ActEnemySideEffect()
     {
-        print("2");
         for (int i = 1; i<units.Length; i++)
         {
             if(units[i].gameObject.activeSelf) units[i].ActSideEffect();
@@ -260,6 +263,39 @@ public class BattleSystem : MonoBehaviour
 
     #endregion
 
+    public IEnumerator ActFloatingText()
+    {
+        if (!floating && floatingTextQueue.Count > 0)
+        {
+            floating = true;
+            floatingTextQueue[0].gameObject.SetActive(true);
+            floatingTextQueue[0].Floating();
+            floatingTextQueue.RemoveAt(0);
+            yield return new WaitForSeconds(0.5f);
+            floating = false;
+            StartCoroutine(ActFloatingText());
+        }
+        else
+        {
+            List<FloatingText> floatingTextQueue = new List<FloatingText>();
+            yield break;
+        }
+    }
+
+    public void FloatText(GameObject _parents, string _text)
+    {
+        var tmp = Instantiate(floatingTextPrefab, _parents.transform);
+        var tmpR = tmp.GetComponent<RectTransform>();
+        var tmpF = tmp.GetComponent<FloatingText>();
+        tmpR.localPosition = new Vector2(0, -150);
+
+        floatingTextQueue.Add(tmpF);
+
+        tmpF.SetText(_text, Color.white);
+        tmp.SetActive(false);
+
+        StartCoroutine(ActFloatingText());
+    }
 
 }
 
@@ -274,7 +310,11 @@ public class SkillUseSystem
         {
             var eft = i.Split(':');
 
-            if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2])) return;
+            if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2]))
+            {
+                BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "빗나감!");
+                return;
+            }
 
 
             var damage = float.Parse(eft[1]) + float.Parse(eft[1]) * _caster.stack[0];

@@ -85,16 +85,12 @@ public class Unit : MonoBehaviour
 
     public void ActSideEffect()
     {
-        print("4");
         ActDotDamage();
     }
     void ActDotDamage()
     {
-        print("5");
         foreach(int i in dotDamage)
         {
-            Debug.Log("dot call");
-            print(i);
             Takedamage(i);
         }
 
@@ -118,6 +114,8 @@ public class Unit : MonoBehaviour
         }
 
         currentHP -= remainDamage; // 체력 데미지
+
+        BattleSystem.instance.FloatText(battleHUD.gameObject, "-" + _damage);
 
         battleHUD.SetHP();
 

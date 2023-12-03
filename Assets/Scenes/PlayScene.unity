@@ -2873,6 +2873,7 @@ MonoBehaviour:
   - {fileID: 1845094423}
   - {fileID: 1815524800}
   - {fileID: 470387208}
+  floatingTextPrefab: {fileID: 8526075386054273482, guid: e83b4132df9cc07449f41c0168ae819f, type: 3}
   battleCardDeck: {fileID: 887681218}
   curDiceCount: 0
   state: 0
@@ -5272,13 +5273,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2696907830192574036, guid: 1ec61134926d6e14f9ba44f04e340265, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696907830192574036, guid: 1ec61134926d6e14f9ba44f04e340265, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8042227176611131043, guid: 1ec61134926d6e14f9ba44f04e340265, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.44
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8042227176611131043, guid: 1ec61134926d6e14f9ba44f04e340265, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8736674070150024214, guid: 1ec61134926d6e14f9ba44f04e340265, type: 3}
       propertyPath: m_Name
@@ -5286,7 +5295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8736674070150024214, guid: 1ec61134926d6e14f9ba44f04e340265, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ec61134926d6e14f9ba44f04e340265, type: 3}

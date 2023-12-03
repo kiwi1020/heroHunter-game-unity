@@ -4800,6 +4800,7 @@ MonoBehaviour:
   sliders:
   - {fileID: 1184770268}
   - {fileID: 1709348095}
+  AudioManager: {fileID: 0}
 --- !u!114 &2036710479
 MonoBehaviour:
   m_ObjectHideFlags: 0
