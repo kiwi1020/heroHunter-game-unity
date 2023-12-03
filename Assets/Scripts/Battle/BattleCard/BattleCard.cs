@@ -9,6 +9,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 {
     BattleCardData battleCardData;
     RectTransform rect;
+    BattleSystem system;
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
 
     public bool targeting = false;
@@ -80,7 +81,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     public void OnDrag(PointerEventData eventData)
     {
         BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
-        BattleSystem.instance.targeter.SetUseMode(true);
+            BattleSystem.instance.targeter.SetUseMode(true);
     }
 
     public void UseCard()
