@@ -15,7 +15,7 @@ public class MapSystem : MonoBehaviour
 
     public static int readyCount;
 
-    public TileEvent selectEvent, gainEvent, tileEffect_UI;
+    public TileEvent tileEffect_UI;
 
     public GameObject tilePrefab, playerPrefab;
     public GameObject cardHideButton;
@@ -50,7 +50,6 @@ public class MapSystem : MonoBehaviour
     Transform stpos;
     Transform endpos;
     Rigidbody playerRb;
-    Vector3 playerPosition;
     #endregion
 
     void Start()
@@ -105,7 +104,7 @@ public class MapSystem : MonoBehaviour
                 else
                 {
                     //타일 이벤트 확인할 때 사용(삭제 예정)
-                    var tileData = DataManager.instance.AllTileDatas["경비대"];
+                    var tileData = DataManager.instance.AllTileDatas["행운"];
                     PlayManager.instance.tileMapData.Add(tileData);
                     
                     /*

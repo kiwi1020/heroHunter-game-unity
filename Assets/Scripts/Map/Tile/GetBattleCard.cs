@@ -15,7 +15,7 @@ public class GetBattleCard : MonoBehaviour
     BattleCardData battleCardData;
 
     private int ClickCount;
-    private bool isSelect=false;
+    public  bool isSelect=false;
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -65,7 +65,6 @@ public class GetBattleCard : MonoBehaviour
 
             TileEvent.getbattleCardDatas.Add(DataManager.instance.AllBattleCardDatas[cardNameText.text]);
         }
-
     }
 
 }
