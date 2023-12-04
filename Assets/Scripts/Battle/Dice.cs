@@ -9,10 +9,23 @@ public class Dice : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     RectTransform rect;
     Image image;
+
+    [SerializeField] Sprite[] diceImages;
+
+    public int number = 0;
     private void Awake()
     {
-        image = GetComponent<Image>();
         rect = GetComponent<RectTransform>();
+    }
+
+    public void Set()
+    {
+        var r = Random.Range(0, 6);
+
+        image = GetComponent<Image>();
+
+        number = r;
+        image.sprite = diceImages[r];
     }
 
     public void Use()

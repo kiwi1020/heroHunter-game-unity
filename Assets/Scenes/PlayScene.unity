@@ -2412,6 +2412,7 @@ MonoBehaviour:
   - {fileID: 319440726}
   - {fileID: 188843295}
   - {fileID: 1670487483}
+  pocket: {fileID: 1890322966}
   curHandCardCount: 3
 --- !u!1001 &896644043
 PrefabInstance:
@@ -3580,6 +3581,10 @@ PrefabInstance:
     - target: {fileID: 3340531162320439896, guid: a2cb963ea08b9e74ea69091cb6764e47, type: 3}
       propertyPath: m_Name
       value: BattleCard (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3340531162320439896, guid: a2cb963ea08b9e74ea69091cb6764e47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3340531162320439903, guid: a2cb963ea08b9e74ea69091cb6764e47, type: 3}
       propertyPath: m_Pivot.x

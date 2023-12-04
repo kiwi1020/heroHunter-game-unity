@@ -15,6 +15,8 @@ public class BattleCardDeck : MonoBehaviour
     List<BattleCardData> instantBattleCardData = new List<BattleCardData>();
     List<BattleCard> curHands = new List<BattleCard>();
 
+    public Pocket pocket;
+
 
     public int curHandCardCount = 3; // 이거는 실시간으로 변경되는 손패 개수
 
@@ -23,8 +25,16 @@ public class BattleCardDeck : MonoBehaviour
         curHandCardCount = 3;
         SetHandCardData();
         SetHand(); //초기화할 손패 개수
+        SetDices();
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().UISfxPlay(1);
+    }
+    void SetDices()
+    {
+        foreach (RectTransform i in pocket.dices)
+        {
+            i.GetComponent<Dice>().Set();
+        }
     }
 
     public void SetBattleCardDeck()
