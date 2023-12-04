@@ -148,11 +148,11 @@ public class TileEvent : MonoBehaviour
         GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
 
         //버튼의 text 가져오기
-        string BtnText = ClickButton.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text;
+        string BtnText = ClickButton.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text;
 
         //버튼 클릭시 버튼의 색을 바꿈(UI바꾸면 삭제 예정)
         Image BtnImg = ClickButton.GetComponent<Image>();
-        BtnImg.color = Color.red;
+        BtnImg.color = Color.green;
 
         if (!isSpinning)
         {
@@ -164,20 +164,19 @@ public class TileEvent : MonoBehaviour
     {
         isSpinning = true;
 
-        float spinTime = 0.5f;
         float startTime = 0f;
         RectTransform MoveBarRect = MoveBar.GetComponent<RectTransform>();
         while(true)
         {
             string rantext = Random.Range(0, 2) == 0 ? "홀" : "짝";
-            MoveBarRect.DOAnchorPosY(94f, 0.3f);
+            MoveBarRect.DOAnchorPosY(94f, 0.2f);
             resultText.text = rantext;
             startTime += Time.deltaTime;
 
             print(startTime);
             if(startTime>=0.45f)
             {
-                MoveBarRect.DOAnchorPosY(0f, 0.3f);
+                MoveBarRect.DOAnchorPosY(0f, 0.2f);
                 print("종료");
                 yield return new WaitForSeconds(1f);
                 break;
