@@ -25,6 +25,11 @@ public class TileEvent : MonoBehaviour
     public static int SelectCardCount;
     private bool isSpinning = false;
 
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded; 
+    }
+
     public void SetEvent(MapTile _mapTile)
     {
         gameObject.SetActive(true);
@@ -63,17 +68,7 @@ public class TileEvent : MonoBehaviour
         for (int i = 0; i < _n; i++)
         {
             getBattleCards[i].gameObject.SetActive(true);
-            float xOffset;
-            if (_n == 2)
-            {
-                xOffset = i == 1 ? 200 : -200;
-            }
-            else if (_n == 3 && i > 0)
-            {
-                xOffset = i == 2 ? 310 : -310;
-            }
-            else { xOffset = 0; }
-
+            float xOffset = CalculateXOffset(_n, i);
             getBattleCards[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
 
             //배틀 카드 설정
@@ -81,8 +76,6 @@ public class TileEvent : MonoBehaviour
 
 
             string[] BattleCardNames = new string[] { "갈라치기", "뒤통수치기", "급소 찌르기","성급한 판단", "속사", "비열한 찌르기" };
-
-
             // 랜덤으로 BattleCardNames에서 카드 이름을 선택
             string randomName;
 
@@ -104,30 +97,14 @@ public class TileEvent : MonoBehaviour
         }
         Option.SetActive(true);
     }
-    public void EndEvent()
+    private float CalculateXOffset(int n, int i)
     {
-        if (getbattleCardDatas.Count > 0 && SelectCardCount <= mapTile.tileData.cardCount[0])
-        {
-            if (mapTile.tileData.GetOrDelete == "획득")
-            {
-                foreach(var card in getbattleCardDatas)
-                {
-                    PlayerData.playerBattleCardDeck.Add(card);
-                    print("추가");
-                }
-            }
-            else if (mapTile.tileData.GetOrDelete == "제거")
-            {
-                foreach (var card in getbattleCardDatas)
-                {
-                    PlayerData.playerBattleCardDeck.Remove(card);
-                    print("삭제");
-                }
-            }
-        }
-        resetTileEvent();
+        if (n == 2)
+            return i == 1 ? 200 : -200;
+        if (n == 3 && i > 0)
+            return i == 2 ? 310 : -310;
+        return 0;
     }
-
     public void TestofStone()
     {
         GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
@@ -137,9 +114,6 @@ public class TileEvent : MonoBehaviour
         {
             PlayManager.instance.curTile = DataManager.instance.AllTileDatas["무덤"]; //임시로 설정
             SceneManager.LoadScene("PlayScene");
-
-            SceneManager.sceneLoaded += OnSceneLoaded;
-
             Options.SetActive(false);
             PlayManager.instance.isStone = true;
         }
@@ -148,21 +122,6 @@ public class TileEvent : MonoBehaviour
             EndEvent();
         }
     }
-
-    public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        if(scene.name =="MoveScene" && PlayManager.instance.isStone) 
-        {
-            MapSystem.instance.tileEffect_UI.gameObject.SetActive(true);
-            SetGetBattleCard(mapTile.tileData.cardCount[1]);
-            PlayManager.instance.isStone=false;
-        }
-        else if(scene.name == "MoveScene" && !PlayManager.instance.isStone)
-        {
-            SetGetBattleCard(mapTile.tileData.cardCount[1]);
-        }
-    }
-
     
     //홀, 짝 게임
     public void OddEvenGames()
@@ -219,19 +178,48 @@ public class TileEvent : MonoBehaviour
         }
         
     }
-    
+    public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == "MoveScene" && PlayManager.instance.isStone)
+        {
+            MapSystem.instance.tileEffect_UI.gameObject.SetActive(true);
+            SetGetBattleCard(mapTile.tileData.cardCount[1]);
+            PlayManager.instance.isStone = false;
+        }
+        else if (scene.name == "MoveScene" && !PlayManager.instance.isStone)
+        {
+            SetGetBattleCard(mapTile.tileData.cardCount[1]);
+        }
+    }
+
+    public void EndEvent()
+    {
+        if (getbattleCardDatas.Count > 0 && SelectCardCount <= mapTile.tileData.cardCount[0])
+        {
+            foreach (var card in getbattleCardDatas)
+            {
+                if (mapTile.tileData.GetOrDelete == "획득")
+                    PlayerData.playerBattleCardDeck.Add(card);
+                else if (mapTile.tileData.GetOrDelete == "제거")
+                    PlayerData.playerBattleCardDeck.Remove(card);
+            }
+        }
+        resetTileEvent();
+    }
+
     public void resetTileEvent()
     {
         gameObject.SetActive(false);
         Option.SetActive(false);
         getbattleCardDatas.Clear();
-        foreach(var card in getBattleCards)
+        foreach (var card in getBattleCards)
         {
             card.gameObject.GetComponent<Outline>().enabled = false;
+            card.transform.transform.localScale = new Vector3(1, 1, 1);
+            card.isSelect = false;
             card.gameObject.SetActive(false);
 
         }
         MapSystem.instance.moveCardDraw = true;
-
     }
 }
