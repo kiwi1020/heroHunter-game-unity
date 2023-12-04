@@ -18,11 +18,11 @@ public class StartSceneButton : MonoBehaviour
         AudioManager.GetComponent<SoundManager>().UISfxPlay(0);
     }
 
-    public void ActSettingButton()
-    {
-        AudioManager = GameObject.Find("AudioManager");
-        AudioManager.GetComponent<SoundManager>().UISfxPlay(0);
-    }
+    //public void ActSettingButton()
+    //{
+        //AudioManager = GameObject.Find("AudioManager");
+        //AudioManager.GetComponent<SoundManager>().UISfxPlay(0);
+    //}
 
     public void ActEndButton()
     {

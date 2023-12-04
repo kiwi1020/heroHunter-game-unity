@@ -739,6 +739,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardNameText: {fileID: 3340531163405781579}
   cardDesText: {fileID: 3340531162176538475}
+  illust: {fileID: 3340531163693311205}
+  targeting: 0
 --- !u!114 &4556591690222009910
 MonoBehaviour:
   m_ObjectHideFlags: 0

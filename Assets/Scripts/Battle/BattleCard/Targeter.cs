@@ -8,16 +8,10 @@ public class Targeter : MonoBehaviour
     public bool useMode = false, isTargeting = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(useMode) print("충돌");
-
-
-        if(collision.gameObject.name.Contains("EnemyMan"))
+        if (collision.gameObject.name.Contains("EnemyMan"))
         {
-            print("거기야!!");
-            print(isTargeting);
             isTargeting = true;
-
-            print(isTargeting + "  !");
+            BattleSystem.instance.playerSkillTarget = collision.GetComponent<Unit>();
         }
     }
 
@@ -25,11 +19,8 @@ public class Targeter : MonoBehaviour
     {
         if (collision.gameObject.name.Contains("EnemyMan"))
         {
-            print("나감");
-            print(isTargeting);
             isTargeting = false;
-
-            print(isTargeting+"  !");
+            BattleSystem.instance.playerSkillTarget = null;
         }
     }
 

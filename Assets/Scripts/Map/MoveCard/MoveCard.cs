@@ -21,9 +21,12 @@ public class MoveCard : MonoBehaviour
     {
         moveCardData = DataManager.instance.AllMoveCardDatas[cardName];
 
+        illust.sprite = DataManager.instance.AlllMoveCardIllusts.Find(x => x.name == moveCardData.name).sprite;
+
         nameText.text = moveCardData.name;
 
         desText.text = "";
+
         foreach (string i in moveCardData.effects)
         {
             desText.text += i;
@@ -43,12 +46,6 @@ public class MoveCard : MonoBehaviour
         
         CardsHand = transform.parent.gameObject; 
 
-        //카드 클릭 시 이동카드 안 보이게
-        for (int i = 0; i <= CardsHand.transform.childCount - 1; i++)
-        {
-            CardsHand.transform.GetChild(i).gameObject.SetActive(false);
-        }
-     
     }
 
     public void MoveEffect()

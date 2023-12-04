@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class MapTile : MonoBehaviour
@@ -11,8 +12,6 @@ public class MapTile : MonoBehaviour
 
     public TextMeshPro tileName; //타일이름 Text
     public Button startButton; //배틀시작 버튼
-
-    public List<GameObject> GetBattleCard;
 
     //타일이름 설정, 이름은 정한 후 수정
     public void SetTile(TileData _tileData)
@@ -31,26 +30,21 @@ public class MapTile : MonoBehaviour
     public void TileEffect()
     {     
         PlayManager.instance.curTile = tileData;
+
         switch (tileData.type)
         {
             case "전투":
                 OnBattleStartButton();
                 break;
-
             case "선택":
-                MapSystem.instance.selectEvent.SetEvent(this);
+                MapSystem.instance.tileEffect_UI.SetEvent(this);               
                 break;
-
             case "함정":
-                MapSystem.instance.gainEvent.SetEvent(this);
+                MapSystem.instance.tileEffect_UI.SetEvent(this);               
                 break;
 
-            case "보상":
-                MapSystem.instance.gainEvent.SetEvent(this);                
-                foreach(GameObject i in GetBattleCard)
-                {
-                    i.SetActive(true);
-                }
+            case "보상":              
+                MapSystem.instance.tileEffect_UI.SetEvent(this);                
                 break;
 
             default:               
@@ -68,4 +62,6 @@ public class MapTile : MonoBehaviour
 
         SceneManager.LoadScene("PlayScene"); // 임시로 바로 시작
     }
+
+
 }

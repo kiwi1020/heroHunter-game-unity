@@ -11,6 +11,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     RectTransform rect;
     BattleSystem system;
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
+    [SerializeField] Image illust;
 
     public bool targeting = false;
 
@@ -19,13 +20,20 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         rect = GetComponent<RectTransform>();
     }
 
+    #region Setting
+
     public void SetCard(BattleCardData _battleCardData)
     {
         battleCardData = _battleCardData;
+        illust.sprite = DataManager.instance.AlllBattleCardIllusts.Find(x => x.name == battleCardData.name).sprite;
         cardNameText.text = _battleCardData.name;
         cardNameText.color = Color.white;
         cardDesText.text = _battleCardData.skillData.effects[0];
     }
+
+    #endregion
+
+    #region Interect
 
     public void Zoom(bool _zoom) // true면 확대, 카드 Eventtrigger 컴포넌트에서 사용, 마우스가 닿으면 확대, 떨어지면 축소
     {
@@ -44,12 +52,10 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         Zoom(false);
         BattleSystem.instance.targeter.SetUseMode(false);
     }
-
-    public void EnforceCard()
+    public void OnDrag(PointerEventData eventData)
     {
-        cardNameText.text = "*"+ cardNameText.text;
-        cardNameText.color = Color.red;
-        cardDesText.text = "*물리피해 20";
+        BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
+        BattleSystem.instance.targeter.SetUseMode(true);
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -64,31 +70,37 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
             //1. 구역 내에서 / 2. 대상 위에서만
             if (BattleSystem.instance.targeter.isTargeting)
             {
-                print(BattleSystem.instance.targeter.isTargeting);
                 UseCard();
             }
             GameObject AudioManager = GameObject.Find("AudioManager");
             AudioManager.GetComponent<SoundManager>().UISfxPlay(5);
         }
     }
-
     public Vector3 ReturnWorldPoint()
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return pos;
     }
+    #endregion
 
-    public void OnDrag(PointerEventData eventData)
+    public void EnforceCard()
     {
+<<<<<<< HEAD
         BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
             BattleSystem.instance.targeter.SetUseMode(true);
+=======
+        cardNameText.text = "*"+ cardNameText.text;
+        cardNameText.color = Color.red;
+        cardDesText.text = "*물리피해 20";
+>>>>>>> 82bd68dda9f1c3535980f30f0026e6e553cc07eb
     }
-
     public void UseCard()
     {
+        rect.DOScale(new Vector3(1f, 1f, 1f), 0f);
         BattleSystem.instance.battleCardDeck.UseCard(this);
         BattleSystem.instance.UseBattleCard(battleCardData);
         gameObject.SetActive(false);
     }
+
 
 }

@@ -15,14 +15,15 @@ public class MapSystem : MonoBehaviour
 
     public static int readyCount;
 
-    public TileEvent selectEvent, gainEvent;
+    public TileEvent selectEvent, gainEvent, tileEffect_UI;
 
-    public GameObject tilePrefab;
-    public GameObject playerPrefab;
+    public GameObject tilePrefab, playerPrefab;
+    public GameObject cardHideButton;
 
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
+
 
     public List<MapTile> tileMap = new List<MapTile>();
    
@@ -78,8 +79,8 @@ public class MapSystem : MonoBehaviour
         //수정(시작,보스, 조건)
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
-            string previousTileType;
-            int BattleCount = 0;
+            //string previousTileType;
+            //int BattleCount = 0; 
 
 
             for(int i = 0; i< tileMap.Count; i++)
@@ -88,7 +89,7 @@ public class MapSystem : MonoBehaviour
                 //처음: 시작, 끝: 보스 타일로 고정
                 if (i == 0)
                 {
-                    var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList[0]];
+                    var tileData = DataManager.instance.AllTileDatas["시작"];
                     PlayManager.instance.tileMapData.Add(tileData);
                 }
                 else if (i == tileMap.Count - 1)
@@ -103,13 +104,15 @@ public class MapSystem : MonoBehaviour
                 //음..
                 else
                 {
+                    //타일 이벤트 확인할 때 사용(삭제 예정)
+                    var tileData = DataManager.instance.AllTileDatas["경비대"];
+                    PlayManager.instance.tileMapData.Add(tileData);
+                    
+                    /*
                     previousTileType = PlayManager.instance.tileMapData[i-1].type;
                     do
                     {
-                        /*
-                        var tileData = DataManager.instance.AllTileDatas[DataManager.instance.AllTileList
-                        [Random.Range(2, DataManager.instance.AllTileList.Count)]];
-                        */
+                       
                         var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
                         string currentTileType = tileData.type;
                        
@@ -133,7 +136,8 @@ public class MapSystem : MonoBehaviour
                             break;
                         }
                     }
-                    while (true);                                      
+                    while (true);  
+                    */
                 }
 
             }
@@ -180,6 +184,8 @@ public class MapSystem : MonoBehaviour
 
     public void ActMoveCardEffect(string[] _eft, MoveCard _moveCard)
     {
+        cardHideButton.SetActive(false);
+
         switch (_eft[0])
         {
             case "이동":
@@ -300,7 +306,7 @@ public class MapSystem : MonoBehaviour
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
+        playerRb.DOPath(JumpPath, 1f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
 
     void PlayerMoveBack(int _stack, MoveCard _moveCard)
@@ -316,12 +322,11 @@ public class MapSystem : MonoBehaviour
         Vector3[] JumpPath ={new Vector3(stpos.position.x,stpos.position.y,stpos.position.z),
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
-        playerRb.DOPath(JumpPath, 2f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
+        playerRb.DOPath(JumpPath, 1f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
 
     public void EndCardEffect()
     {
-        
         tileMap[curTileNum].TileEffect();     
     }
 

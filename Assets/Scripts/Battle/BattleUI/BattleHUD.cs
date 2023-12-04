@@ -8,7 +8,7 @@ public class BattleHUD : MonoBehaviour
 {
 
     //public Text nameText;
-    public Slider hpSlider;
+    public Slider hpSlider, shieldSlider;
     public TextMeshProUGUI hpText;
 
     Unit unit;
@@ -20,12 +20,21 @@ public class BattleHUD : MonoBehaviour
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
 
+        shieldSlider.maxValue = unit.shield;
+        shieldSlider.value = unit.shield;
+
         SetHP();
     }
 
     public void SetHP()
     {
+        if (unit.shield > unit.maxHP) shieldSlider.maxValue = unit.maxHP;
+
         hpSlider.value = unit.currentHP;
-        hpText.text = $"{unit.maxHP}/{unit.currentHP}" ;
+
+        shieldSlider.value = unit.shield;
+
+        hpText.text = $"{unit.currentHP}/{unit.maxHP} [{unit.shield}]";
     }
+
 }

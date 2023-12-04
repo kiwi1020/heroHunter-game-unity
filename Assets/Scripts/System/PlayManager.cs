@@ -23,7 +23,8 @@ public class PlayManager : MonoBehaviour
 
     public List<TileData> tileMapData = new List<TileData>();
 
-    
+    public bool isStone=false;
+
     void Awake()
     {
         if (instance == null)

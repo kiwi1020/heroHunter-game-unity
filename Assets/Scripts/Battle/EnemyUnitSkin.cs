@@ -11,13 +11,7 @@ public class EnemyUnitSkin : MonoBehaviour
     {
         resolvers = GetComponentsInChildren<SpriteResolver>(); 
     }
-
-    void Start()
-    {
-        ChangeSkin(DataManager.instance.AllEnemySnAs["술취한 경비대원"].skinNames);
-    }
-
-    void ChangeSkin(List<string> _skinNames)
+    public void ChangeSkin(List<string> _skinNames)
     {
         foreach(SpriteResolver i in resolvers)
         {
