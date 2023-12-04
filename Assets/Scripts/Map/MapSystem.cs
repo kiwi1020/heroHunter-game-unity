@@ -5,12 +5,12 @@ using DG.Tweening;
 using UnityEngine.UIElements;
 using System.Linq;
 
+
 public class MapSystem : MonoBehaviour
 {
     public static MapSystem instance;
 
     public bool moveCardDraw;
-    public bool allowHealing = true;
     public bool allowEffect = true;
 
     public static int readyCount;
@@ -96,15 +96,11 @@ public class MapSystem : MonoBehaviour
                     var tileData = DataManager.instance.AllTileDatas["보스"];
                     PlayManager.instance.tileMapData.Add(tileData);
                 }
-                //동일한 유형(타입)의 연속 타일 방지(완료)
-                //->
-                //전투는 연속 타일 가능(3번까지만, 완료)
-                //->
-                //음..
+
                 else
                 {
                     //타일 이벤트 확인할 때 사용(삭제 예정)
-                    var tileData = DataManager.instance.AllTileDatas["행운"];
+                    var tileData = DataManager.instance.AllTileDatas["도박장"];
                     PlayManager.instance.tileMapData.Add(tileData);
                     
                     /*
@@ -226,16 +222,6 @@ public class MapSystem : MonoBehaviour
                 }
                 
                 break;
-
-            case "회복":              
-                if (PlayerData.currentHP < 100 && allowHealing)
-                {
-                    PlayerData.currentHP += 10;
-                    _moveCard.MoveEffect();                
-                }
-                moveCardDraw = true;
-                break;
-
             // 수정 필요함
             case "준비":
                 readyCount = int.Parse(_eft[1]);
@@ -263,9 +249,6 @@ public class MapSystem : MonoBehaviour
                 }
                 break;
 
-            case "제약":
-                allowHealing = false;            
-                break;
             default:
                 break;
         }

@@ -14,8 +14,9 @@ public class GetBattleCard : MonoBehaviour
     RectTransform rect;
     BattleCardData battleCardData;
 
-    private int ClickCount;
+    public int ClickCount;
     public  bool isSelect=false;
+
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
@@ -47,8 +48,6 @@ public class GetBattleCard : MonoBehaviour
     public void SelectCard()
     {
         ClickCount++;
-
-        print(ClickCount);
         if(ClickCount % 2 == 0)
         {
             isSelect = false;
