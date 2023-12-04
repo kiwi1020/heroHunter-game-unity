@@ -100,7 +100,7 @@ public class MapSystem : MonoBehaviour
                 else
                 {
                     //타일 이벤트 확인할 때 사용(삭제 예정)
-                    var tileData = DataManager.instance.AllTileDatas["도박장"];
+                    var tileData = DataManager.instance.AllTileDatas["경비대"];
                     PlayManager.instance.tileMapData.Add(tileData);
                     
                     /*

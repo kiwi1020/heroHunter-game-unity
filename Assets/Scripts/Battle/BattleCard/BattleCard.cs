@@ -13,7 +13,11 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
     [SerializeField] Image illust;
 
+    DiceConditioner diceConditioner;
+
     public bool targeting = false;
+
+    public bool[] diceCondition = new bool[3];
 
     private void Awake()
     {
@@ -29,6 +33,12 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         cardNameText.text = _battleCardData.name;
         cardNameText.color = Color.white;
         cardDesText.text = _battleCardData.skillData.effects[0];
+
+        //
+
+        diceConditioner = GetComponent<DiceConditioner>();
+
+        diceConditioner.SetDiceCondition(battleCardData.diceCondition);
     }
 
     #endregion
@@ -62,8 +72,14 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         if (eventData.pointerDrag == null) return;
         if (eventData.pointerDrag.GetComponent<Dice>() != null)
         {
-            eventData.pointerDrag.GetComponent<Dice>().Use();
-            EnforceCard();
+            var tmpDice = eventData.pointerDrag.GetComponent<Dice>();
+
+            if (ConditionCheck(tmpDice.number))
+            {
+                eventData.pointerDrag.GetComponent<Dice>().Use();
+                EnforceCard();
+            }
+
         }
         if (eventData.pointerDrag.GetComponent<BattleCard>() != null)
         {
@@ -75,6 +91,71 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
             GameObject AudioManager = GameObject.Find("AudioManager");
             AudioManager.GetComponent<SoundManager>().UISfxPlay(5);
         }
+    }
+
+    bool ConditionCheck(int _number)
+    {
+        var c = battleCardData.diceCondition.Split(':');
+
+        switch (c[0])
+        {
+            case "지정":
+
+                _number += 1;
+
+                var dc = c[1].Split(',');
+                if (dc.Length == 1)
+                {
+                    if (c[1] == "짝수")
+                    {
+                        if (_number == 2 || _number == 4 || _number == 6) return true;
+                    }
+                    else if (c[1] == "홀수")
+                    {
+                        if (_number == 1 || _number == 3 || _number == 5) return true;
+                    }
+                    else if (c[1] == "전체")
+                    {
+                        return true;
+                    }
+                    else if (int.Parse(c[1]) == _number)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+                else
+                {
+                    //여러개는 나중에
+                }
+
+                break;
+            case "범위":
+
+                _number += 1;
+                dc = c[1].Split('~');
+                if (int.Parse(dc[0])  <= _number && int.Parse(dc[1])  >= _number) return true;
+                else return false;
+
+            case "이상":
+
+                _number += 1;
+                if (_number >= int.Parse(c[1])) return true;
+                else return false;
+
+
+            case "이하":
+
+                _number += 1;
+                if (_number <= int.Parse(c[1])) return true;
+                else return false;
+        }
+
+        return true;
     }
     public Vector3 ReturnWorldPoint()
     {

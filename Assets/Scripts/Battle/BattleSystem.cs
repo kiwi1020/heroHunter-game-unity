@@ -105,6 +105,7 @@ public class BattleSystem : MonoBehaviour
 
     #region PlayerTurn
 
+
     void PlayerTurn()
     {
         curDiceCount = PlayerData.diceCount;
@@ -277,7 +278,7 @@ public class BattleSystem : MonoBehaviour
         }
         else
         {
-            List<FloatingText> floatingTextQueue = new List<FloatingText>();
+            floatingTextQueue = new List<FloatingText>();
             yield break;
         }
     }

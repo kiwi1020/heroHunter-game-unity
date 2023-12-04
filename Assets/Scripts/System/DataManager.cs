@@ -29,14 +29,14 @@ public class SkillData
 }
 public class BattleCardData
 {
-    public string name, cost, targetingMode;
+    public string name, diceCondition, targetingMode;
     public SkillData skillData;
 
-    public BattleCardData(string _name, SkillData _skillData, string _cost, string _targetingMode)
+    public BattleCardData(string _name, SkillData _skillData, string _diceCondition, string _targetingMode)
     {
         name = _name;
         skillData = _skillData;
-        cost = _cost;
+        diceCondition = _diceCondition;
         targetingMode = _targetingMode;
     }
 }

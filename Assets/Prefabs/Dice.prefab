@@ -72,6 +72,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc322e367483072469ce60a6e91dc7d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diceImages:
+  - {fileID: -5874425965812604690, guid: 974a1d6a42fb3804791fc05b9f987e02, type: 3}
+  - {fileID: 8757992042290757654, guid: 974a1d6a42fb3804791fc05b9f987e02, type: 3}
+  - {fileID: -8003505906709821054, guid: 974a1d6a42fb3804791fc05b9f987e02, type: 3}
+  - {fileID: 1053269462090784158, guid: 974a1d6a42fb3804791fc05b9f987e02, type: 3}
+  - {fileID: 4483073354970127783, guid: 974a1d6a42fb3804791fc05b9f987e02, type: 3}
+  - {fileID: 513340144319859768, guid: 974a1d6a42fb3804791fc05b9f987e02, type: 3}
+  number: 0
 --- !u!114 &6640401279063642310
 MonoBehaviour:
   m_ObjectHideFlags: 0
