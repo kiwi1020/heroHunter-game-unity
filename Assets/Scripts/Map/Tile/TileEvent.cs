@@ -126,7 +126,7 @@ public class TileEvent : MonoBehaviour
     public void TestofStone()
     {
         GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
-        string BtnText = ClickButton.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text;
+        string BtnText = ClickButton.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text;
 
         if(BtnText == "도전")
         {
@@ -148,7 +148,7 @@ public class TileEvent : MonoBehaviour
         GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
 
         //버튼의 text 가져오기
-        string BtnText = ClickButton.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text;
+        string BtnText = ClickButton.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text;
 
         //버튼 클릭시 버튼의 색을 바꿈(UI바꾸면 삭제 예정)
         Image BtnImg = ClickButton.GetComponent<Image>();
