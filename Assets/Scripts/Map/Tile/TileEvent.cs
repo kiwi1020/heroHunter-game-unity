@@ -4,9 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.Tilemaps;
-using TreeEditor;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 
 public class TileEvent : MonoBehaviour
@@ -18,6 +17,7 @@ public class TileEvent : MonoBehaviour
     [SerializeField] GameObject OddEvenGame;
     [SerializeField] GameObject Options;
     [SerializeField] GameObject Option;
+    [SerializeField] GameObject MoveBar;
 
     public List<GetBattleCard> getBattleCards;
     public static List<BattleCardData> getbattleCardDatas = new List<BattleCardData>();
@@ -37,7 +37,23 @@ public class TileEvent : MonoBehaviour
         mapTile = _mapTile;
 
         SetEventUI(mapTile);
+        resetTileEvent();
     }
+    public void resetTileEvent()
+    {
+        getbattleCardDatas.Clear();
+        resultText.color = Color.black;
+        foreach (var card in getBattleCards)
+        {
+            card.gameObject.GetComponent<Outline>().enabled = false;
+            card.transform.transform.localScale = new Vector3(1, 1, 1);
+            card.isSelect = false;
+            card.ClickCount = 0;
+            card.gameObject.SetActive(false);
+        }
+        MapSystem.instance.moveCardDraw = true;
+    }
+
     public void SetEventUI(MapTile _mapTile)
     {
         UIText[0].text = _mapTile.tileData.title;
@@ -97,6 +113,7 @@ public class TileEvent : MonoBehaviour
         }
         Option.SetActive(true);
     }
+
     private float CalculateXOffset(int n, int i)
     {
         if (n == 2)
@@ -105,6 +122,7 @@ public class TileEvent : MonoBehaviour
             return i == 2 ? 310 : -310;
         return 0;
     }
+
     public void TestofStone()
     {
         GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
@@ -138,23 +156,35 @@ public class TileEvent : MonoBehaviour
 
         if (!isSpinning)
         {
-            StartCoroutine(SpinResult(BtnText));
+            StartCoroutine(SpinResult(BtnText,ClickButton));
         }
     }
 
-    private IEnumerator SpinResult(string expectedResult)
+    private IEnumerator SpinResult(string expectedResult, GameObject _clickBtn)
     {
         isSpinning = true;
 
-        float spinTime = 1.5f;
+        float spinTime = 0.5f;
         float startTime = 0f;
-
-        while (startTime < spinTime)
+        RectTransform MoveBarRect = MoveBar.GetComponent<RectTransform>();
+        while(true)
         {
-            MapSystem.instance.tileEffect_UI.resultText.text = Random.Range(0, 2) == 0 ? "È¦" : "Â¦";
-
+            string rantext = Random.Range(0, 2) == 0 ? "È¦" : "Â¦";
+            MoveBarRect.DOAnchorPosY(94f, 0.3f);
+            resultText.text = rantext;
             startTime += Time.deltaTime;
-            yield return new WaitForSeconds(0.05f); // 1¹ø ¹Ù²ð ¶§¸¶´Ù ¼Óµµ Á¶Àý(¼öÁ¤ ¿¹Á¤)
+
+            print(startTime);
+            if(startTime>=0.45f)
+            {
+                MoveBarRect.DOAnchorPosY(0f, 0.3f);
+                print("Á¾·á");
+                yield return new WaitForSeconds(1f);
+                break;
+            }
+            yield return new WaitForSeconds(0.3f);
+
+            MoveBar.transform.localPosition = new Vector3(0, -98f, 0);
         }
 
         // °á°ú°¡ °áÁ¤µÊ
@@ -166,12 +196,14 @@ public class TileEvent : MonoBehaviour
         if (MapSystem.instance.tileEffect_UI.resultText.text == expectedResult)
         {
             UIText[1].text = "½Â¸®";
+            _clickBtn.GetComponent<Image>().color = Color.white;
             OddEvenGame.SetActive(false);
             SetGetBattleCard(mapTile.tileData.cardCount[1]);
         }
         else
         {
             UIText[1].text = "ÆÐ¹è";
+            _clickBtn.GetComponent<Image>().color = Color.white;
             OddEvenGame.SetActive(false);
             mapTile.tileData.GetOrDelete = "Á¦°Å";
             SetGetBattleCard(1);
@@ -204,22 +236,8 @@ public class TileEvent : MonoBehaviour
                     PlayerData.playerBattleCardDeck.Remove(card);
             }
         }
-        resetTileEvent();
-    }
-
-    public void resetTileEvent()
-    {
         gameObject.SetActive(false);
         Option.SetActive(false);
-        getbattleCardDatas.Clear();
-        foreach (var card in getBattleCards)
-        {
-            card.gameObject.GetComponent<Outline>().enabled = false;
-            card.transform.transform.localScale = new Vector3(1, 1, 1);
-            card.isSelect = false;
-            card.gameObject.SetActive(false);
-
-        }
-        MapSystem.instance.moveCardDraw = true;
     }
+
 }

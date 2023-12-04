@@ -12,7 +12,6 @@ public class MoveCardDeck : MonoBehaviour
     [SerializeField] MoveCardData movecardData;
 
     string[] commonNames;
-
     bool isCardPositionSet = false;
 
     public void SetHand()
@@ -89,16 +88,9 @@ public class MoveCardDeck : MonoBehaviour
     // 이동 카드 조건
     public string CardPer()
     {
-        
-        if (MapSystem.instance.allowHealing == true)
-        {
-            commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "휴식", "추격", "조심스러운 발걸음"};
-        }
-        else
-        { 
-            commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "추격", "조심스러운 발걸음"};
-            MapSystem.instance.allowEffect = true;
-        }
+
+        commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "휴식", "추격", "조심스러운 발걸음" };
+        MapSystem.instance.allowEffect = true;      
 
         if (MapSystem.curTileNum >= 3) // 이동 -3 가능
         {
