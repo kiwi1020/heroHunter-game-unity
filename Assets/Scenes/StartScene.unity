@@ -4783,6 +4783,7 @@ MonoBehaviour:
   OddEvenGame: {fileID: 0}
   Options: {fileID: 0}
   Option: {fileID: 0}
+  MoveBar: {fileID: 0}
   getBattleCards: []
 --- !u!114 &2036710478
 MonoBehaviour:
