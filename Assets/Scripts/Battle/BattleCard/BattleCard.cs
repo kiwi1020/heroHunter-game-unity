@@ -85,14 +85,9 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
     public void EnforceCard()
     {
-<<<<<<< HEAD
-        BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
-            BattleSystem.instance.targeter.SetUseMode(true);
-=======
         cardNameText.text = "*"+ cardNameText.text;
         cardNameText.color = Color.red;
         cardDesText.text = "*물리피해 20";
->>>>>>> 82bd68dda9f1c3535980f30f0026e6e553cc07eb
     }
     public void UseCard()
     {
