@@ -217,7 +217,7 @@ public class DataManager : MonoBehaviour
             line[i] = line[i].Trim();
             string[] e = line[i].Split('\t');
 
-            var skillData = new SkillData(e[0],e[1].Split(','), e[1].Split(','));
+            var skillData = new SkillData(e[0],e[1].Split(','), e[2].Split(','));
             AllSkillDatas.Add(e[0], skillData);
             AllSkillList.Add(e[0]);
 

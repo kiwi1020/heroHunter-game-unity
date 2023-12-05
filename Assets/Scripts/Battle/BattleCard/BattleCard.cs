@@ -5,6 +5,18 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using TMPro;
+
+public class BattleCardDataAndTarget
+{
+    public BattleCardData battleCardData;
+    public Unit target;
+    public BattleCardDataAndTarget(BattleCardData _battleCardData, Unit _target)
+    {
+        battleCardData = _battleCardData;
+        target = _target;
+    }
+}
+
 public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHandler
 {
     BattleCardData battleCardData;
@@ -32,7 +44,17 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         illust.sprite = DataManager.instance.AlllBattleCardIllusts.Find(x => x.name == battleCardData.name).sprite;
         cardNameText.text = _battleCardData.name;
         cardNameText.color = Color.white;
-        cardDesText.text = _battleCardData.skillData.effects[0];
+
+        cardDesText.text = "";
+
+        for (int i = 0; i< _battleCardData.skillData.effects.Count; i++)
+        {
+            var des = _battleCardData.skillData.effects[i].Split(':');
+            if (des.Length > 2) cardDesText.text += float.Parse(des[2])*100 + "% ";
+
+            cardDesText.text += des[0] + " " + des[1] + "\n";
+
+        }
 
         //
 
@@ -72,6 +94,8 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         if (eventData.pointerDrag == null) return;
         if (eventData.pointerDrag.GetComponent<Dice>() != null)
         {
+            if (battleCardData.skillData.enforcedEffects[0] == "없음") return;
+
             var tmpDice = eventData.pointerDrag.GetComponent<Dice>();
 
             if (ConditionCheck(tmpDice.number))
@@ -84,7 +108,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         if (eventData.pointerDrag.GetComponent<BattleCard>() != null)
         {
             //1. 구역 내에서 / 2. 대상 위에서만
-            if (BattleSystem.instance.targeter.isTargeting)
+            if (BattleSystem.instance.targeter.isTargeting && BattleSystem.instance.playerSkillTarget != null)
             {
                 UseCard();
             }
@@ -166,15 +190,26 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
     public void EnforceCard()
     {
-        cardNameText.text = "*"+ cardNameText.text;
+        cardNameText.text = '*'+battleCardData.name;
         cardNameText.color = Color.red;
-        cardDesText.text = "*물리피해 20";
+
+        cardDesText.text = "";
+
+        for (int i = 0; i < battleCardData.skillData.enforcedEffects.Count; i++)
+        {
+            print(battleCardData.skillData.enforcedEffects[i]);
+            var des = battleCardData.skillData.enforcedEffects[i].Split(':');
+            if (des.Length > 2) cardDesText.text += float.Parse(des[2]) * 100 + "% ";
+
+            cardDesText.text += des[0] + " " + des[1] + "\n";
+
+        }
     }
     public void UseCard()
     {
         rect.DOScale(new Vector3(1f, 1f, 1f), 0f);
         BattleSystem.instance.battleCardDeck.UseCard(this);
-        BattleSystem.instance.UseBattleCard(battleCardData);
+        BattleSystem.instance.UseBattleCard(new BattleCardDataAndTarget( battleCardData, BattleSystem.instance.playerSkillTarget));
         gameObject.SetActive(false);
     }
 

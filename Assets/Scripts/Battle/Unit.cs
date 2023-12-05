@@ -101,6 +101,8 @@ public class Unit : MonoBehaviour
     }
     public void Takedamage(int _damage, bool _p = false)
     {
+        if(_damage <= 0) return;
+
         int remainDamage = 0;
 
         if (shield > 0 && _p == false)
@@ -114,6 +116,14 @@ public class Unit : MonoBehaviour
         }
 
         currentHP -= remainDamage; // 체력 데미지
+
+        //이건 적 전용 피격 애니메이션
+        if(BattleSystem.instance.units[0] != this)
+        {
+            animator.SetInteger("type", 2);
+            animator.SetInteger("job", 0);
+            animator.SetTrigger("change");
+        }
 
         BattleSystem.instance.FloatText(battleHUD.gameObject, "-" + _damage);
 

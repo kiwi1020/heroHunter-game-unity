@@ -14,7 +14,6 @@ public class DiceConditioner : MonoBehaviour
     
     public void SetDiceCondition(string _condition)
     {
-        print(_condition);
         var c = _condition.Split(':');
 
         UpDownUI[0].gameObject.SetActive(false);
@@ -26,9 +25,8 @@ public class DiceConditioner : MonoBehaviour
         {
             case "ÁöÁ¤":
 
-
                 var dc = c[1].Split(',');
-                print(dc.Length);
+
                 if(dc.Length == 1)
                 {
                     TargetCostUI[0].gameObject.SetActive(true);
@@ -49,7 +47,6 @@ public class DiceConditioner : MonoBehaviour
                     {
                         TargetCostUI[0].sprite = diceImages[int.Parse(dc[0]) - 1];
                     }
-
                 }
                 else
                 {
@@ -70,9 +67,7 @@ public class DiceConditioner : MonoBehaviour
                 RangeCostUI[0].gameObject.SetActive(true);
 
                 dc = c[1].Split('~');
-                print(int.Parse(dc[0]) - 1);
 
-                print(int.Parse(dc[1]) - 1);
                 RangeCostUI[0].sprite = diceImages[int.Parse(dc[0]) - 1];
                 RangeCostUI[1].sprite = diceImages[int.Parse(dc[1]) - 1];
 

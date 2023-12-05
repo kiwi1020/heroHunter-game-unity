@@ -27,7 +27,7 @@ public class BattleSystem : MonoBehaviour
     public playerSkill skill;
     public BattleCard battlecard;
 
-    public List<BattleCardData> usedBattleCardQueue = new List<BattleCardData>(); // 사용 대기중인 배틀 카드
+    public List<BattleCardDataAndTarget> usedBattleCardQueue = new List<BattleCardDataAndTarget>(); // 사용 대기중인 배틀 카드
 
     bool cardActing = false;
     bool floating = false;
@@ -115,9 +115,9 @@ public class BattleSystem : MonoBehaviour
         battleCardDeck.SetPlayerTurn();
     }
 
-    public void UseBattleCard(BattleCardData _battleCardData)
+    public void UseBattleCard(BattleCardDataAndTarget _battleCardDataAndTarget)
     {
-        usedBattleCardQueue.Add(_battleCardData); //사용한 카드 스킬 대기열에 올림
+        usedBattleCardQueue.Add(_battleCardDataAndTarget); //사용한 카드 스킬 대기열에 올림
 
         ActBattleCardSkill();
     }
@@ -141,11 +141,8 @@ public class BattleSystem : MonoBehaviour
 
     public void EffectBattleCard()
     {
-        units[1].animator.SetInteger("type", 2);
-        units[1].animator.SetInteger("job", 0);
-        units[1].animator.SetTrigger("change");
 
-        SkillUseSystem.Divide_Target(playerSkillTarget, units[0], usedBattleCardQueue[0].skillData);
+        SkillUseSystem.Divide_Target(usedBattleCardQueue[0].target, units[0], usedBattleCardQueue[0].battleCardData.skillData);
 
         /*
                 bool isDead = units[1].Takedamage(units[0].damage);
@@ -170,7 +167,11 @@ public class BattleSystem : MonoBehaviour
         //모든 카드를 썻으면 자동으로 적 턴
 
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
+        
         ActEnemySideEffect();
+
+        if(battleCardDeck.pocket.isOpen) battleCardDeck.pocket.PocketClick();
+
         EnemyTurn();
         state = BattleState.ENEMYTURN;
     }
@@ -243,13 +244,6 @@ public class BattleSystem : MonoBehaviour
 
     #region TEST
 
-    public void OnAttackButton()
-    {
-        if (state != BattleState.PLAYERTURN)
-            return;
-
-        EffectBattleCard();
-    }
 
     public void OnFinishButton()
     {
@@ -266,25 +260,36 @@ public class BattleSystem : MonoBehaviour
 
     public IEnumerator ActFloatingText()
     {
+        Debug.Log("ActFloatingText");
+        Debug.Log(floatingTextQueue == null);
+
         if (!floating && floatingTextQueue.Count > 0)
         {
+            Debug.Log("In floating");
+            Debug.Log(floatingTextQueue[0].text.text);
             floating = true;
             floatingTextQueue[0].gameObject.SetActive(true);
             floatingTextQueue[0].Floating();
-            floatingTextQueue.RemoveAt(0);
             yield return new WaitForSeconds(0.5f);
+            Debug.Log(floatingTextQueue[0] == null);
+            floatingTextQueue.RemoveAt(0);
             floating = false;
             StartCoroutine(ActFloatingText());
         }
         else
         {
+            /*
+            Debug.Log("None floating");
             floatingTextQueue = new List<FloatingText>();
             yield break;
+            */
         }
     }
 
     public void FloatText(GameObject _parents, string _text)
     {
+        Debug.Log("FloatText");
+
         var tmp = Instantiate(floatingTextPrefab, _parents.transform);
         var tmpR = tmp.GetComponent<RectTransform>();
         var tmpF = tmp.GetComponent<FloatingText>();
@@ -305,16 +310,15 @@ public class SkillUseSystem
 
     public static void Divide_Target(Unit _target, Unit _caster, SkillData _skillData)
     {
-
-
         foreach (string i in _skillData.effects)
         {
             var eft = i.Split(':');
 
             if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2]))
             {
+                Debug.Log("띄우는 곳");
                 BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "빗나감!");
-                return;
+                continue;
             }
 
 
@@ -343,6 +347,7 @@ public class SkillUseSystem
 
     static void Damage(Unit _target, int _damage)
     {
+        Debug.Log(_target == null);
         _target.Takedamage(_damage);
     }
 

@@ -219,7 +219,7 @@ public class TileEvent : MonoBehaviour
         }
         else if (scene.name == "MoveScene" && !PlayManager.instance.isStone)
         {
-            SetGetBattleCard(mapTile.tileData.cardCount[1]);
+            //SetGetBattleCard(mapTile.tileData.cardCount[1]);
         }
     }
 

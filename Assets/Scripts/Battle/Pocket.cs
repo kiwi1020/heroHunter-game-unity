@@ -11,7 +11,7 @@ public class Pocket : MonoBehaviour
 
     Image image;
 
-    bool isOpen;
+    public bool isOpen;
 
     private void Awake()
     {
