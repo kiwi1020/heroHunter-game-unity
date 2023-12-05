@@ -156,6 +156,19 @@ public class EnemySnA
         skinNames = _skinNames;
     }
 }
+
+public class LostItem
+{
+    public string name, condition, des;
+
+    public LostItem(string _name, string _condition, string _des)
+    {
+        name = _name;
+        condition = _condition;
+        des = _des;
+    }
+}
+
 #endregion
 public class DataManager : MonoBehaviour
 {
@@ -168,6 +181,7 @@ public class DataManager : MonoBehaviour
     public Dictionary<string, MonsterData> AllMonsterDatas = new Dictionary<string, MonsterData>();
     public Dictionary<string, EnemySnA> AllEnemySnAs = new Dictionary<string, EnemySnA>();
     public Dictionary<string, BattleCardData> AllBattleCardDatas = new Dictionary<string, BattleCardData>();
+    public Dictionary<string, LostItem> AllLostItemDatas = new Dictionary<string, LostItem>();
 
     //List : 랜덤으로 추출 시 사용
     public List<string> AllTileList = new List<string>();
@@ -175,10 +189,12 @@ public class DataManager : MonoBehaviour
     public List<string> AllSkillList = new List<string>();
     public List<string> AllMonsterList = new List<string>();
     public List<string> AllBattleCardList = new List<string>();
+    public List<string> AllLostItemList = new List<string>();
     //
     public List<SpriteAndName> AllustList = new List<SpriteAndName>();
     public List<SpriteAndName> AlllMoveCardIllusts = new List<SpriteAndName>();
     public List<SpriteAndName> AlllBattleCardIllusts = new List<SpriteAndName>();
+    public List<SpriteAndName> AllLostItemIllusts = new List<SpriteAndName>();
 
 
     public string[] TextData = new string[13];
@@ -289,6 +305,19 @@ public class DataManager : MonoBehaviour
             AllBattleCardDatas.Add(e[0], new BattleCardData(e[0], AllSkillDatas[e[1]], e[2], e[3]));
             AllBattleCardList.Add(e[0]);
         }
+
+        //6. LostItem
+        line = TextData[6].Split('\n');
+        for (int i = 1; i < line.Length; i++)
+        {
+            line[i] = line[i].Trim();
+            string[] e = line[i].Split('\t');
+
+            AllLostItemDatas.Add(e[0], new LostItem(e[0], e[1], e[2]));
+            AllLostItemList.Add(e[0]);
+        }
+
+
         #endregion
     }
     #region 데이터 불러오기
@@ -299,6 +328,7 @@ public class DataManager : MonoBehaviour
     const string monsterURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=1086732162";
     const string enemySnAURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=980303362";
     const string battleCardURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=0";
+    const string lostItemURL = "https://docs.google.com/spreadsheets/d/1V-RFPD30T6GFYOq0CRrGiLMbPt8uypmf1JnjxoRg2go/export?format=tsv&gid=418439008";
 
     [ContextMenu("Load Data")]
     void GetLang()
@@ -331,6 +361,10 @@ public class DataManager : MonoBehaviour
         www = UnityWebRequest.Get(battleCardURL);
         yield return www.SendWebRequest();
         SetDataList(www.downloadHandler.text, 5);
+
+        www = UnityWebRequest.Get(lostItemURL);
+        yield return www.SendWebRequest();
+        SetDataList(www.downloadHandler.text, 6);
 
         Debug.Log("Success Load");
     }

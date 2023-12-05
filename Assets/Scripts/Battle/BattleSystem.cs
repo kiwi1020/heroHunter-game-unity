@@ -387,6 +387,10 @@ public class SkillUseSystem
                 if (!Per(_target, _caster, _eft)) return;
                 PiercingDamage(_target, (int)damage);
                 _caster.stack[0] = 0;
+
+                if(PlayerData.CheckLostItem("독성 발톱") && _caster == BattleSystem.instance.units[0]) // 유실물 : 독성발톱
+                    Divide_Target(_target, _caster, "지속피해:2");
+
                 break;
             case "지속피해":
                 if (!Per(_target, _caster, _eft)) return;
@@ -429,6 +433,7 @@ public class SkillUseSystem
     static void PiercingDamage(Unit _target, int _damage)
     {
         _target.Takedamage(_damage, true);
+
     }
 
 
