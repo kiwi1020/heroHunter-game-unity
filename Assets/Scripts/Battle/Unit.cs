@@ -16,12 +16,19 @@ public class Unit : MonoBehaviour
 
     public Animator animator;
 
+    #region EnemyInfo
+
+    public MonsterData monsterData;
+
+    public int skillOrder; // 적 스킬 패턴 속, 적이 사용할 스킬 인덱스
+
+    #endregion
+
     #region SubEffect
 
     public int[] dotDamage = new int[3] { 0, 0, 0 }; // 3턴으로 시작해서 3개짜리
 
     public float[] stack = new float[6] { 0,0,0 ,0,0,0 }; // increase / exp / stun / evade / clean /resist
-    public int[] sideEffect = new int[6] { 0,0,0 ,0,0,0 }; // increase / exp / stun / evade / clean /resist
 
     #endregion
 
@@ -34,13 +41,15 @@ public class Unit : MonoBehaviour
 
     public void SetUnit(MonsterData _monsterData)
     {
-        unitName = _monsterData.name;
-        unitType = _monsterData.type;
+        monsterData = _monsterData;
 
-        maxHP = _monsterData.hp[0];
+        unitName = monsterData.name;
+        unitType = monsterData.type;
+
+        maxHP = monsterData.hp[0];
         currentHP = maxHP;
 
-        shield = _monsterData.hp[1];
+        shield = monsterData.hp[1];
     }
 
     public void SetUnit()
@@ -67,7 +76,10 @@ public class Unit : MonoBehaviour
     //적
     public void Effect_EnemyAnimation()
     {
-        BattleSystem.instance.EffectEnemySkill();
+
+        BattleSystem.instance.EffectEnemySkill(skillOrder++);
+
+        if (skillOrder >= monsterData.patterns.Count) skillOrder = 0;
     }
 
     public void Finish_EnemyAnimation()
@@ -75,17 +87,42 @@ public class Unit : MonoBehaviour
         BattleSystem.instance.EfterEnemyTurn();
     }
 
+    void Hit_Animation()
+    {
+
+        //이건 적 전용 피격 애니메이션
+        if (BattleSystem.instance.units[0] != this)
+        {
+            animator.SetInteger("type", 2);
+            animator.SetInteger("job", 0);
+            animator.SetTrigger("change");
+        }
+        else
+        {
+            animator.SetTrigger("hit");
+        }
+    }
+
     #endregion
 
-    public void Hit()
+
+    #region Acts
+    void Hit()
     {
+        Hit_Animation();
         //피격 모션
         //피해량
     }
 
-    public void ActSideEffect()
+    public void ActSideEffect(bool endOfPlayerTurn)
     {
-        ActDotDamage();
+        if(endOfPlayerTurn) //플레이어 턴 끝나고
+        {
+            ActDotDamage();
+        }
+        else // 적 턴 끝나고
+        {
+        }
     }
     void ActDotDamage()
     {
@@ -99,9 +136,29 @@ public class Unit : MonoBehaviour
         dotDamage[0] = 0;
 
     }
+
+    public bool ActStun()
+    {
+        if (stack[2] > 0) //기절 시 넘김
+        {
+            stack[2]--;
+            BattleSystem.instance.FloatText(this.battleHUD.gameObject, "기절");
+            Finish_EnemyAnimation();
+            return true;
+        }
+        else return false;
+    }
+
     public void Takedamage(int _damage, bool _p = false)
     {
         if(_damage <= 0) return;
+
+        if(stack[3] > 0)
+        {
+            stack[3]--;
+            BattleSystem.instance.FloatText(this.battleHUD.gameObject, "회피!");
+            return;
+        }
 
         int remainDamage = 0;
 
@@ -117,13 +174,7 @@ public class Unit : MonoBehaviour
 
         currentHP -= remainDamage; // 체력 데미지
 
-        //이건 적 전용 피격 애니메이션
-        if(BattleSystem.instance.units[0] != this)
-        {
-            animator.SetInteger("type", 2);
-            animator.SetInteger("job", 0);
-            animator.SetTrigger("change");
-        }
+        Hit();
 
         BattleSystem.instance.FloatText(battleHUD.gameObject, "-" + _damage);
 
@@ -132,4 +183,5 @@ public class Unit : MonoBehaviour
     }
 
 
+    #endregion
 }

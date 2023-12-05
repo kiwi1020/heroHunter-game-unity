@@ -8,8 +8,6 @@ public class BattleSystem : MonoBehaviour
 {
     public static BattleSystem instance;
 
-    public BattleManager battleManager;
-
     public Unit[] units; // 플레이어, 적, 적, 적 
     public BattleHUD[] unitHUDs;
 
@@ -31,6 +29,8 @@ public class BattleSystem : MonoBehaviour
 
     bool cardActing = false;
     bool floating = false;
+
+    int enemyOrder = 1;
 
     //public Animator 
 
@@ -105,7 +105,6 @@ public class BattleSystem : MonoBehaviour
 
     #region PlayerTurn
 
-
     void PlayerTurn()
     {
         curDiceCount = PlayerData.diceCount;
@@ -168,19 +167,18 @@ public class BattleSystem : MonoBehaviour
 
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
         
-        ActEnemySideEffect();
+        ActEnemySideEffect(true);
 
-        if(battleCardDeck.pocket.isOpen) battleCardDeck.pocket.PocketClick();
+        if(battleCardDeck.pocket.isOpen) battleCardDeck.pocket.ReturnDice();
 
-        EnemyTurn();
-        state = BattleState.ENEMYTURN;
+        StartCoroutine( EnemyTurn());
     }
 
-    public void ActEnemySideEffect()
+    public void ActEnemySideEffect(bool _endOfPlayerTurn)
     {
         for (int i = 1; i<units.Length; i++)
         {
-            if(units[i].gameObject.activeSelf) units[i].ActSideEffect();
+            if(units[i].gameObject.activeSelf) units[i].ActSideEffect(_endOfPlayerTurn);
         }
     }
 
@@ -188,21 +186,29 @@ public class BattleSystem : MonoBehaviour
     
     #region EnemyTurn
 
-    void EnemyTurn()
+    IEnumerator EnemyTurn()
     {
+        state = BattleState.ENEMYTURN;
+
+        yield return new WaitForSeconds(0.8f); // 이건 피격 애니메이션때문에 공격 애니메이션 씹히는 경우 있을 것 같아서 약간 텀 넣어준거
+
         Act_EnemyAnimation();
     }
 
     void Act_EnemyAnimation()
     {
+
+        if (units[enemyOrder].ActStun()) return;//기절 시 넘김
         //job은 미리 설정
-        units[1].animator.SetInteger("type", 1);
-        units[1].animator.SetTrigger("change");
+        units[enemyOrder].animator.SetInteger("type", 1);
+        units[enemyOrder].animator.SetTrigger("change");
     }
 
-    public void EffectEnemySkill()
+    public void EffectEnemySkill(int _skillOrder)
     {
-        unitHUDs[0].SetHP();
+        unitHUDs[enemyOrder].SetHP();
+        var tmpSkillData = DataManager.instance.AllSkillDatas[units[enemyOrder].monsterData.patterns[0][_skillOrder]];
+        SkillUseSystem.Divide_Target(units[0], units[enemyOrder], tmpSkillData);
 
         /*
         bool isDead = units[0].Takedamage(units[1].damage);
@@ -221,8 +227,21 @@ public class BattleSystem : MonoBehaviour
 
     public void EfterEnemyTurn()
     {
-        state = BattleState.PLAYERTURN;
-        PlayerTurn();
+        var tileData = (BattleTile)PlayManager.instance.curTile;
+
+        if (enemyOrder == tileData.enemies.Count )
+        {
+            state = BattleState.PLAYERTURN;
+            enemyOrder = 1; //배틀 시스템 유닛에서 적은 1번 부터라서 1로 초기화
+            ActEnemySideEffect(false);
+            PlayerTurn();
+        }
+        else
+        {
+            enemyOrder += 1;
+            Act_EnemyAnimation();
+        }
+
     }
 
 
@@ -236,13 +255,11 @@ public class BattleSystem : MonoBehaviour
         }
         else if (state == BattleState.LOST)
         {
+            Act_EnemyAnimation();
         }
     }
 
     #endregion
-
-
-    #region TEST
 
 
     public void OnFinishButton()
@@ -251,27 +268,28 @@ public class BattleSystem : MonoBehaviour
             return;
 
         state = BattleState.ENEMYTURN;
-        EnemyTurn();
+        StartCoroutine(EnemyTurn());
 
         //카드들 used false로 다 바구기
     }
 
+    #region TEST
+
+
+
     #endregion
+
+    #region FloatingText
 
     public IEnumerator ActFloatingText()
     {
-        Debug.Log("ActFloatingText");
-        Debug.Log(floatingTextQueue == null);
 
         if (!floating && floatingTextQueue.Count > 0)
         {
-            Debug.Log("In floating");
-            Debug.Log(floatingTextQueue[0].text.text);
             floating = true;
             floatingTextQueue[0].gameObject.SetActive(true);
             floatingTextQueue[0].Floating();
             yield return new WaitForSeconds(0.5f);
-            Debug.Log(floatingTextQueue[0] == null);
             floatingTextQueue.RemoveAt(0);
             floating = false;
             StartCoroutine(ActFloatingText());
@@ -288,8 +306,6 @@ public class BattleSystem : MonoBehaviour
 
     public void FloatText(GameObject _parents, string _text)
     {
-        Debug.Log("FloatText");
-
         var tmp = Instantiate(floatingTextPrefab, _parents.transform);
         var tmpR = tmp.GetComponent<RectTransform>();
         var tmpF = tmp.GetComponent<FloatingText>();
@@ -305,6 +321,8 @@ public class BattleSystem : MonoBehaviour
 
 }
 
+#endregion
+
 public class SkillUseSystem
 {
 
@@ -316,7 +334,6 @@ public class SkillUseSystem
 
             if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2]))
             {
-                Debug.Log("띄우는 곳");
                 BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "빗나감!");
                 continue;
             }
@@ -341,13 +358,24 @@ public class SkillUseSystem
                 case "추가피해":
                     IncreaseDamage(_caster, float.Parse(eft[1]));
                     break;
+                case "기절":
+                    Stun(_target, float.Parse(eft[1]));
+                    break;
+                case "회복":
+                    Heal(_target, float.Parse(eft[1]));
+                    break;
+                case "보호막":
+                    Shield(_target, float.Parse(eft[1]));
+                    break;
+                case "회피":
+                    Evade(_target, float.Parse(eft[1]));
+                    break;
             }
         }
     }
 
     static void Damage(Unit _target, int _damage)
     {
-        Debug.Log(_target == null);
         _target.Takedamage(_damage);
     }
 
@@ -377,29 +405,54 @@ public class SkillUseSystem
 
     //
 
-    static void Stun()
+    static void Stun(Unit _target, float _damage)
     {
+        _target.stack[2] += _damage;
+
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "기절 +" + _damage);
 
     }
 
-    static void Heal()
+    static void Heal(Unit _target, float _damage)
     {
+        _target.currentHP = _target.currentHP + (int)_damage >= _target.maxHP ? _target.maxHP : _target.currentHP + (int)_damage;
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "회복 +" + (int)_damage);
 
     }
 
-    static void Shield()
+    static void Shield(Unit _target, float _damage)
     {
-
+        _target.shield += (int)_damage;
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "보호막 +" + (int)_damage);
     }
 
-    static void Evade()
+    static void Evade(Unit _target, float _damage)
     {
-
+        _target.stack[3] += _damage;
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "회피 +" + _damage);
     }
 
-    static void Cleanse()
+    static void Cleanse(Unit _target, float _damage)
     {
 
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "정화 +" + _damage);
+
+        if(_target.stack[1] > 0)
+        {
+            _target.stack[1] -= _damage;
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "폭발피해 -" + _damage);
+        }
+        if (_target.stack[2] > 0)
+        {
+            _target.stack[2] -= _damage;
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "기절 -" + _damage);
+        }
+        for(int i = 0; i<_target.dotDamage.Length; i++)
+        {
+            if (_target.dotDamage[i] <= 0) continue;
+            _target.dotDamage[i] -= (int)(_damage * 10);
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "지속피해 -" + (int)(_damage * 10));
+        }
     }
 
     static void Resist()
