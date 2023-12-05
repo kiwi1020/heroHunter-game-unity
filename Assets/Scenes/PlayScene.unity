@@ -3502,6 +3502,7 @@ MonoBehaviour:
   state: 0
   targeter: {fileID: 1931731366}
   playerSkillTarget: {fileID: 0}
+  buttonActive: {fileID: 2018208142}
   skill: {fileID: 0}
   battlecard: {fileID: 0}
 --- !u!114 &994014025
@@ -8690,6 +8691,7 @@ GameObject:
   - component: {fileID: 2018208141}
   - component: {fileID: 2018208140}
   - component: {fileID: 2018208139}
+  - component: {fileID: 2018208142}
   m_Layer: 5
   m_Name: TurnEnd_Button
   m_TagString: Untagged
@@ -8814,6 +8816,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018208137}
   m_CullTransparentMesh: 1
+--- !u!114 &2018208142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018208137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b41f8fd8af50948b78501ac5986e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 2018208139}
 --- !u!1001 &2146611863
 PrefabInstance:
   m_ObjectHideFlags: 0
