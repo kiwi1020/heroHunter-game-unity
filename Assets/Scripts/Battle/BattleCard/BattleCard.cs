@@ -8,18 +8,18 @@ using TMPro;
 
 public class BattleCardDataAndTarget
 {
-    public BattleCardData battleCardData;
+    public BattleCard battleCard;
     public Unit target;
-    public BattleCardDataAndTarget(BattleCardData _battleCardData, Unit _target)
+    public BattleCardDataAndTarget(BattleCard _battleCard, Unit _target)
     {
-        battleCardData = _battleCardData;
+        battleCard = _battleCard;
         target = _target;
     }
 }
 
 public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHandler
 {
-    BattleCardData battleCardData;
+    public BattleCardData battleCardData;
     RectTransform rect;
     BattleSystem system;
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
@@ -28,6 +28,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     DiceConditioner diceConditioner;
 
     public bool targeting = false;
+    public bool enforced = false;
 
     public bool[] diceCondition = new bool[3];
 
@@ -49,7 +50,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
         for (int i = 0; i< _battleCardData.skillData.effects.Count; i++)
         {
-            var des = _battleCardData.skillData.effects[i].Split(':');
+            var des = _battleCardData.skillData.effects[i].Split('/')[0].Split(":");
             if (des.Length > 2) cardDesText.text += float.Parse(des[2])*100 + "% ";
 
             cardDesText.text += des[0] + " " + des[1] + "\n";
@@ -88,6 +89,21 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     {
         BattleSystem.instance.targeter.SetPosition(ReturnWorldPoint(), battleCardData);
         BattleSystem.instance.targeter.SetUseMode(true);
+
+        if (BattleSystem.instance.targeter.isTargeting && BattleSystem.instance.playerSkillTarget != null)
+        {
+            foreach(Image i in GetComponentsInChildren<Image>())
+            {
+                i.color = Color.red;
+            }
+        }
+        else
+        {
+            foreach (Image i in GetComponentsInChildren<Image>())
+            {
+                i.color = Color.white;
+            }
+        }
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -119,7 +135,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
     bool ConditionCheck(int _number)
     {
-        var c = battleCardData.diceCondition.Split(':');
+        var c = battleCardData.diceCondition.Split('/')[0].Split(':');
 
         switch (c[0])
         {
@@ -195,10 +211,14 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
         cardDesText.text = "";
 
+
+        enforced = true;
+
+
         for (int i = 0; i < battleCardData.skillData.enforcedEffects.Count; i++)
         {
             print(battleCardData.skillData.enforcedEffects[i]);
-            var des = battleCardData.skillData.enforcedEffects[i].Split(':');
+            var des = battleCardData.skillData.enforcedEffects[i].Split('/')[0].Split(':');
             if (des.Length > 2) cardDesText.text += float.Parse(des[2]) * 100 + "% ";
 
             cardDesText.text += des[0] + " " + des[1] + "\n";
@@ -209,7 +229,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     {
         rect.DOScale(new Vector3(1f, 1f, 1f), 0f);
         BattleSystem.instance.battleCardDeck.UseCard(this);
-        BattleSystem.instance.UseBattleCard(new BattleCardDataAndTarget( battleCardData, BattleSystem.instance.playerSkillTarget));
+        BattleSystem.instance.UseBattleCard(new BattleCardDataAndTarget( this, BattleSystem.instance.playerSkillTarget));
         gameObject.SetActive(false);
     }
 

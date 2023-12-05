@@ -28,9 +28,13 @@ public class Pocket : MonoBehaviour
             isOpen = false;
             image.sprite = sprites[1];
 
-            for (int i = 0; i < BattleSystem.instance.curDiceCount; i++)
+            for (int i = 0; i < dices.Length; i++)
             {
-                if (!dices[i].gameObject.activeSelf) continue;
+                if (!dices[i].gameObject.activeSelf)
+                {
+                    dices[i].GetComponent<RectTransform>().localPosition = Vector2.zero;
+                    continue;
+                }
 
                 DOTween.Kill(dices[i]);
                 dices[i].DORotate(new Vector3(0, 0, 0), 0.5f);

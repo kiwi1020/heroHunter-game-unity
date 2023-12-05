@@ -98,7 +98,7 @@ public class BattleSystem : MonoBehaviour
     {
         _unit.SetUnit(_data);
         _unit.GetComponent<EnemyUnitSkin>().ChangeSkin(DataManager.instance.AllEnemySnAs[_unit.unitName].skinNames);
-        _hud.SetHUD(_unit);
+        //_hud.SetHUD(_unit);
     }
 
     #endregion
@@ -140,8 +140,24 @@ public class BattleSystem : MonoBehaviour
 
     public void EffectBattleCard()
     {
-
-        SkillUseSystem.Divide_Target(usedBattleCardQueue[0].target, units[0], usedBattleCardQueue[0].battleCardData.skillData);
+        var skillArray = usedBattleCardQueue[0].battleCard.enforced ? 
+            usedBattleCardQueue[0].battleCard.battleCardData.skillData.enforcedEffects :
+            usedBattleCardQueue[0].battleCard.battleCardData.skillData.effects;
+        foreach (string i in skillArray)
+        {
+            print(i);
+            var tmpEft = i.Split('/');
+            if (tmpEft.Length > 1 && tmpEft[1] == "적전체") // 전체 -> 무조건 적 전체임
+            {
+                SkillUseSystem.Divide_Target(units[1], units[0], tmpEft[0]);
+                SkillUseSystem.Divide_Target(units[2], units[0], tmpEft[0]);
+                SkillUseSystem.Divide_Target(units[3], units[0], tmpEft[0]);
+            }
+            else
+            {
+                SkillUseSystem.Divide_Target(usedBattleCardQueue[0].target, units[0], tmpEft[0]);
+            }
+        }
 
         /*
                 bool isDead = units[1].Takedamage(units[0].damage);
@@ -208,7 +224,23 @@ public class BattleSystem : MonoBehaviour
     {
         unitHUDs[enemyOrder].SetHP();
         var tmpSkillData = DataManager.instance.AllSkillDatas[units[enemyOrder].monsterData.patterns[0][_skillOrder]];
-        SkillUseSystem.Divide_Target(units[0], units[enemyOrder], tmpSkillData);
+
+        foreach (string i in tmpSkillData.effects)
+        {
+            var tmpEft = i.Split('/');
+            if (tmpEft.Length > 1 && tmpEft[1] == "아군전체") 
+            {
+                print("in");
+                SkillUseSystem.Divide_Target(units[0], units[1], tmpEft[0]);
+                SkillUseSystem.Divide_Target(units[0], units[2], tmpEft[0]);
+                SkillUseSystem.Divide_Target(units[0], units[3], tmpEft[0]);
+            }
+            else
+            {
+                SkillUseSystem.Divide_Target(units[0], units[enemyOrder], tmpEft[0]);
+            }
+        }
+
 
         /*
         bool isDead = units[0].Takedamage(units[1].damage);
@@ -325,54 +357,69 @@ public class BattleSystem : MonoBehaviour
 
 public class SkillUseSystem
 {
-
-    public static void Divide_Target(Unit _target, Unit _caster, SkillData _skillData)
+    static bool Per(Unit _target, Unit _caster, string _eft, bool _isToEnemy = true)
     {
-        foreach (string i in _skillData.effects)
+        var eft = _eft.Split(':');
+
+        if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2]))
         {
-            var eft = i.Split(':');
+            if(_isToEnemy) BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "빗나감!");
+            else  BattleSystem.instance.FloatText(_caster.battleHUD.gameObject, "빗나감!");
 
-            if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2]))
-            {
-                BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "빗나감!");
-                continue;
-            }
+            return false;
+        }
+        else return true;
+    }
+    public static void Divide_Target(Unit _target, Unit _caster, string _eft)
+    {
+        var eft = _eft.Split(':');
 
+        var damage = float.Parse(eft[1]) + float.Parse(eft[1]) * _caster.stack[0];
 
-            var damage = float.Parse(eft[1]) + float.Parse(eft[1]) * _caster.stack[0];
-
-            switch (eft[0])
-            {
-                case "물리피해":
-                    Damage(_target, (int)damage);
-                    _caster.stack[0] = 0;
-                    break;
-                case "관통피해":
-                    PiercingDamage(_target, (int)damage);
-                    _caster.stack[0] = 0;
-                    break;
-                case "지속피해":
-                    DotDamage(_target, (int)damage);
-                    _caster.stack[0] = 0;
-                    break;
-                case "추가피해":
-                    IncreaseDamage(_caster, float.Parse(eft[1]));
-                    break;
-                case "기절":
-                    Stun(_target, float.Parse(eft[1]));
-                    break;
-                case "회복":
-                    Heal(_target, float.Parse(eft[1]));
-                    break;
-                case "보호막":
-                    Shield(_target, float.Parse(eft[1]));
-                    break;
-                case "회피":
-                    Evade(_target, float.Parse(eft[1]));
-                    break;
-            }
+        switch (eft[0])
+        {
+            case "물리피해":
+                if (!Per(_target, _caster, _eft)) return;
+                Damage(_target, (int)damage);
+                _caster.stack[0] = 0;
+                break;
+            case "관통피해":
+                if (!Per(_target, _caster, _eft)) return;
+                PiercingDamage(_target, (int)damage);
+                _caster.stack[0] = 0;
+                break;
+            case "지속피해":
+                if (!Per(_target, _caster, _eft)) return;
+                DotDamage(_target, (int)damage);
+                _caster.stack[0] = 0;
+                break;
+            case "추가피해":
+                if (!Per(_target, _caster, _eft)) return;
+                IncreaseDamage(_caster, float.Parse(eft[1]));
+                break;
+            case "기절":
+                if (!Per(_target, _caster, _eft)) return;
+                Stun(_target, float.Parse(eft[1]));
+                break;
+            case "회복":
+                if (!Per(_target, _caster, _eft, false)) return;
+                Heal(_caster, float.Parse(eft[1]));
+                break;
+            case "보호막":
+                if (!Per(_target, _caster, _eft, false)) return;
+                Shield(_caster, float.Parse(eft[1]));
+                break;
+            case "회피":
+                if (!Per(_target, _caster, _eft, false)) return;
+                Evade(_caster, float.Parse(eft[1]));
+                break;
+            case "정화":
+                if (!Per(_target, _caster, _eft, false)) return;
+                Cleanse(_caster, float.Parse(eft[1]));
+                break;
         }
     }
+
 
     static void Damage(Unit _target, int _damage)
     {
@@ -415,15 +462,13 @@ public class SkillUseSystem
 
     static void Heal(Unit _target, float _damage)
     {
-        _target.currentHP = _target.currentHP + (int)_damage >= _target.maxHP ? _target.maxHP : _target.currentHP + (int)_damage;
-        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "회복 +" + (int)_damage);
+        _target.TakeHeal(_damage);
 
     }
 
     static void Shield(Unit _target, float _damage)
     {
-        _target.shield += (int)_damage;
-        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "보호막 +" + (int)_damage);
+        _target.TakeShield(_damage);
     }
 
     static void Evade(Unit _target, float _damage)

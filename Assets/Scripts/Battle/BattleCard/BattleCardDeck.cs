@@ -22,6 +22,8 @@ public class BattleCardDeck : MonoBehaviour
 
     public void SetPlayerTurn()
     {
+        ResetCard();
+
         curHandCardCount = 3;
         SetHandCardData();
         SetHand(); //초기화할 손패 개수
@@ -34,6 +36,19 @@ public class BattleCardDeck : MonoBehaviour
         foreach (RectTransform i in pocket.dices)
         {
             i.GetComponent<Dice>().Set();
+        }
+    }
+
+    void ResetCard()
+    {
+        foreach(RectTransform j in battleCardPool)
+        {
+            var tmp = j.GetComponent<BattleCard>();
+            tmp.enforced = false;
+            foreach (Image i in tmp.GetComponentsInChildren<Image>())
+            {
+                i.color = Color.white;
+            }
         }
     }
 

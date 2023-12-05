@@ -20,8 +20,16 @@ public class BattleHUD : MonoBehaviour
         hpSlider.maxValue = unit.maxHP;
         hpSlider.value = unit.currentHP;
 
-        shieldSlider.maxValue = unit.shield;
-        shieldSlider.value = unit.shield;
+        if(unit.shield < unit.maxHP)
+        {
+            shieldSlider.maxValue = unit.maxHP;
+            shieldSlider.value = unit.shield;
+        }
+        else
+        {
+            shieldSlider.maxValue = unit.shield;
+            shieldSlider.value = unit.shield;
+        }
 
         SetHP();
     }

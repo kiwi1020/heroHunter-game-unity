@@ -50,6 +50,8 @@ public class Unit : MonoBehaviour
         currentHP = maxHP;
 
         shield = monsterData.hp[1];
+
+        battleHUD.SetHUD(this);
     }
 
     public void SetUnit()
@@ -139,7 +141,7 @@ public class Unit : MonoBehaviour
 
     public bool ActStun()
     {
-        if (stack[2] > 0) //기절 시 넘김
+        if (stack[2] >= 1) //기절 시 넘김
         {
             stack[2]--;
             BattleSystem.instance.FloatText(this.battleHUD.gameObject, "기절");
@@ -153,7 +155,7 @@ public class Unit : MonoBehaviour
     {
         if(_damage <= 0) return;
 
-        if(stack[3] > 0)
+        if(stack[3] >= 1)
         {
             stack[3]--;
             BattleSystem.instance.FloatText(this.battleHUD.gameObject, "회피!");
@@ -182,6 +184,23 @@ public class Unit : MonoBehaviour
 
     }
 
+    public void TakeHeal(float _damage)
+    {
+
+        currentHP = currentHP + (int)_damage >= maxHP ? maxHP : currentHP + (int)_damage;
+        BattleSystem.instance.FloatText(battleHUD.gameObject, "회복 +" + (int)_damage);
+        battleHUD.SetHP();
+    }
+
+    public void TakeShield(float _damage)
+    {
+        shield += (int)_damage;
+
+        if (shield > maxHP) battleHUD.SetHUD(this);
+
+        BattleSystem.instance.FloatText(battleHUD.gameObject, "보호막 +" + (int)_damage);
+        battleHUD.SetHP();
+    }
 
     #endregion
 }
