@@ -20,6 +20,7 @@ public class BattleSystem : MonoBehaviour
     public BattleState state;
     public Targeter targeter;
     public Unit playerSkillTarget;
+    public ButtonActive buttonActive;
 
 
     public playerSkill skill;
@@ -188,6 +189,7 @@ public class BattleSystem : MonoBehaviour
         if(battleCardDeck.pocket.isOpen) battleCardDeck.pocket.ReturnDice();
 
         StartCoroutine( EnemyTurn());
+        buttonActive.ButtonFalse();
     }
 
     public void ActEnemySideEffect(bool _endOfPlayerTurn)
@@ -266,6 +268,7 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.PLAYERTURN;
             enemyOrder = 1; //배틀 시스템 유닛에서 적은 1번 부터라서 1로 초기화
             ActEnemySideEffect(false);
+            buttonActive.ButtonTrue();
             PlayerTurn();
         }
         else
@@ -298,6 +301,8 @@ public class BattleSystem : MonoBehaviour
     {
         if (state != BattleState.PLAYERTURN)
             return;
+        buttonActive.ButtonFalse();
+        battleCardDeck.EndTurn();
 
         state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());

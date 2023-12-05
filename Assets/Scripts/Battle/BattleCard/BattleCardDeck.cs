@@ -97,4 +97,11 @@ public class BattleCardDeck : MonoBehaviour
         curHands.Remove(_battleCard);
         SetHandCardPosition();
     }
+
+    public void EndTurn()
+    {
+        curHandCardCount = 0;
+        curHands.Clear();
+        foreach (RectTransform i in battleCardPool) i.gameObject.SetActive(false);
+    }
 }
