@@ -89,7 +89,7 @@ public class MoveCardDeck : MonoBehaviour
     public string CardPer()
     {
 
-        commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "휴식", "추격", "조심스러운 발걸음" };
+        commonNames = new string[] { "걷기", "달리기", "당찬 전진", "준비", "추격", "조심스러운 발걸음" };
         MapSystem.instance.allowEffect = true;      
 
         if (MapSystem.curTileNum >= 3) // 이동 -3 가능
