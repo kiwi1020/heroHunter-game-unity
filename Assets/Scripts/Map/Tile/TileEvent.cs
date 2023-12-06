@@ -22,7 +22,6 @@ public class TileEvent : MonoBehaviour
     public List<GetBattleCard> getBattleCards;
     public static List<BattleCardData> getbattleCardDatas = new List<BattleCardData>();
 
-    public static int SelectCardCount;
     private bool isSpinning = false;
 
     private void Awake()
@@ -37,22 +36,8 @@ public class TileEvent : MonoBehaviour
         mapTile = _mapTile;
 
         SetEventUI(mapTile);
-        resetTileEvent();
     }
-    public void resetTileEvent()
-    {
-        getbattleCardDatas.Clear();
-        resultText.color = Color.black;
-        foreach (var card in getBattleCards)
-        {
-            card.gameObject.GetComponent<Outline>().enabled = false;
-            card.transform.transform.localScale = new Vector3(1, 1, 1);
-            card.isSelect = false;
-            card.ClickCount = 0;
-            card.gameObject.SetActive(false);
-        }
-        MapSystem.instance.moveCardDraw = true;
-    }
+
 
     public void SetEventUI(MapTile _mapTile)
     {
@@ -94,18 +79,22 @@ public class TileEvent : MonoBehaviour
             string[] BattleCardNames = new string[] { "갈라치기", "뒤통수치기", "급소 찌르기","성급한 판단", "속사", "비열한 찌르기" };
             // 랜덤으로 BattleCardNames에서 카드 이름을 선택
             string randomName;
-
+            BattleCardData card;
             if (mapTile.tileData.GetOrDelete == "획득")
             {
+                //배틀카드 sprite 완성 시 변경
                 //randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
                 randomName = BattleCardNames[Random.Range(0, BattleCardNames.Length)];
+                getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = true;
+                card = DataManager.instance.AllBattleCardDatas[randomName];
             }
             else
             {
                 randomName = PlayerData.playerBattleCardDeck[Random.Range(0, PlayerData.playerBattleCardDeck.Count)].name;
+                getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = false;
+                card = DataManager.instance.AllBattleCardDatas[randomName];
+                getbattleCardDatas.Add(card);
             }
-            // 선택한 카드 이름으로 실제 데이터를 얻어옴
-            BattleCardData card = DataManager.instance.AllBattleCardDatas[randomName];
 
             // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
             var battleCard = getCard.GetComponent<GetBattleCard>();
@@ -126,7 +115,7 @@ public class TileEvent : MonoBehaviour
     public void TestofStone()
     {
         GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
-        string BtnText = ClickButton.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text;
+        string BtnText = ClickButton.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text;
 
         if(BtnText == "도전")
         {
@@ -176,8 +165,7 @@ public class TileEvent : MonoBehaviour
             print(startTime);
             if(startTime>=0.45f)
             {
-                MoveBarRect.DOAnchorPosY(0f, 0.2f);
-                print("종료");
+                MoveBarRect.DOAnchorPosY(0f, 0.2f);               
                 yield return new WaitForSeconds(1f);
                 break;
             }
@@ -219,24 +207,39 @@ public class TileEvent : MonoBehaviour
         }
         else if (scene.name == "MoveScene" && !PlayManager.instance.isStone)
         {
-            //SetGetBattleCard(mapTile.tileData.cardCount[1]);
+            SetGetBattleCard(mapTile.tileData.cardCount[1]);
         }
     }
 
     public void EndEvent()
     {
-        if (getbattleCardDatas.Count > 0 && SelectCardCount <= mapTile.tileData.cardCount[0])
+
+        if (getbattleCardDatas.Count > 0 && getbattleCardDatas.Count <= mapTile.tileData.cardCount[0])
         {
             foreach (var card in getbattleCardDatas)
             {
                 if (mapTile.tileData.GetOrDelete == "획득")
-                    PlayerData.playerBattleCardDeck.Add(card);
+                    PlayerData.GainCard(card.name);
                 else if (mapTile.tileData.GetOrDelete == "제거")
-                    PlayerData.playerBattleCardDeck.Remove(card);
+                    PlayerData.DeleteCard(card.name);
             }
+            resetTileEvent();
+            gameObject.SetActive(false);
+            Option.SetActive(false);
         }
-        gameObject.SetActive(false);
-        Option.SetActive(false);
     }
-
+    public void resetTileEvent()
+    {
+        getbattleCardDatas.Clear();
+        resultText.color = Color.black;
+        foreach (var card in getBattleCards)
+        {
+            card.gameObject.GetComponent<Outline>().enabled = false;
+            card.transform.transform.localScale = new Vector3(1, 1, 1);
+            card.isSelect = false;
+            card.ClickCount = 0;
+            card.gameObject.SetActive(false);
+        }
+        MapSystem.instance.moveCardDraw = true;
+    }
 }

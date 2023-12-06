@@ -24,9 +24,9 @@ public class PlayerData
         PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas[_name]);
     }
 
-    public static void DeleteCard(BattleCardData _battleCardData)
+    public static void DeleteCard(string _name)
     {
-
+        PlayerData.playerBattleCardDeck.Remove(DataManager.instance.AllBattleCardDatas[_name]);
     }
 
     public static void GainLostItem(string _lostItem)

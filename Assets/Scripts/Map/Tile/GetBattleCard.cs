@@ -51,7 +51,6 @@ public class GetBattleCard : MonoBehaviour
         if(ClickCount % 2 == 0)
         {
             isSelect = false;
-            TileEvent.SelectCardCount--;
             outline.enabled=false;
             TileEvent.getbattleCardDatas.Remove(DataManager.instance.AllBattleCardDatas[cardNameText.text]);
         }
@@ -59,7 +58,6 @@ public class GetBattleCard : MonoBehaviour
         {
             rect.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.2f);
             isSelect = true;
-            TileEvent.SelectCardCount++;
             outline.enabled = true;
 
             TileEvent.getbattleCardDatas.Add(DataManager.instance.AllBattleCardDatas[cardNameText.text]);
