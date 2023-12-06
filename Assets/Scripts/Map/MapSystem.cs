@@ -24,6 +24,9 @@ public class MapSystem : MonoBehaviour
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
 
+    public DiceLook diceLook;
+    public LostItems lostItems;
+
 
     public List<MapTile> tileMap = new List<MapTile>();
    
@@ -54,7 +57,10 @@ public class MapSystem : MonoBehaviour
 
     void Start()
     {
-        setupMap();       
+        setupMap();
+
+        diceLook.SetDicePool();
+        lostItems.SetLostItems();
     }
     
     void setupMap()

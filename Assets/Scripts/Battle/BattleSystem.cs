@@ -22,6 +22,7 @@ public class BattleSystem : MonoBehaviour
     public Unit playerSkillTarget;
     public ButtonActive buttonActive;
 
+    public DiceLook diceLook;
 
     public playerSkill skill;
     public BattleCard battlecard;
@@ -48,13 +49,11 @@ public class BattleSystem : MonoBehaviour
         //
         state = BattleState.START;
         SetupBattle();
+        diceLook.SetDicePool();
     }
 
     #region BattleSetting
 
-    public void StartBattle()
-    {
-    }
 
     void SetupBattle()
     {
@@ -426,9 +425,20 @@ public class SkillUseSystem
                 if (!Per(_target, _caster, _eft, false)) return;
                 Cleanse(_caster, float.Parse(eft[1]));
                 break;
+            case "저항":
+                if (!Per(_target, _caster, _eft, false)) return;
+                Resist(_caster, float.Parse(eft[1]));
+                break;
+            case "굴림":
+                if (!Per(_target, _caster, _eft, false)) return;
+                Reroll(int.Parse(eft[1]));
+                break;
+            case "뽑기":
+                if (!Per(_target, _caster, _eft, false)) return;
+                Draw(int.Parse(eft[1]));
+                break;
         }
     }
-
 
     static void Damage(Unit _target, int _damage)
     {
@@ -438,21 +448,28 @@ public class SkillUseSystem
     static void PiercingDamage(Unit _target, int _damage)
     {
         _target.Takedamage(_damage, true);
-
     }
-
 
     //유닛한테 쌓아야할듯? 스택을
 
     static void DotDamage(Unit _target, int _damage)
     {
+
+        if (_target.stack[5] > 0) _damage = (int)ResistDamage(_target, _damage, true);
+
+        if (_damage == 0) return;
+
         _target.dotDamage[0] += _damage;
+
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "지속피해 +" + _damage);
     }
     //=> battleSystem의 efter turn에서 여기서 쌓인 도트데미지를 가하고 한 턴씩 미루는 메서드를 구현
 
     static void IncreaseDamage(Unit _target, float _damage)
     {
         _target.stack[0] += _damage;
+
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "추가피해");
     }
 
     static void ExplosiveDamage()
@@ -462,18 +479,42 @@ public class SkillUseSystem
 
     //
 
+    static float ResistDamage(Unit _target, float _damage, bool _isDot = false)
+    {
+        if(_target.stack[5] > _damage)
+        {
+            _target.stack[5] -= _damage;
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "저항!");
+            return 0;
+        }
+        else
+        {
+            if (_isDot)
+            {
+                _target.stack[5] -= (int)_target.stack[5];
+                return _damage - (int)_target.stack[5];
+            }
+            else
+            {
+                _target.stack[5] = 0;
+                return _damage - _target.stack[5];
+            }
+        }
+    }
+
     static void Stun(Unit _target, float _damage)
     {
+
+        if (_target.stack[5] > 0) _damage = (int)ResistDamage(_target, _damage, false);
+        if (_damage == 0) return;
         _target.stack[2] += _damage;
 
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "기절 +" + _damage);
-
     }
 
     static void Heal(Unit _target, float _damage)
     {
         _target.TakeHeal(_damage);
-
     }
 
     static void Shield(Unit _target, float _damage)
@@ -510,21 +551,30 @@ public class SkillUseSystem
         }
     }
 
-    static void Resist()
+    static void Resist(Unit _target, float _damage)
     {
-
+        _target.stack[5] += _damage;
+        BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "저항 +" + _damage);
     }
 
     //
 
-    static void Reroll()
+    static void Reroll(int _c)
     {
-
+        BattleSystem.instance.battleCardDeck.RerollDice(_c);//리롤할 개수
     }
 
     static void Copy()
     {
 
+    }
+
+    static void Draw(int _n)
+    {
+        for(int i = 0; i<_n; i++)
+        {
+            BattleSystem.instance.battleCardDeck.AddHand();
+        }
     }
 
 }

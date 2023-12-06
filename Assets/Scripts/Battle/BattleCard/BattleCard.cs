@@ -51,6 +51,9 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
         for (int i = 0; i< _battleCardData.skillData.effects.Count; i++)
         {
             var des = _battleCardData.skillData.effects[i].Split('/')[0].Split(":");
+
+            if (_battleCardData.skillData.effects[i].Split('/').Length > 1) cardDesText.text += "전체 ";
+
             if (des.Length > 2) cardDesText.text += float.Parse(des[2])*100 + "% ";
 
             cardDesText.text += des[0] + " " + des[1] + "\n";
@@ -206,6 +209,11 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
     public void EnforceCard()
     {
+        if (battleCardData.skillData.enforcedEffects.Count <= 0)
+        {
+            enforced = false;
+            return;
+        }
         cardNameText.text = '*'+battleCardData.name;
         cardNameText.color = Color.red;
 
@@ -217,8 +225,10 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
         for (int i = 0; i < battleCardData.skillData.enforcedEffects.Count; i++)
         {
-            print(battleCardData.skillData.enforcedEffects[i]);
             var des = battleCardData.skillData.enforcedEffects[i].Split('/')[0].Split(':');
+
+            if (battleCardData.skillData.enforcedEffects[i].Split('/').Length > 1) cardDesText.text += "전체 ";
+
             if (des.Length > 2) cardDesText.text += float.Parse(des[2]) * 100 + "% ";
 
             cardDesText.text += des[0] + " " + des[1] + "\n";

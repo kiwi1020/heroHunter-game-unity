@@ -110,6 +110,9 @@ public class TileEvent : MonoBehaviour
             // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
             var battleCard = getCard.GetComponent<GetBattleCard>();
             battleCard.SetCard(card);
+
+            //획득한 카드 데이터를 플레이어 데이터에 추가. 장태규 추가. 12-07
+            PlayerData.GainCard(card.name);
         }
         Option.SetActive(true);
     }

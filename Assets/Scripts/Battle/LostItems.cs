@@ -12,7 +12,7 @@ public class LostItems : MonoBehaviour
     {
         SetLostItems();
     }
-    void SetLostItems()
+    public void SetLostItems()
     {
         foreach(Image i in images)
         {
