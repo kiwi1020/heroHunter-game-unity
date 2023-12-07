@@ -3447,13 +3447,24 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5445b42e5d97d4844b923cfec7fba187, type: 3}
   UIClips:
   - {fileID: 8300000, guid: 4e6e4aefb1668f8418f56d45a43742d0, type: 3}
-  - {fileID: 8300000, guid: bcb855b2709dfd64b85b9c94bbb695a7, type: 3}
+  - {fileID: 8300000, guid: 4c09ba94c1c28ab41a280546f9391c25, type: 3}
   - {fileID: 8300000, guid: d133222223ac98f40a4995db585b8ec6, type: 3}
   - {fileID: 8300000, guid: 79e8969068803e14fb7eba03a1494a4a, type: 3}
   - {fileID: 8300000, guid: f861ca1ecb4e8a94bbc9b0ecbd5c1e0d, type: 3}
   - {fileID: 8300000, guid: f68b46da5d1952b4bb5b9a1f889e742d, type: 3}
-  bgmSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
+  - {fileID: 8300000, guid: 08c359c6745e1df4ebc6f700963aa732, type: 3}
+  - {fileID: 8300000, guid: b7051ca38a43abb4aa0781b774c9f367, type: 3}
+  - {fileID: 8300000, guid: bd7fbb047945ecc468da40565fb1b149, type: 3}
+  - {fileID: 8300000, guid: 51460215053ec8c41b3335196b5abb4c, type: 3}
+  - {fileID: 8300000, guid: a9e223f6502b86246bcdc271815cd8ce, type: 3}
+  - {fileID: 8300000, guid: d0aacfc02a776ab4abdb40694fba7273, type: 3}
+  - {fileID: 8300000, guid: 1ec328534847d994dbd011d2c3bb9713, type: 3}
+  - {fileID: 8300000, guid: ce44367a75e09b84abfd9d6f20c99b7a, type: 3}
+  - {fileID: 8300000, guid: 631be2f0bd033e14f870e83ba3c75259, type: 3}
+  - {fileID: 8300000, guid: 6e7a270032d679e4bb88d253bf16e60e, type: 3}
+  - {fileID: 8300000, guid: b90726bea446a23419c6c50bc977267c, type: 3}
+  - {fileID: 8300000, guid: 7cfbec158575faf4fbd53cff9e788d74, type: 3}
+  - {fileID: 8300000, guid: 493acf04eb2caae4ea4e6a6e2bab3eb9, type: 3}
 --- !u!82 &1522945104
 AudioSource:
   m_ObjectHideFlags: 0

@@ -31,7 +31,8 @@ public class CardBag : MonoBehaviour
             if (_whichCard == 0) SetBattleCardPool();
             else SetMoveCardPool();
         }
-
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(7);
 
     }
 
