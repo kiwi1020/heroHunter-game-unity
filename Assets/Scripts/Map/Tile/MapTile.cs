@@ -33,11 +33,12 @@ public class MapTile : MonoBehaviour
 
         switch (tileData.type)
         {
+
             case "전투":
                 OnBattleStartButton();
                 break;
             case "선택":
-                MapSystem.instance.tileEffect_UI.SetEvent(this);               
+                MapSystem.instance.tileEffect_UI.SetEvent(this);
                 break;
             case "함정":
                 MapSystem.instance.tileEffect_UI.SetEvent(this);               
@@ -51,6 +52,8 @@ public class MapTile : MonoBehaviour
                 break;
 
         }
+        GameObject AudioManager = GameObject.Find("AudioManager");
+        AudioManager.GetComponent<SoundManager>().UISfxPlay(18);
     }
 
     //배틀시작 버튼

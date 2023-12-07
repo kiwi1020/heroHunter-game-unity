@@ -448,11 +448,15 @@ public class SkillUseSystem
     static void Damage(Unit _target, int _damage)
     {
         _target.Takedamage(_damage);
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(6);
     }
 
     static void PiercingDamage(Unit _target, int _damage)
     {
         _target.Takedamage(_damage, true);
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(8);
     }
 
     //유닛한테 쌓아야할듯? 스택을
@@ -466,6 +470,8 @@ public class SkillUseSystem
 
         _target.dotDamage[0] += _damage;
 
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(10);
+
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "지속피해 +" + _damage);
     }
     //=> battleSystem의 efter turn에서 여기서 쌓인 도트데미지를 가하고 한 턴씩 미루는 메서드를 구현
@@ -473,6 +479,8 @@ public class SkillUseSystem
     static void IncreaseDamage(Unit _target, float _damage)
     {
         _target.stack[0] += _damage;
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(9);
 
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "추가피해");
     }
@@ -489,6 +497,7 @@ public class SkillUseSystem
         if(_target.stack[5] > _damage)
         {
             _target.stack[5] -= _damage;
+
             BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "저항!");
             return 0;
         }
@@ -505,6 +514,7 @@ public class SkillUseSystem
                 return _damage - _target.stack[5];
             }
         }
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(15);
     }
 
     static void Stun(Unit _target, float _damage)
@@ -514,23 +524,31 @@ public class SkillUseSystem
         if (_damage == 0) return;
         _target.stack[2] += _damage;
 
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(17);
+
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "기절 +" + _damage);
     }
 
     static void Heal(Unit _target, float _damage)
     {
         _target.TakeHeal(_damage);
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(12);
     }
 
     static void Shield(Unit _target, float _damage)
     {
         _target.TakeShield(_damage);
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(16);
     }
 
     static void Evade(Unit _target, float _damage)
     {
         _target.stack[3] += _damage;
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "회피 +" + _damage);
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(11);
     }
 
     static void Cleanse(Unit _target, float _damage)
@@ -554,12 +572,15 @@ public class SkillUseSystem
             _target.dotDamage[i] -= (int)(_damage * 10);
             BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "지속피해 -" + (int)(_damage * 10));
         }
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(12);
     }
 
     static void Resist(Unit _target, float _damage)
     {
         _target.stack[5] += _damage;
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "저항 +" + _damage);
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(15);
     }
 
     //
@@ -567,6 +588,8 @@ public class SkillUseSystem
     static void Reroll(int _c)
     {
         BattleSystem.instance.battleCardDeck.RerollDice(_c);//리롤할 개수
+
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(14);
     }
 
     static void Copy()
@@ -579,6 +602,8 @@ public class SkillUseSystem
         for(int i = 0; i<_n; i++)
         {
             BattleSystem.instance.battleCardDeck.AddHand();
+
+            GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(13);
         }
     }
 

@@ -13,7 +13,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] bgmClips;
     public AudioClip[] UIClips;
 
-    public Slider bgmSlider, sfxSlider;
 
     void Awake()
     {
@@ -54,7 +53,7 @@ public class SoundManager : MonoBehaviour
         AudioSource audioSource = sfx.AddComponent<AudioSource>();
         audioSource.outputAudioMixerGroup = mixer.FindMatchingGroups("Sfx")[0];
         audioSource.clip = UIClips[_n];
-        audioSource.volume = 0.1f;
+        audioSource.volume = 0.2f;
         audioSource.Play();
 
         if (_n == 0)
