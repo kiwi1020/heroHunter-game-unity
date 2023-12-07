@@ -13,11 +13,11 @@ public class TileEvent : MonoBehaviour
     public MapTile mapTile;
 
     [SerializeField] List<TextMeshProUGUI> UIText;
-    [SerializeField] TextMeshProUGUI resultText;
+    [SerializeField] TextMeshProUGUI resultText; 
     [SerializeField] GameObject OddEvenGame;
     [SerializeField] GameObject Options;
     [SerializeField] GameObject Option;
-    [SerializeField] GameObject MoveBar;
+    [SerializeField] GameObject MoveBar; // Missing 떠서 프리팹 가져와서 넣어놓음
 
     public List<GetBattleCard> getBattleCards;
     public static List<BattleCardData> getbattleCardDatas = new List<BattleCardData>();
@@ -234,7 +234,7 @@ public class TileEvent : MonoBehaviour
     public void resetTileEvent()
     {
         getbattleCardDatas.Clear();
-        resultText.color = Color.black;
+        resultText.color = Color.black; // Missing 떠서 비워놓음
         foreach (var card in getBattleCards)
         {
             card.gameObject.GetComponent<Outline>().enabled = false;
