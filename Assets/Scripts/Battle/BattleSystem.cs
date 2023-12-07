@@ -34,6 +34,8 @@ public class BattleSystem : MonoBehaviour
 
     int enemyOrder = 1;
 
+    public PopUp popUp;
+
     //public Animator 
 
     void Awake()
@@ -438,6 +440,9 @@ public class SkillUseSystem
                 Draw(int.Parse(eft[1]));
                 break;
         }
+
+        _caster.battleHUD.SetSideEffect();
+        _target.battleHUD.SetSideEffect();
     }
 
     static void Damage(Unit _target, int _damage)

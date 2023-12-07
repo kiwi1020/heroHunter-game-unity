@@ -8,6 +8,8 @@ public class LostItems : MonoBehaviour
 {
     [SerializeField] Image[] images;
 
+    
+
     void OnEnable()
     {
         SetLostItems();
@@ -22,6 +24,7 @@ public class LostItems : MonoBehaviour
         {
             images[i].gameObject.SetActive(true);
             images[i].sprite = DataManager.instance.AllLostItemIllusts.Find(x => x.name == PlayerData.playerLostItems[i].name).sprite;
+            images[i].GetComponent<PopUpable>().des = PlayerData.playerLostItems[i].des;
         }
     }
 }
