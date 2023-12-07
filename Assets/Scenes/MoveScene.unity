@@ -1676,7 +1676,6 @@ RectTransform:
   m_Children:
   - {fileID: 1345245843}
   - {fileID: 1878529801}
-  - {fileID: 1086089361}
   m_Father: {fileID: 1730174370}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9535,7 +9534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1205401294
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14122,7 +14121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1730174370
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14165,11 +14164,11 @@ MonoBehaviour:
   UIText:
   - {fileID: 1504101298}
   - {fileID: 62820583}
-  resultText: {fileID: 1086089362}
+  resultText: {fileID: 0}
   OddEvenGame: {fileID: 122362544}
   Options: {fileID: 1704066946}
   Option: {fileID: 1205401293}
-  MoveBar: {fileID: 1086089363}
+  MoveBar: {fileID: 0}
   getBattleCards:
   - {fileID: 1035705908}
   - {fileID: 437755845}
