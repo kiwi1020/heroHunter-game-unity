@@ -57,8 +57,8 @@ public class MapSystem : MonoBehaviour
 
     void Start()
     {
-        setupMap();
         setTileWeight();
+        setupMap();
         diceLook.SetDicePool();
         lostItems.SetLostItems();
     }
@@ -66,7 +66,6 @@ public class MapSystem : MonoBehaviour
     void setupMap()
     {
         moveCardDraw = true;
-
         GenerateTileObjects(20);
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
@@ -76,12 +75,29 @@ public class MapSystem : MonoBehaviour
         {
             player.SetActive(true);
         }
-    }    
+    }
+    void GenerateTileObjects(int _count)
+    {
+        //무브씬에 타일 위치를 정하고 생성
+        for (int i = 0; i < _count; i++)
+        {
+            var tile = Instantiate(tilePrefab).GetComponent<MapTile>();
+            tile.transform.parent = tileParents.transform;
 
+            if (i == 0)
+            {
+                tile.transform.position = new Vector3(-5, -3, 0);
+            }
+            else
+            {
+                var lastTilePosition = tileMap[tileMap.Count - 1].transform.position;
+                tile.transform.position = new Vector3(lastTilePosition.x + 3.5f, lastTilePosition.y + 2.5f);
+            }
+            tileMap.Add(tile);
+        }
+    }
     void SetTileMapData()
     {
-        //처음 1회만 실행하여 타일 데이터를 생성
-        //수정(시작,보스, 조건)
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
             string previousTileType;
@@ -105,15 +121,15 @@ public class MapSystem : MonoBehaviour
                 {
                     //타일 이벤트 확인할 때 사용(삭제 예정)
                     
-                    var tileData = DataManager.instance.AllTileDatas["신비한 석상"];
-                    PlayManager.instance.tileMapData.Add(tileData);
+                    //var tileData = DataManager.instance.AllTileDatas["신비한 석상"];
+                    //PlayManager.instance.tileMapData.Add(tileData);
                     
-                    /*
+                    
                     previousTileType = PlayManager.instance.tileMapData[i-1].type;
                     do
                     {
                        
-                        var tileData = DataManager.instance.AllTileDatas["행운"];
+                        var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
                         string currentTileType = tileData.type;
                        
                         if (previousTileType == "전투" && currentTileType == "전투")
@@ -137,7 +153,7 @@ public class MapSystem : MonoBehaviour
                         }
                     }
                     while (true);  
-                    */
+                    
                 }
 
             }
@@ -146,8 +162,8 @@ public class MapSystem : MonoBehaviour
         //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
     }
-    //수정
-    private void setTileWeight()
+    #region TileWeight
+    void setTileWeight()
     {
         if (PlayManager.instance.startWeigtTile)
         {
@@ -157,7 +173,6 @@ public class MapSystem : MonoBehaviour
             {
                 int TileWeight = int.Parse(DataManager.instance.AllTileDatas[name].weight);
                 PlayManager.instance.wrPicker.Add(name, TileWeight);
-                print(TileWeight);
             }
             PlayManager.instance.startWeigtTile = false;
         }
@@ -165,32 +180,37 @@ public class MapSystem : MonoBehaviour
     //수정, 앞으로 이동 시 업데이트 
     public void UpdateWeightTile()
     {
-
+        string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲",
+            "왕국입구","뒷골목","마을","기사 훈련장","왕의 방입구"};
+        foreach (string name in TileName)
+        {
+            string tileRate = DataManager.instance.AllTileDatas[name].rate;
+            double tileWeight = PlayManager.instance.wrPicker.GetWeight(name);
+            switch (tileRate) 
+            {
+                //가중치 증가폭은 밸런스 수정
+                case "A":
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 100);
+                    break;
+                case "B":
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 80);
+                    break;
+                case "C":
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 60);
+                    break;
+                case "D":
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 40);
+                    break;
+                default: 
+                    break;
+            }
+        }
     }
-    private string GetRandomTile()
+    string GetRandomTile()
     {       
         return PlayManager.instance.wrPicker.GetRandomPick(); ;
     }
-    void GenerateTileObjects(int _count)
-    {
-        //무브씬에 타일 위치를 정하고 생성
-        for (int i = 0; i < _count; i++)
-        {
-            var tile = Instantiate(tilePrefab).GetComponent<MapTile>();
-            tile.transform.parent = tileParents.transform;
-
-            if (i == 0)
-            {
-                tile.transform.position = new Vector3(-5, -3, 0);
-            }
-            else
-            {
-                var lastTilePosition = tileMap[tileMap.Count - 1].transform.position;
-                tile.transform.position = new Vector3(lastTilePosition.x + 3.5f, lastTilePosition.y + 2.5f);
-            }
-            tileMap.Add(tile);
-        }
-    }
+    #endregion
 
     public void ActMoveCardEffect(string[] _eft, MoveCard _moveCard)
     {
@@ -271,7 +291,8 @@ public class MapSystem : MonoBehaviour
         AudioManager.GetComponent<SoundManager>().UISfxPlay(2);
 
     }
-    
+
+    #region PlayerMove
     public void PlayerMove(int _n, MoveCard _moveCard)
     {
         if (_n >0)
@@ -295,7 +316,6 @@ public class MapSystem : MonoBehaviour
         _stack--;
         curTileNum++;
         MoveCameraToTargetTile(tileMap[curTileNum]);
-
         playerRb = player.GetComponent<Rigidbody>();
         stpos = player.transform;
         endpos = tileMap[curTileNum].transform;
@@ -304,6 +324,11 @@ public class MapSystem : MonoBehaviour
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
         playerRb.DOPath(JumpPath, 1f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
+
+        if (!tileMap[curTileNum].isStepOn)
+        {
+            tileMap[curTileNum].isStepOn = true;
+        }
     }
 
     void PlayerMoveBack(int _stack, MoveCard _moveCard)
@@ -321,7 +346,7 @@ public class MapSystem : MonoBehaviour
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
         playerRb.DOPath(JumpPath, 1f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
     }
-
+    #endregion
     public void EndCardEffect()
     {
         tileMap[curTileNum].TileEffect();     
