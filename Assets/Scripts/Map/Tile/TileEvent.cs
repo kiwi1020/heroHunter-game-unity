@@ -55,7 +55,7 @@ public class TileEvent : MonoBehaviour
             case "신비한 석상":
                 Options.SetActive(true);
                 break;
-            case "재래시장":
+            case "떠돌이 상인":
                 SetGetCard(_mapTile.tileData.cardCount[1]);
                 break;
             case "도박장":
@@ -75,7 +75,7 @@ public class TileEvent : MonoBehaviour
         for (int i = 0; i < _n; i++)
         {
             //재래시장
-            if (mapTile.tileData.name == "재래시장")
+            if (mapTile.tileData.name == "떠돌이 상인")
             {
                 lostItems[i].gameObject.SetActive(true);
                 float xOffset = CalculateXOffset(_n, i);
@@ -290,7 +290,7 @@ public class TileEvent : MonoBehaviour
     public void EndEvent()
     {
 
-        if (!isLostItem && PlayManager.instance.isStone && getbattleCardDatas.Count <= mapTile.tileData.cardCount[0])
+        if (!isLostItem && !PlayManager.instance.isStone && getbattleCardDatas.Count <= mapTile.tileData.cardCount[0])
         {
             foreach (var card in getbattleCardDatas)
             {
@@ -329,6 +329,13 @@ public class TileEvent : MonoBehaviour
         }
         else if(BtnText == "도망")
         {
+            resetTileEvent();
+            gameObject.SetActive(false);
+            Option.SetActive(false);
+        }
+        else if (mapTile.tileData.name == "낭떠러지")
+        {
+            PlayerData.DeleteCard(getbattleCardDatas[0].name);
             resetTileEvent();
             gameObject.SetActive(false);
             Option.SetActive(false);

@@ -35,7 +35,8 @@ public class MapTile : MonoBehaviour
         {
 
             case "전투":
-                OnBattleStartButton();
+                MapSystem.instance.moveCardDraw = true;
+                //OnBattleStartButton();
                 break;
             case "선택":
                 MapSystem.instance.tileEffect_UI.SetEvent(this);

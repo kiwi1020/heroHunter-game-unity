@@ -30,7 +30,6 @@ public class MapSystem : MonoBehaviour
     public PopUp popUpObj;
 
     public List<MapTile> tileMap = new List<MapTile>();
-   
     public static int curTileNum
     {
         get
@@ -59,7 +58,7 @@ public class MapSystem : MonoBehaviour
     void Start()
     {
         setupMap();
-
+        setTileWeight();
         diceLook.SetDicePool();
         lostItems.SetLostItems();
     }
@@ -85,10 +84,8 @@ public class MapSystem : MonoBehaviour
         //수정(시작,보스, 조건)
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
-            //string previousTileType;
-            //int BattleCount = 0; 
-
-
+            string previousTileType;
+            int BattleCount = 0; 
             for(int i = 0; i< tileMap.Count; i++)
             {              
                 
@@ -107,6 +104,7 @@ public class MapSystem : MonoBehaviour
                 else
                 {
                     //타일 이벤트 확인할 때 사용(삭제 예정)
+                    
                     var tileData = DataManager.instance.AllTileDatas["신비한 석상"];
                     PlayManager.instance.tileMapData.Add(tileData);
                     
@@ -115,7 +113,7 @@ public class MapSystem : MonoBehaviour
                     do
                     {
                        
-                        var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
+                        var tileData = DataManager.instance.AllTileDatas["행운"];
                         string currentTileType = tileData.type;
                        
                         if (previousTileType == "전투" && currentTileType == "전투")
@@ -148,21 +146,31 @@ public class MapSystem : MonoBehaviour
         //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
     }
-    private string GetRandomTile()
+    //수정
+    private void setTileWeight()
     {
-        string[] TileName = new string[] { "낭떠러지", "경비대", "신비한 석상", "무덤", "재래시장", "늪지대", "설산", "도적떼", "도박장", "행운" };
-
-        var wrPicker = new WeightRandomPick<string>();
-
-        foreach (string name in TileName)
+        if (PlayManager.instance.startWeigtTile)
         {
-            int TileWeight = int.Parse(DataManager.instance.AllTileDatas[name].weight);
-            wrPicker.Add(name, TileWeight);
+            string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲",
+            "왕국입구","뒷골목","마을","기사 훈련장","왕의 방입구"};
+            foreach (string name in TileName)
+            {
+                int TileWeight = int.Parse(DataManager.instance.AllTileDatas[name].weight);
+                PlayManager.instance.wrPicker.Add(name, TileWeight);
+                print(TileWeight);
+            }
+            PlayManager.instance.startWeigtTile = false;
         }
-
-        return wrPicker.GetRandomPick(); ;
     }
+    //수정, 앞으로 이동 시 업데이트 
+    public void UpdateWeightTile()
+    {
 
+    }
+    private string GetRandomTile()
+    {       
+        return PlayManager.instance.wrPicker.GetRandomPick(); ;
+    }
     void GenerateTileObjects(int _count)
     {
         //무브씬에 타일 위치를 정하고 생성

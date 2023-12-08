@@ -43,64 +43,42 @@ public class BattleCardData
 
 public class TileData
 {
-    public string name, type, desc, weight, title, GetOrDelete;
+    public string name, type, desc, weight, title, GetOrDelete,unitCount,rate;
 
     public int[] cardCount; //0은 획득 또는 제거 가능한 카드 수, 1은 UI에 나타날 카드 수
-    public TileData(string _name, string _type, string _title, string _desc, string _GetOrDelete,int[] _cardCount,string _weight)
+    public TileData(string _name, string _type, string _title, string _desc,string _unitCount, string _GetOrDelete,int[] _cardCount,string _weight,string _rate)
     {
         name = _name;
         type = _type;
-        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+        weight = _weight; 
         cardCount = _cardCount;
+        unitCount = _unitCount;
         GetOrDelete = _GetOrDelete; 
         desc = _desc;
         title = _title;
+        rate = _rate;
     }  
 }
 public class BattleTile : TileData
 {
     public List<MonsterData> enemies = new List<MonsterData>();
 
-    public BattleTile(string _name, string _type, string _effect, string _title, string _desc, string _GetOrDelete, int[] _cardCount, string _weight) : base(_name,  _type, _title, _desc, _GetOrDelete, _cardCount, _weight)
+    public BattleTile(string _name, string _type, string _effect, string _title, string _desc, string _unitCount,string _GetOrDelete, int[] _cardCount, string _weight, string _rate) : base(_name,  _type, _title, _desc, _unitCount,_GetOrDelete, _cardCount, _weight,_rate)
     {
         name = _name;
         type = _type;
-        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
+        weight = _weight;
         enemies = _effect.Split(',').Select(x=> DataManager.instance.AllMonsterDatas[x]).ToList();
         desc  = _desc;
         title= _title;
+        unitCount = _unitCount;
         cardCount= _cardCount;
         GetOrDelete = _GetOrDelete; 
+        rate = _rate;
     }
 
     //적에 대한 정보
 }
-/* 타일 종류에 따라서 상속받는 클래스 더 만들려던거 아직 형식을 못 정해서 완성을 못 한 것
-public class SelectTile : TileData
-{
-    public SelectTile(string _name, string _type, string _effect, string _weight) : base(_name, _type, _weight)
-    {
-        name = _name;
-        type = _type;
-        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
-    }
-
-    //적에 대한 정보
-}
-
-public class GainTile : TileData
-{
-    public GainTile(string _name, string _type, string _effect, string _weight) : base(_name, _type, _weight)
-    {
-        name = _name;
-        type = _type;
-        weight = _weight; //성욱: 가중치 추가, 타일 생성 규칙 정할 시 수정
-    }
-
-    //적에 대한 정보
-}
-*/
-
 
 public class MoveCardData
 {
@@ -265,20 +243,19 @@ public class DataManager : MonoBehaviour
 
             TileData tileData = null;
 
-            //성욱: 가중치 추가(e[4]), 타일 생성 규칙 정할 시 수정
             switch (e[1])
             {
                 case "함정":
-                    tileData = new TileData(e[0], e[1], e[2],e[3],e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5],e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
                     break;
                 case "전투":
-                    tileData = new BattleTile(e[0], e[1], e[4], e[2], e[3], e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
+                    tileData = new BattleTile(e[0], e[1], e[4], e[2], e[3], e[5], e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
                     break;
                 case "선택":
-                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
                     break;
                 default:
-                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6].Split('/').Select(i => int.Parse(i)).ToArray(), e[8]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
                     break;
             }
             AllTileDatas.Add(e[0], tileData);           

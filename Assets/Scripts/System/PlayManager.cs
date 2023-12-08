@@ -57,9 +57,10 @@ public class PlayManager : MonoBehaviour
     public int curTileNum = 0;
 
     public List<TileData> tileMapData = new List<TileData>();
+    public WeightRandomPick<string> wrPicker = new WeightRandomPick<string>();
 
     public bool isStone=false;
-
+    public bool startWeigtTile = true;
     void Awake()
     {
         if (instance == null)

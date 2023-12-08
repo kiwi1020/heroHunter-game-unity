@@ -202,7 +202,7 @@ namespace Rito
         /***********************************************************************
         *                               Private Methods
         ***********************************************************************/
-        #region .
+        #region private Methods
 
         /// <summary> 모든 아이템의 가중치 합 계산해놓기 </summary>
         private void CalculateSumIfDirty()
