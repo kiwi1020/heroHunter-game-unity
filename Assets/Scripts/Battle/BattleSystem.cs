@@ -156,9 +156,10 @@ public class BattleSystem : MonoBehaviour
             print(tmpEft[0]);
             if (tmpEft.Length > 1 && tmpEft[1] == "적전체") // 전체 -> 무조건 적 전체임
             {
-                SkillUseSystem.Divide_Target(units[1], units[0], tmpEft[0]);
-                SkillUseSystem.Divide_Target(units[2], units[0], tmpEft[0]);
-                SkillUseSystem.Divide_Target(units[3], units[0], tmpEft[0]);
+                if (units[1].gameObject.activeSelf) SkillUseSystem.Divide_Target(units[1], units[0], tmpEft[0]);
+                if (units[2].gameObject.activeSelf) SkillUseSystem.Divide_Target(units[2], units[0], tmpEft[0]);
+                if (units[3].gameObject.activeSelf) SkillUseSystem.Divide_Target(units[3], units[0], tmpEft[0]);
+
             }
             else
             {
@@ -486,6 +487,8 @@ public class SkillUseSystem
 
     static void PiercingDamage(Unit _target, int _damage)
     {
+        Debug.Log($"{_target}");
+
         _target.Takedamage(_damage, true);
 
         GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(8);

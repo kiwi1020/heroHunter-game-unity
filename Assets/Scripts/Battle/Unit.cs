@@ -91,7 +91,7 @@ public class Unit : MonoBehaviour
 
     void Hit_Animation()
     {
-
+        print(this.name);
         //이건 적 전용 피격 애니메이션
         if (BattleSystem.instance.units[0] != this)
         {
