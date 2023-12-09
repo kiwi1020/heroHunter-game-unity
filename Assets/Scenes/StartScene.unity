@@ -4885,6 +4885,7 @@ MonoBehaviour:
   Options: {fileID: 0}
   Option: {fileID: 0}
   MoveBar: {fileID: 0}
+  EndingUI: {fileID: 0}
   getBattleCards: []
   lostItems: []
 --- !u!114 &2036710478

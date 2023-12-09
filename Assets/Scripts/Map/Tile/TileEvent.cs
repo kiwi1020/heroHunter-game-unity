@@ -235,7 +235,6 @@ public class TileEvent : MonoBehaviour
             resultText.text = rantext;
             startTime += Time.deltaTime;
 
-            print(startTime);
             if(startTime>=0.45f)
             {
                 MoveBarRect.DOAnchorPosY(0f, 0.2f);               
@@ -272,7 +271,7 @@ public class TileEvent : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (MapSystem.tileMap[MapSystem.curTileNum].name=="보스")
+        if (scene.name =="MoveScene" && MapSystem.tileMap[MapSystem.curTileNum].name=="보스")
         {
             gameObject.SetActive(true);
             EndingUI.enabled = true;
