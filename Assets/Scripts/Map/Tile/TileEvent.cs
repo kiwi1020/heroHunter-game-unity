@@ -271,21 +271,25 @@ public class TileEvent : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (!PlayManager.instance.IsFirst &&scene.name =="MoveScene" && MapSystem.tileMap[MapSystem.curTileNum].name=="보스")
+        if (!PlayManager.instance.IsFirst)
         {
-            gameObject.SetActive(true);
-            EndingUI.enabled = true;
-        }
-        else if (scene.name == "MoveScene" && PlayManager.instance.isStone)
-        {
-            MapSystem.instance.tileEffect_UI.gameObject.SetActive(true);
-            //SetGetCard(mapTile.tileData.cardCount[1]);
-            PlayManager.instance.isStone = false;
-        }
-        else if (scene.name == "MoveScene" && !PlayManager.instance.isStone)
-        {
-            //SetGetCard(mapTile.tileData.cardCount[1]);
-            PlayerData.diceCount++;
+            if (scene.name == "MoveScene" && PlayManager.instance.curTile.name == "보스")
+            {
+                gameObject.SetActive(true);
+                EndingUI.enabled = true;
+            }
+
+            else if (scene.name == "MoveScene" && PlayManager.instance.isStone)
+            {
+                MapSystem.instance.tileEffect_UI.gameObject.SetActive(true);
+                //SetGetCard(mapTile.tileData.cardCount[1]);
+                PlayManager.instance.isStone = false;
+            }
+            else if (scene.name == "MoveScene" && !PlayManager.instance.isStone)
+            {
+                //SetGetCard(mapTile.tileData.cardCount[1]);
+                PlayerData.diceCount++;
+            }
         }
     }
     #endregion

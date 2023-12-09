@@ -268,6 +268,7 @@ public class BattleSystem : MonoBehaviour
         {
             state = BattleState.LOST;
             PlayManager.instance.IsFirst = false;
+            PlayManager.instance.isStone = false;
             print(PlayManager.instance.IsFirst);
         }
         EndBattle();
