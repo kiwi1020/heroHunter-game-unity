@@ -20,6 +20,7 @@ public class BattleCardDeck : MonoBehaviour
 
     public int curHandCardCount = 3; // 이거는 실시간으로 변경되는 손패 개수
 
+   
     public void SetPlayerTurn()
     {
         ResetCard();
@@ -156,7 +157,6 @@ public class BattleCardDeck : MonoBehaviour
     {
         curHandCardCount--;
         curHands.Remove(_battleCard);
-        ResetColor(_battleCard.GetComponent<RectTransform>());
         SetHandCardPosition();
     }
 
