@@ -8305,7 +8305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curTileNum: 0
-  IsFirst: 0
+  IsFirst: 1
   isStone: 0
   startWeigtTile: 1
 --- !u!4 &927194425

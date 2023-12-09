@@ -63,7 +63,7 @@ public class PlayManager : MonoBehaviour
 
     public TileData curTile;
     public int curTileNum = 0;
-    public bool IsFirst = false;
+    public bool IsFirst = true;
 
     public List<TileData> tileMapData = new List<TileData>();
     public WeightRandomPick<string> wrPicker = new WeightRandomPick<string>();
