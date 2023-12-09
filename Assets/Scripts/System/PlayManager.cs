@@ -49,9 +49,9 @@ public class PlayerData
 
     public static void ClearCard()
     {
-        playerBattleCardDeck.Clear();
-        playerMoveCardDeck.Clear();
-        playerLostItems.Clear();
+        playerBattleCardDeck = new List<BattleCardData>();
+        playerMoveCardDeck = new List<MoveCardData>();
+        playerLostItems = new List<LostItem>();
         diceCount = 2;
     }
 }
@@ -82,11 +82,12 @@ public class PlayManager : MonoBehaviour
 
     void Start()
     {
-        PlayerData.ClearCard();
         SetStart();
+        if (MapSystem.instance != null) MapSystem.instance.PlayerDataSetting();
+
     }
 
-    void SetStart()
+    public void SetStart()
     {
         PlayerData.maxHP = 100;
         PlayerData.currentHP = PlayerData.maxHP;
