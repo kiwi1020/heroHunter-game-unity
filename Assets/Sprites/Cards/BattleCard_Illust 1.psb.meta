@@ -104,7 +104,7 @@ ScriptedImporter:
       y: 796
       width: 176
       height: 140
-    spriteID: bfd2a0e18d55b2642b991b3b9f73db5b
+    spriteID: c3f66eb3836261946ab98266b363d55e
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -1029,7 +1029,7 @@ ScriptedImporter:
     spriteName: "\uC131\uAE09\uD55C \uD310\uB2E8"
     isGroup: 0
     parentIndex: -1
-    spriteID: bfd2a0e18d55b2642b991b3b9f73db5b
+    spriteID: c3f66eb3836261946ab98266b363d55e
     layerID: 96
     mosaicPosition: {x: 4, y: 796}
     flatten: 0

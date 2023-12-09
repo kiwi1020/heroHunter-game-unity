@@ -7626,6 +7626,7 @@ MonoBehaviour:
   diceLook: {fileID: 1679723052}
   lostItems: {fileID: 145073893}
   popUpObj: {fileID: 1235557678}
+  tileMap: []
 --- !u!1 &875112222
 GameObject:
   m_ObjectHideFlags: 0

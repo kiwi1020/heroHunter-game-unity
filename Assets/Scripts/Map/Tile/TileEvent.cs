@@ -20,6 +20,7 @@ public class TileEvent : MonoBehaviour
     [SerializeField] GameObject Option;
     [SerializeField] GameObject MoveBar;
     [SerializeField] Image EndingUI;
+
     #endregion
     #region List<>
     public List<GetBattleCard> getBattleCards;
@@ -31,14 +32,12 @@ public class TileEvent : MonoBehaviour
     private bool isSpinning = false;
     private bool isLostItem = false;
     #endregion
-    #region Awake()
+
+    #region TileEvent Setting
     private void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded; 
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    #endregion
-    #region TileEvent Setting
-
     public void SetEvent(MapTile _mapTile)
     {
         gameObject.SetActive(true);
@@ -186,24 +185,7 @@ public class TileEvent : MonoBehaviour
     }
     #endregion
     #region TileEvents
-    public void TestofStone()
-    {
-        GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
-        BtnText = ClickButton.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text;
-
-        if(BtnText == "도전")
-        {
-            PlayManager.instance.curTile = DataManager.instance.AllTileDatas["석상시험"]; //임시로 설정
-            SceneManager.LoadScene("PlayScene");
-            Options.SetActive(false);
-            PlayManager.instance.isStone = true;
-        }
-        else if(BtnText == "도망")
-        {
-            EndEvent();
-        }
-    }
-    
+      
     //홀, 짝 게임
     public void OddEvenGames()
     {
@@ -269,25 +251,45 @@ public class TileEvent : MonoBehaviour
         }
         
     }
+    public void TestofStone()
+    {
+        GameObject ClickButton = EventSystem.current.currentSelectedGameObject;
+        BtnText = ClickButton.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text;
+
+        if (BtnText == "도전")
+        {
+            PlayManager.instance.curTile = DataManager.instance.AllTileDatas["석상시험"];
+            Options.SetActive(false);
+            PlayManager.instance.isStone = true;
+            SceneManager.LoadScene("PlayScene");
+        }
+        else if (BtnText == "도망")
+        {
+            EndEvent();
+        }
+    }
     public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (!PlayManager.instance.IsFirst)
+        if (PlayManager.instance.IsFirst)
         {
             if (scene.name == "MoveScene" && PlayManager.instance.curTile.name == "보스")
             {
-                gameObject.SetActive(true);
+                print("보스 성공");
                 EndingUI.enabled = true;
             }
 
             else if (scene.name == "MoveScene" && PlayManager.instance.isStone)
             {
-                MapSystem.instance.tileEffect_UI.gameObject.SetActive(true);
-                //SetGetCard(mapTile.tileData.cardCount[1]);
+                print("석상 성공");
+                gameObject.SetActive(true);
+                SetGetCard(mapTile.tileData.cardCount[1]);
                 PlayManager.instance.isStone = false;
             }
             else if (scene.name == "MoveScene" && !PlayManager.instance.isStone)
             {
-                //SetGetCard(mapTile.tileData.cardCount[1]);
+                print("일반 보상");
+                gameObject.SetActive(true);
+                SetGetCard(mapTile.tileData.cardCount[1]);
                 PlayerData.diceCount++;
             }
         }
