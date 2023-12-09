@@ -642,6 +642,8 @@ MonoBehaviour:
     sprite: {fileID: -9061078883916502843, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
   - name: "\uAC10\uC804"
     sprite: {fileID: 2115626207776779873, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
+  - name: "\uD6C4\uB824\uCE58\uAE30"
+    sprite: {fileID: 6772216658027265817, guid: 71723e89ade57a740bebd7ab770128df, type: 3}
   AllLostItemIllusts:
   - name: "\uB3C5\uC131 \uBC1C\uD1B1"
     sprite: {fileID: 21300000, guid: ff336ef5fef0f42928f0dc3a27b01d32, type: 3}
