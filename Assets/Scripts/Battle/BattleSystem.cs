@@ -36,7 +36,7 @@ public class BattleSystem : MonoBehaviour
 
     public PopUp popUp;
 
-    public PlayManager PlayManager;
+    public int deadcheck = 0;
 
     //public Animator 
 
@@ -94,6 +94,8 @@ public class BattleSystem : MonoBehaviour
         battleCardDeck.SetBattleCardDeck();
         PlayerTurn();
 
+        deadcheck = tileData.unitCount;
+        print(deadcheck);
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().BgSoundPlay(1);
     }
@@ -151,6 +153,7 @@ public class BattleSystem : MonoBehaviour
         {
             print(i);
             var tmpEft = i.Split('/');
+            print(tmpEft[0]);
             if (tmpEft.Length > 1 && tmpEft[1] == "적전체") // 전체 -> 무조건 적 전체임
             {
                 SkillUseSystem.Divide_Target(units[1], units[0], tmpEft[0]);
@@ -182,6 +185,25 @@ public class BattleSystem : MonoBehaviour
         cardActing = false;
 
         ActBattleCardSkill();
+
+        for (int i = 1; i < units.Length; i++)
+        {
+            if(units[i].currentHP <= 0)
+            {
+                if(units[i].gameObject.activeSelf == true) 
+                {
+                    units[i].gameObject.SetActive(false);
+                    deadcheck--;
+                    print(deadcheck);
+                }
+            }
+        }
+        if (deadcheck <= 0)
+        {
+            state = BattleState.WON;
+        }
+        EndBattle();
+
 
         //모든 카드를 썻으면 자동으로 적 턴
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;

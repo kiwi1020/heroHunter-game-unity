@@ -29,7 +29,7 @@ public class MapSystem : MonoBehaviour
 
     public PopUp popUpObj;
 
-    public static List<MapTile> tileMap = new List<MapTile>();
+    public List<MapTile> tileMap = new List<MapTile>();
 
     int BattleCount = 0;
     string previousTileType;
@@ -60,11 +60,9 @@ public class MapSystem : MonoBehaviour
 
     void Start()
     {
-        print(PlayManager.instance.IsFirst);
         if (PlayManager.instance.IsFirst == false) { 
             ResetTileMap();
             ResetWeight();
-            print(PlayManager.instance.IsFirst);
         }
         setTileWeight();
         setupMap();
@@ -132,6 +130,8 @@ public void PlayerDataSetting()
     }
     void SetTileMapData()
     {
+        print(PlayManager.instance.tileMapData.Count);
+        print(tileMap.Count);
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
             for(int i = 0; i< tileMap.Count; i++)
@@ -149,13 +149,7 @@ public void PlayerDataSetting()
                 }
 
                 else
-                {
-                    //타일 이벤트 확인할 때 사용(삭제 예정)
-                    
-                    var tileData = DataManager.instance.AllTileDatas["신비한 석상"];
-                    PlayManager.instance.tileMapData.Add(tileData);
-                    
-                    /*
+                {                 
                     previousTileType = PlayManager.instance.tileMapData[i-1].type;
                     do
                     {
@@ -190,7 +184,7 @@ public void PlayerDataSetting()
                     while (true);
                    
                     UpdateWeightTile();
-                    */
+
                 }
 
             }
