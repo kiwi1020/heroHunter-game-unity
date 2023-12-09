@@ -60,7 +60,10 @@ public class MapSystem : MonoBehaviour
 
     void Start()
     {
-        ResetTileMap();
+        if (PlayManager.instance.IsFirst == false) { 
+            ResetTileMap();
+            PlayManager.instance.IsFirst = true;
+        }
         setTileWeight();
         setupMap();
     }
