@@ -193,7 +193,7 @@ public class TileEvent : MonoBehaviour
 
         if(BtnText == "도전")
         {
-            PlayManager.instance.curTile = DataManager.instance.AllTileDatas["무덤"]; //임시로 설정
+            PlayManager.instance.curTile = DataManager.instance.AllTileDatas["석상시험"]; //임시로 설정
             SceneManager.LoadScene("PlayScene");
             Options.SetActive(false);
             PlayManager.instance.isStone = true;

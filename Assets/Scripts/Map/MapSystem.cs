@@ -197,7 +197,7 @@ public class MapSystem : MonoBehaviour
     {
         if (PlayManager.instance.startWeigtTile)
         {
-            string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲",
+            string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲","검문소",
             "왕국입구","뒷골목","마을","기사 훈련장","왕의 방입구"};
             foreach (string name in TileName)
             {
@@ -210,7 +210,7 @@ public class MapSystem : MonoBehaviour
 
     public void UpdateWeightTile()
     {
-        string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲",
+        string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲","검문소",
             "왕국입구","뒷골목","마을","기사 훈련장","왕의 방입구"};
         foreach (string name in TileName)
         {
