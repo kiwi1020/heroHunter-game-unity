@@ -135,7 +135,7 @@ public class MapSystem : MonoBehaviour
                         if (previousTileType == "전투" && currentTileType == "전투")
                         {
                             BattleCount++;                           
-                            if (BattleCount > 2)
+                            if (BattleCount > 1)
                             {                                                                
                                 continue;
                             }
@@ -190,16 +190,16 @@ public class MapSystem : MonoBehaviour
             {
                 //가중치 증가폭은 밸런스 수정
                 case "A":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 300);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 60);
                     break;
                 case "B":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 200);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 50);
                     break;
                 case "C":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 100);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight - 15);
                     break;
                 case "D":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 50);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight - 30);
                     break;
                 default: 
                     break;
