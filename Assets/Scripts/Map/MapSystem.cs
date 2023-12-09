@@ -62,6 +62,7 @@ public class MapSystem : MonoBehaviour
     {
         if (PlayManager.instance.IsFirst == false) { 
             ResetTileMap();
+            ResetWeight();
             PlayManager.instance.IsFirst = true;
         }
         setTileWeight();
@@ -76,6 +77,11 @@ public class MapSystem : MonoBehaviour
             Destroy(child.gameObject);
         }
         tileMap = new List<MapTile>();
+    }
+
+    void ResetWeight()
+    {
+        WeightRandomPick<string> wrPicker = new WeightRandomPick<string>();
     }
     public void PlayerDataSetting()
     {

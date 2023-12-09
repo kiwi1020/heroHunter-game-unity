@@ -143,6 +143,7 @@ public class TileEvent : MonoBehaviour
             //행운, 낭떠러지, 도박장
             else
             {
+                //
                 getBattleCards[i].gameObject.SetActive(true);
                 float xOffset = CalculateXOffset(_n, i);
                 getBattleCards[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
