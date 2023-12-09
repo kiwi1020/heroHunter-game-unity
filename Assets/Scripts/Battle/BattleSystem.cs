@@ -36,6 +36,8 @@ public class BattleSystem : MonoBehaviour
 
     public PopUp popUp;
 
+    public PlayManager PlayManager;
+
     //public Animator 
 
     void Awake()
@@ -182,7 +184,6 @@ public class BattleSystem : MonoBehaviour
         ActBattleCardSkill();
 
         //모든 카드를 썻으면 자동으로 적 턴
-
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
         
         ActEnemySideEffect(true);
@@ -263,6 +264,11 @@ public class BattleSystem : MonoBehaviour
     public void EfterEnemyTurn()
     {
         var tileData = (BattleTile)PlayManager.instance.curTile;
+        if(units[0].currentHP <= 0)
+        {
+            state = BattleState.LOST;
+        }
+        EndBattle();
 
         if (enemyOrder == tileData.enemies.Count )
         {
@@ -292,6 +298,7 @@ public class BattleSystem : MonoBehaviour
         else if (state == BattleState.LOST)
         {
             Act_EnemyAnimation();
+            SceneManager.LoadScene("StartScene");
         }
     }
 

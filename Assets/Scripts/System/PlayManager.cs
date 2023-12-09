@@ -46,6 +46,14 @@ public class PlayerData
         if (BattleSystem.instance != null) BattleSystem.instance.diceLook.SetDicePool();
         if (MapSystem.instance != null) MapSystem.instance.diceLook.SetDicePool();
     }
+
+    public static void ClearCard()
+    {
+        playerBattleCardDeck.Clear();
+        playerMoveCardDeck.Clear();
+        playerLostItems.Clear();
+        diceCount = 2;
+    }
 }
 
 public class PlayManager : MonoBehaviour
@@ -74,6 +82,7 @@ public class PlayManager : MonoBehaviour
 
     void Start()
     {
+        PlayerData.ClearCard();
         SetStart();
     }
 
