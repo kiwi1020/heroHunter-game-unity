@@ -271,7 +271,7 @@ public class TileEvent : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.name =="MoveScene" && MapSystem.tileMap[MapSystem.curTileNum].name=="보스")
+        if (!PlayManager.instance.IsFirst &&scene.name =="MoveScene" && MapSystem.tileMap[MapSystem.curTileNum].name=="보스")
         {
             gameObject.SetActive(true);
             EndingUI.enabled = true;

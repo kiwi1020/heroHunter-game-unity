@@ -83,7 +83,7 @@ public class MapSystem : MonoBehaviour
 
     void ResetWeight()
     {
-        WeightRandomPick<string> wrPicker = new WeightRandomPick<string>();
+        PlayManager.instance.wrPicker = new WeightRandomPick<string>();
     }
     public void PlayerDataSetting()
     {
