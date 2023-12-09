@@ -43,10 +43,10 @@ public class BattleCardData
 
 public class TileData
 {
-    public string name, type, desc, weight, title, GetOrDelete,unitCount,rate;
-
+    public string name, type, desc, weight, title, GetOrDelete,rate;
+    public int unitCount;
     public int[] cardCount; //0은 획득 또는 제거 가능한 카드 수, 1은 UI에 나타날 카드 수
-    public TileData(string _name, string _type, string _title, string _desc,string _unitCount, string _GetOrDelete,int[] _cardCount,string _weight,string _rate)
+    public TileData(string _name, string _type, string _title, string _desc,int _unitCount, string _GetOrDelete,int[] _cardCount,string _weight,string _rate)
     {
         name = _name;
         type = _type;
@@ -61,14 +61,14 @@ public class TileData
 }
 public class BattleTile : TileData
 {
-    public List<MonsterData> enemies = new List<MonsterData>();
+    public MonsterData enemie;
 
-    public BattleTile(string _name, string _type, string _effect, string _title, string _desc, string _unitCount,string _GetOrDelete, int[] _cardCount, string _weight, string _rate) : base(_name,  _type, _title, _desc, _unitCount,_GetOrDelete, _cardCount, _weight,_rate)
+    public BattleTile(string _name, string _type, string _effect, string _title, string _desc, int _unitCount,string _GetOrDelete, int[] _cardCount, string _weight, string _rate) : base(_name,  _type, _title, _desc, _unitCount,_GetOrDelete, _cardCount, _weight,_rate)
     {
         name = _name;
         type = _type;
         weight = _weight;
-        enemies = _effect.Split(',').Select(x=> DataManager.instance.AllMonsterDatas[x]).ToList();
+        enemie = DataManager.instance.AllMonsterDatas[_effect];
         desc  = _desc;
         title= _title;
         unitCount = _unitCount;
@@ -246,20 +246,22 @@ public class DataManager : MonoBehaviour
             switch (e[1])
             {
                 case "함정":
-                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5],e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], int.Parse(e[5]),e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);                    
                     break;
                 case "전투":
-                    tileData = new BattleTile(e[0], e[1], e[4], e[2], e[3], e[5], e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
+                    tileData = new BattleTile(e[0], e[1], e[4], e[2], e[3], int.Parse(e[5]), e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
                     break;
                 case "선택":
-                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], int.Parse(e[5]), e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
                     break;
                 default:
-                    tileData = new TileData(e[0], e[1], e[2], e[3], e[5], e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
+                    tileData = new TileData(e[0], e[1], e[2], e[3], int.Parse(e[5]), e[6], e[7].Split('/').Select(i => int.Parse(i)).ToArray(), e[8], e[9]);
                     break;
             }
             AllTileDatas.Add(e[0], tileData);           
             AllTileList.Add(e[0]);
+            
+                
         }
 
         // 4. EnemySnA

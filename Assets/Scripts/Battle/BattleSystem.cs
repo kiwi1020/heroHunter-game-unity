@@ -68,7 +68,7 @@ public class BattleSystem : MonoBehaviour
 
         var tileData = (BattleTile)PlayManager.instance.curTile;
 
-        for (int i = 0; i < tileData.enemies.Count + 1; i++)
+        for (int i = 0; i < tileData.unitCount + 1; i++)
         {
             units[i].gameObject.SetActive(true);
             unitHUDs[i].gameObject.SetActive(true);
@@ -80,7 +80,7 @@ public class BattleSystem : MonoBehaviour
             }
             else // Enemy
             {
-                SetEnemyUnit(units[i], unitHUDs[i], tileData.enemies[i - 1]);
+                SetEnemyUnit(units[i], unitHUDs[i], tileData.enemie);
             }
         }
 
@@ -101,7 +101,7 @@ public class BattleSystem : MonoBehaviour
     void SetEnemyUnit(Unit _unit, BattleHUD _hud, MonsterData _data)
     {
         _unit.SetUnit(_data);
-        _unit.GetComponent<EnemyUnitSkin>().ChangeSkin(DataManager.instance.AllEnemySnAs[_unit.unitName].skinNames);
+        _unit.GetComponent<EnemyUnitSkin>().ChangeSkin(DataManager.instance.AllEnemySnAs[_data.name].skinNames);
         //_hud.SetHUD(_unit);
     }
 
@@ -270,7 +270,7 @@ public class BattleSystem : MonoBehaviour
         }
         EndBattle();
 
-        if (enemyOrder == tileData.enemies.Count )
+        if (enemyOrder == tileData.unitCount)
         {
             state = BattleState.PLAYERTURN;
             enemyOrder = 1; //배틀 시스템 유닛에서 적은 1번 부터라서 1로 초기화

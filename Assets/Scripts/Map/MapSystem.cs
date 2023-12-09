@@ -155,6 +155,8 @@ public class MapSystem : MonoBehaviour
                             }
                             else { 
                                 PlayManager.instance.tileMapData.Add (tileData);
+                                if (DataManager.instance.AllTileDatas[tileData.name].unitCount >=3)
+                                    DataManager.instance.AllTileDatas[tileData.name].unitCount++;
                                 break;
                             }
                         }
@@ -162,11 +164,14 @@ public class MapSystem : MonoBehaviour
                         else if(previousTileType != currentTileType)
                         {
                             PlayManager.instance.tileMapData.Add (tileData);
+                            if (DataManager.instance.AllTileDatas[tileData.name].unitCount >= 3)
+                                DataManager.instance.AllTileDatas[tileData.name].unitCount++;
                             BattleCount = 0;
                             break;
                         }
                     }
                     while (true);
+                   
                     UpdateWeightTile();
                 }
 
