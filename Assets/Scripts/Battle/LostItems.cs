@@ -20,6 +20,7 @@ public class LostItems : MonoBehaviour
         {
             i.gameObject.SetActive(false);
         }
+        print(PlayerData.playerLostItems.Count);
         for(int i = 0; i< PlayerData.playerLostItems.Count; i++)
         {
             images[i].gameObject.SetActive(true);

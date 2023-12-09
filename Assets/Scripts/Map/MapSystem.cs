@@ -60,8 +60,22 @@ public class MapSystem : MonoBehaviour
 
     void Start()
     {
+        ResetTileMap();
         setTileWeight();
         setupMap();
+    }
+    void ResetTileMap()
+    {
+        curTileNum = 0;
+        PlayManager.instance.tileMapData = new List<TileData>();
+        foreach (Transform child in tileParents.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        tileMap = new List<MapTile>();
+    }
+    public void PlayerDataSetting()
+    {
         diceLook.SetDicePool();
         lostItems.SetLostItems();
     }
