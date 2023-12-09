@@ -314,7 +314,11 @@ public class MapSystem : MonoBehaviour
     #region PlayerMove
     public void PlayerMove(int _n, MoveCard _moveCard)
     {
-        if (_n >0)
+        if (tileMap[curTileNum].name == "보스")
+        {
+            _moveCard.MoveEffect();
+        }
+        else if (_n >0)
         {
             PlayerMoveFoward(_n, _moveCard);
         }

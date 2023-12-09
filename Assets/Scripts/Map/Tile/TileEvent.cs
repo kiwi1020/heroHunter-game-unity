@@ -19,6 +19,7 @@ public class TileEvent : MonoBehaviour
     [SerializeField] GameObject Options;
     [SerializeField] GameObject Option;
     [SerializeField] GameObject MoveBar;
+    [SerializeField] Image EndingUI;
     #endregion
     #region List<>
     public List<GetBattleCard> getBattleCards;
@@ -270,7 +271,12 @@ public class TileEvent : MonoBehaviour
     }
     public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        if (scene.name == "MoveScene" && PlayManager.instance.isStone)
+        if (MapSystem.tileMap[MapSystem.curTileNum].name=="º¸½º")
+        {
+            gameObject.SetActive(true);
+            EndingUI.enabled = true;
+        }
+        else if (scene.name == "MoveScene" && PlayManager.instance.isStone)
         {
             MapSystem.instance.tileEffect_UI.gameObject.SetActive(true);
             SetGetCard(mapTile.tileData.cardCount[1]);

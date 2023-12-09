@@ -8,8 +8,6 @@ public class LostItems : MonoBehaviour
 {
     [SerializeField] Image[] images;
 
-    
-
     void OnEnable()
     {
         SetLostItems();

@@ -47,8 +47,8 @@ public class MapTile : MonoBehaviour
             case "º¸»ó":              
                 MapSystem.instance.tileEffect_UI.SetEvent(this);                
                 break;
-
-            default:               
+            default:
+                MapSystem.instance.moveCardDraw = true;
                 break;
 
         }
