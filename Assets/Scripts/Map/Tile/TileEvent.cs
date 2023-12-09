@@ -127,15 +127,10 @@ public class TileEvent : MonoBehaviour
                     //배틀 카드 설정
                     GameObject getCard = getBattleCards[i].gameObject;
 
-
-                    string[] BattleCardNames = new string[] { "갈라치기", "뒤통수치기", "급소 찌르기", "성급한 판단", "속사", "비열한 찌르기" };
-                    // 랜덤으로 BattleCardNames에서 카드 이름을 선택
                     string randomName;
                     BattleCardData card;
 
-                    //배틀카드 sprite 완성 시 변경
-                    //randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
-                    randomName = BattleCardNames[Random.Range(0, BattleCardNames.Length)];
+                    randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
                     getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = true;
                     card = DataManager.instance.AllBattleCardDatas[randomName];
                     
@@ -154,16 +149,11 @@ public class TileEvent : MonoBehaviour
                 //배틀 카드 설정
                 GameObject getCard = getBattleCards[i].gameObject;
 
-
-                string[] BattleCardNames = new string[] { "갈라치기", "뒤통수치기", "급소 찌르기", "성급한 판단", "속사", "비열한 찌르기" };
-                // 랜덤으로 BattleCardNames에서 카드 이름을 선택
                 string randomName;
                 BattleCardData card;
                 if (mapTile.tileData.GetOrDelete == "획득")
                 {
-                    //배틀카드 sprite 완성 시 변경
-                    //randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
-                    randomName = BattleCardNames[Random.Range(0, BattleCardNames.Length)];
+                    randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
                     getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = true;
                     card = DataManager.instance.AllBattleCardDatas[randomName];
                 }

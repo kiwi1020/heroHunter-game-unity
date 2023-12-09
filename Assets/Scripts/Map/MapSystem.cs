@@ -29,7 +29,10 @@ public class MapSystem : MonoBehaviour
 
     public PopUp popUpObj;
 
-    public List<MapTile> tileMap = new List<MapTile>();
+    public static List<MapTile> tileMap = new List<MapTile>();
+
+    int BattleCount = 0;
+    string previousTileType;
     public static int curTileNum
     {
         get
@@ -100,11 +103,8 @@ public class MapSystem : MonoBehaviour
     {
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
-            string previousTileType;
-            int BattleCount = 0; 
             for(int i = 0; i< tileMap.Count; i++)
-            {              
-                
+            {                         
                 //처음: 시작, 끝: 보스 타일로 고정
                 if (i == 0)
                 {
@@ -152,13 +152,13 @@ public class MapSystem : MonoBehaviour
                             break;
                         }
                     }
-                    while (true);  
-                    
+                    while (true);
+                    UpdateWeightTile();
                 }
 
             }
         }
-
+        BattleCount = 0;
         //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
     }
@@ -177,7 +177,7 @@ public class MapSystem : MonoBehaviour
             PlayManager.instance.startWeigtTile = false;
         }
     }
-    //수정, 앞으로 이동 시 업데이트 
+
     public void UpdateWeightTile()
     {
         string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲",
@@ -190,16 +190,16 @@ public class MapSystem : MonoBehaviour
             {
                 //가중치 증가폭은 밸런스 수정
                 case "A":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 100);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 300);
                     break;
                 case "B":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 80);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 200);
                     break;
                 case "C":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 60);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 100);
                     break;
                 case "D":
-                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 40);
+                    PlayManager.instance.wrPicker.ModifyWeight(name, tileWeight + 50);
                     break;
                 default: 
                     break;
@@ -312,7 +312,6 @@ public class MapSystem : MonoBehaviour
 
     void PlayerMoveFoward(int _stack, MoveCard _moveCard)
     {
-
         _stack--;
         curTileNum++;
         MoveCameraToTargetTile(tileMap[curTileNum]);
@@ -324,11 +323,6 @@ public class MapSystem : MonoBehaviour
             new Vector3(topPos.x,topPos.y+1.5f,topPos.z),
             new Vector3(endpos.position.x,endpos.position.y,endpos.position.z) };
         playerRb.DOPath(JumpPath, 1f, PathType.CatmullRom, PathMode.TopDown2D).SetEase(Ease.InCubic).OnComplete(() => PlayerMove(_stack, _moveCard));
-
-        if (!tileMap[curTileNum].isStepOn)
-        {
-            tileMap[curTileNum].isStepOn = true;
-        }
     }
 
     void PlayerMoveBack(int _stack, MoveCard _moveCard)

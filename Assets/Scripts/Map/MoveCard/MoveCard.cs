@@ -39,12 +39,12 @@ public class MoveCard : MonoBehaviour
     public void SelectCard()
     {
         remainEffect = moveCardData.effects;
-
         cardEffectCount = 0;
 
         MoveEffect(); //카드가 가지고 있는 효과, 2개가 잇으면 2부터 효과를 발동할때마다 1씩 감소하는 메서드
-        
+       
         CardsHand = transform.parent.gameObject; 
+
 
     }
 
