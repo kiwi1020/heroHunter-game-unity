@@ -417,6 +417,7 @@ MonoBehaviour:
   currentHP: 100
   shield: 0
   animator: {fileID: 0}
+  skillOrder: 0
   dotDamage: 000000000000000000000000
   stack:
   - 0
@@ -425,7 +426,6 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  sideEffect: 000000000000000000000000000000000000000000000000
 --- !u!54 &3072668017368079009
 Rigidbody:
   m_ObjectHideFlags: 0

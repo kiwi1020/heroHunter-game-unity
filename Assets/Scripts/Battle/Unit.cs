@@ -78,10 +78,8 @@ public class Unit : MonoBehaviour
     //적
     public void Effect_EnemyAnimation()
     {
-
-        BattleSystem.instance.EffectEnemySkill(skillOrder++);
-
-        if (skillOrder >= monsterData.patterns.Count) skillOrder = 0;
+        BattleSystem.instance.EffectEnemySkill(skillOrder);
+        skillOrder = skillOrder >= monsterData.patterns.Count-1 ? 0 : skillOrder += 1;
     }
 
     public void Finish_EnemyAnimation()
@@ -91,7 +89,6 @@ public class Unit : MonoBehaviour
 
     void Hit_Animation()
     {
-        print(this.name);
         //이건 적 전용 피격 애니메이션
         if (BattleSystem.instance.units[0] != this)
         {
@@ -118,13 +115,7 @@ public class Unit : MonoBehaviour
 
     public void ActSideEffect(bool endOfPlayerTurn)
     {
-        if(endOfPlayerTurn) //플레이어 턴 끝나고
-        {
-            ActDotDamage();
-        }
-        else // 적 턴 끝나고
-        {
-        }
+        ActDotDamage();
     }
     void ActDotDamage()
     {
@@ -178,10 +169,10 @@ public class Unit : MonoBehaviour
 
         Hit();
 
-        BattleSystem.instance.FloatText(battleHUD.gameObject, "-" + _damage);
+        if(battleHUD != null) BattleSystem.instance.FloatText(battleHUD.gameObject, "-" + _damage);
 
         battleHUD.SetHP();
-
+        battleHUD.SetSideEffect();
     }
 
     public void TakeHeal(float _damage)
@@ -201,6 +192,5 @@ public class Unit : MonoBehaviour
         BattleSystem.instance.FloatText(battleHUD.gameObject, "보호막 +" + (int)_damage);
         battleHUD.SetHP();
     }
-
     #endregion
 }

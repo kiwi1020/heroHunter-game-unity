@@ -45,18 +45,25 @@ public class BattleCard_CardBag : MonoBehaviour
         cardNameText.color = Color.white;
 
         cardDesText.text = "";
-
-        for (int i = 0; i < battleCardData.skillData.effects.Count; i++)
+        if (battleCardData.skillData.effects[0] == "없음")
         {
-            var des = battleCardData.skillData.effects[i].Split('/')[0].Split(":");
-
-            if (battleCardData.skillData.effects[i].Split('/').Length > 1) cardDesText.text += "전체 ";
-
-            if (des.Length > 2) cardDesText.text += float.Parse(des[2]) * 100 + "% ";
-
-            cardDesText.text += des[0] + " " + des[1] + "\n";
-
+            cardDesText.text = "없음";
         }
+        else
+        {
+            for (int i = 0; i < battleCardData.skillData.effects.Count; i++)
+            {
+                var des = battleCardData.skillData.effects[i].Split('/')[0].Split(":");
+
+                if (battleCardData.skillData.effects[i].Split('/').Length > 1) cardDesText.text += "전체 ";
+
+                if (des.Length > 2) cardDesText.text += float.Parse(des[2]) * 100 + "% ";
+
+                cardDesText.text += des[0] + " " + des[1] + "\n";
+
+            }
+        }
+
 
         //
 

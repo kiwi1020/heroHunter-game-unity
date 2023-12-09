@@ -164,6 +164,9 @@ public class BattleCardDeck : MonoBehaviour
     {
         curHandCardCount = 0;
         curHands.Clear();
-        foreach (RectTransform i in battleCardPool) i.gameObject.SetActive(false);
+        foreach (RectTransform i in battleCardPool)
+        {
+            i.DOAnchorPos(new Vector2(0, -850), 1).OnComplete(() => i.gameObject.SetActive(false));
+        }
     }
 }

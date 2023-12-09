@@ -12,6 +12,7 @@ public class FloatingText : MonoBehaviour
 
     public void SetText(string _text, Color _color)
     {
+        if (rect == null || text == null) return;
         DOTween.Kill(rect);
         DOTween.Kill(text);
         gameObject.SetActive(true);
@@ -22,6 +23,7 @@ public class FloatingText : MonoBehaviour
 
     public void Floating()
     {
+        if (rect == null || text == null) return;
         rect.DOAnchorPos(new Vector2(rect.anchoredPosition.x, 0), 2);
         text.DOFade(0, 2);
     }

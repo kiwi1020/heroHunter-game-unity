@@ -48,17 +48,25 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
         cardDesText.text = "";
 
-        for (int i = 0; i< _battleCardData.skillData.effects.Count; i++)
+        if (_battleCardData.skillData.effects[0] == "없음")
         {
-            var des = _battleCardData.skillData.effects[i].Split('/')[0].Split(":");
-
-            if (_battleCardData.skillData.effects[i].Split('/').Length > 1) cardDesText.text += "전체 ";
-
-            if (des.Length > 2) cardDesText.text += float.Parse(des[2])*100 + "% ";
-
-            cardDesText.text += des[0] + " " + des[1] + "\n";
-
+            cardDesText.text = "없음";
         }
+        else
+        {
+            for (int i = 0; i < _battleCardData.skillData.effects.Count; i++)
+            {
+                var des = _battleCardData.skillData.effects[i].Split('/')[0].Split(":");
+
+                if (_battleCardData.skillData.effects[i].Split('/').Length > 1) cardDesText.text += "전체 ";
+
+                if (des.Length > 2) cardDesText.text += float.Parse(des[2]) * 100 + "% ";
+
+                cardDesText.text += des[0] + " " + des[1] + "\n";
+
+            }
+        }
+
 
         //
 
@@ -117,7 +125,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
             var tmpDice = eventData.pointerDrag.GetComponent<Dice>();
 
-            if (ConditionCheck(tmpDice.number))
+            if (ConditionCheck(tmpDice.number) && enforced == false)
             {
                 eventData.pointerDrag.GetComponent<Dice>().Use();
                 EnforceCard();

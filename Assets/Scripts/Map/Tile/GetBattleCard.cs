@@ -13,6 +13,7 @@ public class GetBattleCard : MonoBehaviour
     [SerializeField] Outline outline;
     RectTransform rect;
     BattleCardData battleCardData;
+    DiceConditioner diceConditioner;
 
     public int ClickCount;
     public  bool isSelect=false;
@@ -25,11 +26,32 @@ public class GetBattleCard : MonoBehaviour
     public void SetCard(BattleCardData _battleCardData)
     {
         battleCardData = _battleCardData;
-        cardNameText.text = _battleCardData.name;
-        cardNameText.color = Color.white;
-        cardDesText.text = _battleCardData.skillData.effects[0];
-
         illust.sprite = DataManager.instance.AlllBattleCardIllusts.Find(x => x.name == battleCardData.name).sprite;
+        cardNameText.text = battleCardData.name;
+        cardNameText.color = Color.white;
+
+        cardDesText.text = "";
+        if (battleCardData.skillData.effects[0] == "없음")
+        {
+            cardDesText.text = "없음";
+        }
+        else
+        {
+            for (int i = 0; i < battleCardData.skillData.effects.Count; i++)
+            {
+                var des = battleCardData.skillData.effects[i].Split('/')[0].Split(":");
+
+                if (battleCardData.skillData.effects[i].Split('/').Length > 1) cardDesText.text += "전체 ";
+
+                if (des.Length > 2) cardDesText.text += float.Parse(des[2]) * 100 + "% ";
+
+                cardDesText.text += des[0] + " " + des[1] + "\n";
+
+            }
+        }
+        diceConditioner = GetComponent<DiceConditioner>();
+
+        diceConditioner.SetDiceCondition(battleCardData.diceCondition);
     }
 
     public void Zoom(bool _zoom)

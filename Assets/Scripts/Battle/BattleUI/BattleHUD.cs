@@ -14,6 +14,11 @@ public class BattleHUD : MonoBehaviour
 
     Unit unit;
 
+    public void OffGameObj()
+    {
+        //서서히 사라지기
+        gameObject.SetActive(false);
+    }
     public void SetHUD(Unit _unit)
     {
         unit = _unit;

@@ -83,10 +83,8 @@ public class PlayManager : MonoBehaviour
 
     void Start()
     {
-        print(PlayerData.playerBattleCardDeck);
         SetStart();
         if (MapSystem.instance != null) MapSystem.instance.PlayerDataSetting();
-
     }
 
     public void SetStart()
@@ -96,10 +94,12 @@ public class PlayManager : MonoBehaviour
 
         for(int i = 0; i<10; i++) // 임시
         {
-            PlayerData.GainCard("갈라치기"); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
+            PlayerData.GainCard(DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardList.Count)]); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
             PlayerData.GainCard("속사");
-            PlayerData.GainMoveCard("걷기");
         }
+
+        for (int i = 0; i < DataManager.instance.AllMonsterList.Count; i++)
+            PlayerData.GainMoveCard(DataManager.instance.AllMoveCardList[i]);
 
         PlayerData.GainLostItem("독성 발톱");
 

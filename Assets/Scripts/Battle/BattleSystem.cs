@@ -8,7 +8,7 @@ public class BattleSystem : MonoBehaviour
 {
     public static BattleSystem instance;
 
-    public Unit[] units; // 플레이어, 적, 적, 적 
+    public List<Unit> units = new List<Unit>(); // 플레이어, 적, 적, 적 
     public BattleHUD[] unitHUDs;
 
     public GameObject floatingTextPrefab;
@@ -38,6 +38,9 @@ public class BattleSystem : MonoBehaviour
 
     public int deadcheck = 0;
 
+    //
+
+    [SerializeField] ResultFloater resultFloater;
     //public Animator 
 
     void Awake()
@@ -49,12 +52,13 @@ public class BattleSystem : MonoBehaviour
     }
     void Start()
     {  
-        for(int i = 0; i < units.Length; i++) units[i].battleHUD = unitHUDs[i];
-        //
+        for(int i = 0; i < units.Count; i++) units[i].battleHUD = unitHUDs[i];
+
         state = BattleState.START;
         SetupBattle();
         diceLook.SetDicePool();
     }
+
 
     #region BattleSetting
 
@@ -68,6 +72,8 @@ public class BattleSystem : MonoBehaviour
 
         var tileData = (BattleTile)PlayManager.instance.curTile;
 
+        var tmpUnit = new List<Unit>();
+
         for (int i = 0; i < tileData.unitCount + 1; i++)
         {
             units[i].gameObject.SetActive(true);
@@ -77,12 +83,19 @@ public class BattleSystem : MonoBehaviour
             {
                 units[i].SetUnit();
                 unitHUDs[i].SetHUD(units[i]);
+                tmpUnit.Add(units[i]);
             }
             else // Enemy
             {
-                SetEnemyUnit(units[i], unitHUDs[i], tileData.enemie);
+                units[i].SetUnit(tileData.enemie);
+                StartCoroutine(units[i].GetComponent<EnemyUnitSkin>().ChangeSkin(DataManager.instance.AllEnemySnAs[tileData.enemie.name].skinNames));
+                
+                //SetEnemyUnit(units[i], unitHUDs[i], tileData.enemie);
+                tmpUnit.Add(units[i]);
             }
         }
+
+        units = tmpUnit;
 
         curDiceCount = PlayerData.diceCount;
 
@@ -92,18 +105,16 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.PLAYERTURN;
 
         battleCardDeck.SetBattleCardDeck();
-        PlayerTurn();
 
         deadcheck = tileData.unitCount;
-        print(deadcheck);
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().BgSoundPlay(1);
+
+        PlayerTurn();
     }
 
     void SetEnemyUnit(Unit _unit, BattleHUD _hud, MonsterData _data)
     {
-        _unit.SetUnit(_data);
-        _unit.GetComponent<EnemyUnitSkin>().ChangeSkin(DataManager.instance.AllEnemySnAs[_data.name].skinNames);
         //_hud.SetHUD(_unit);
     }
 
@@ -142,41 +153,33 @@ public class BattleSystem : MonoBehaviour
         units[0].animator.SetTrigger("attack");
     }
 
-    //Unit -> Effect_PlayerAnimation 및 Finish_PlayerAnimation 작동
-
     public void EffectBattleCard()
     {
         var skillArray = usedBattleCardQueue[0].battleCard.enforced ? 
             usedBattleCardQueue[0].battleCard.battleCardData.skillData.enforcedEffects :
             usedBattleCardQueue[0].battleCard.battleCardData.skillData.effects;
+
+
         foreach (string i in skillArray)
         {
-            print(i);
             var tmpEft = i.Split('/');
-            print(tmpEft[0]);
             if (tmpEft.Length > 1 && tmpEft[1] == "적전체") // 전체 -> 무조건 적 전체임
             {
-                if (units[1].gameObject.activeSelf) SkillUseSystem.Divide_Target(units[1], units[0], tmpEft[0]);
-                if (units[2].gameObject.activeSelf) SkillUseSystem.Divide_Target(units[2], units[0], tmpEft[0]);
-                if (units[3].gameObject.activeSelf) SkillUseSystem.Divide_Target(units[3], units[0], tmpEft[0]);
+                for(int j = 1; j < units.Count; j++)
+                    if (units[j].gameObject.activeSelf) SkillUseSystem.Divide_Target(units[j], units[0], tmpEft[0]);
 
             }
             else
             {
+                if (usedBattleCardQueue[0].target == null)
+                {
+                    SkillUseSystem.Divide_Target(units[0], units[0], "복제:" + usedBattleCardQueue[0].battleCard.battleCardData.name);
+                    return;
+                }
+
                 SkillUseSystem.Divide_Target(usedBattleCardQueue[0].target, units[0], tmpEft[0]);
             }
         }
-
-        /*
-                bool isDead = units[1].Takedamage(units[0].damage);
-
-                if (isDead)
-                {
-                    state = BattleState.WON;
-                    Destroy(units[1]);
-                    EndBattle();
-                }
-        */
     }
 
     public void EfterPlayerTurn()
@@ -186,42 +189,47 @@ public class BattleSystem : MonoBehaviour
         cardActing = false;
 
         ActBattleCardSkill();
-
-        for (int i = 1; i < units.Length; i++)
-        {
-            if(units[i].currentHP <= 0)
-            {
-                if(units[i].gameObject.activeSelf == true) 
-                {
-                    units[i].gameObject.SetActive(false);
-                    deadcheck--;
-                    print(deadcheck);
-                }
-            }
-        }
-        if (deadcheck <= 0)
-        {
-            state = BattleState.WON;
-        }
+        EnemyDeadCheck();
         EndBattle();
-
-
         //모든 카드를 썻으면 자동으로 적 턴
         if (battleCardDeck.curHandCardCount > 0 || usedBattleCardQueue.Count > 0) return;
         
         ActEnemySideEffect(true);
+        EnemyDeadCheck();
+        EndBattle();
 
-        if(battleCardDeck.pocket.isOpen) battleCardDeck.pocket.ReturnDice();
+        if (battleCardDeck.pocket.isOpen) battleCardDeck.pocket.ReturnDice();
 
         StartCoroutine( EnemyTurn());
         buttonActive.ButtonFalse();
     }
 
+    void EnemyDeadCheck()
+    {
+        for (int i = units.Count-1; i > 0; i--)
+        {
+            if (units[i].currentHP <= 0)
+            {
+                units[i].gameObject.SetActive(false);
+                units[i].battleHUD.OffGameObj();
+                units.RemoveAt(i);
+            }
+        }
+        if (units.Count <= 1 && units[0].name == "Player") state = BattleState.WON;
+    }
+
     public void ActEnemySideEffect(bool _endOfPlayerTurn)
     {
-        for (int i = 1; i<units.Length; i++)
+        if(_endOfPlayerTurn)
         {
-            if(units[i].gameObject.activeSelf) units[i].ActSideEffect(_endOfPlayerTurn);
+            for (int i = 1; i < units.Count; i++)
+            {
+                if (units[i].gameObject.activeSelf) units[i].ActSideEffect(_endOfPlayerTurn);
+            }
+        }
+        else
+        {
+            units[0].ActSideEffect(_endOfPlayerTurn);
         }
     }
 
@@ -240,6 +248,7 @@ public class BattleSystem : MonoBehaviour
 
     void Act_EnemyAnimation()
     {
+        if(units[enemyOrder] == null)
 
         if (units[enemyOrder].ActStun()) return;//기절 시 넘김
         //job은 미리 설정
@@ -255,48 +264,31 @@ public class BattleSystem : MonoBehaviour
         foreach (string i in tmpSkillData.effects)
         {
             var tmpEft = i.Split('/');
-            if (tmpEft.Length > 1 && tmpEft[1] == "아군전체") 
+            if (tmpEft.Length > 1 && tmpEft[1] == "아군전체")
             {
-                print("in");
-                SkillUseSystem.Divide_Target(units[0], units[1], tmpEft[0]);
-                SkillUseSystem.Divide_Target(units[0], units[2], tmpEft[0]);
-                SkillUseSystem.Divide_Target(units[0], units[3], tmpEft[0]);
+                for (int j = 1; j < units.Count; j++)
+                    SkillUseSystem.Divide_Target(units[0], units[j], tmpEft[0]);
             }
             else
             {
                 SkillUseSystem.Divide_Target(units[0], units[enemyOrder], tmpEft[0]);
             }
         }
-
-
-        /*
-        bool isDead = units[0].Takedamage(units[1].damage);
-
-
-        if (isDead)
-        {
-            state = BattleState.LOST;
-            Destroy(units[0]);
-            EndBattle();
-        }
-        GameObject AudioManager = GameObject.Find("AudioManager");
-        AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
-        */
     }
 
     public void EfterEnemyTurn()
     {
-        var tileData = (BattleTile)PlayManager.instance.curTile;
         if(units[0].currentHP <= 0)
         {
             state = BattleState.LOST;
             PlayManager.instance.IsFirst = false;
             PlayManager.instance.isStone = false;
-            print(PlayManager.instance.IsFirst);
+
         }
+
         EndBattle();
 
-        if (enemyOrder == tileData.unitCount)
+        if (enemyOrder >= units.Count -1)
         {
             state = BattleState.PLAYERTURN;
             enemyOrder = 1; //배틀 시스템 유닛에서 적은 1번 부터라서 1로 초기화
@@ -317,38 +309,35 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
-            SceneManager.LoadScene("MoveScene");
+            resultFloater.SetResult("{ 승리 }", "MoveScene");
             GameObject AudioManager = GameObject.Find("AudioManager");
             AudioManager.GetComponent<SoundManager>().BgSoundPlay(0);
         }
         else if (state == BattleState.LOST)
         {
-            Act_EnemyAnimation();
-            SceneManager.LoadScene("StartScene");
+            //Act_EnemyAnimation();
+            resultFloater.SetResult("{ 패배 }", "StartScene");
         }
     }
 
     #endregion
 
-
     public void OnFinishButton()
     {
-        if (state != BattleState.PLAYERTURN)
+        if (state != BattleState.PLAYERTURN || battleCardDeck.curHandCardCount <= 0)
             return;
         buttonActive.ButtonFalse();
         battleCardDeck.EndTurn();
+        if (battleCardDeck.pocket.isOpen) battleCardDeck.pocket.ReturnDice();
 
-        state = BattleState.ENEMYTURN;
+        EnemyDeadCheck();
+        ActEnemySideEffect(true);
+        EndBattle();
+        //모든 카드를 썻으면 자동으로 적 턴
+
         StartCoroutine(EnemyTurn());
-
-        //카드들 used false로 다 바구기
+        buttonActive.ButtonFalse();
     }
-
-    #region TEST
-
-
-
-    #endregion
 
     #region FloatingText
 
@@ -375,12 +364,15 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    public void FloatText(GameObject _parents, string _text)
+    public void FloatText(GameObject _parents, string _text = "")
     {
+        print(floatingTextPrefab == null);
+
         var tmp = Instantiate(floatingTextPrefab, _parents.transform);
         var tmpR = tmp.GetComponent<RectTransform>();
         var tmpF = tmp.GetComponent<FloatingText>();
         tmpR.localPosition = new Vector2(0, -150);
+        print(floatingTextPrefab == null);
 
         floatingTextQueue.Add(tmpF);
 
@@ -390,15 +382,19 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(ActFloatingText());
     }
 
+    #endregion
+
 }
 
-#endregion
+
 
 public class SkillUseSystem
 {
     static bool Per(Unit _target, Unit _caster, string _eft, bool _isToEnemy = true)
     {
         var eft = _eft.Split(':');
+
+        if (_target.battleHUD == null) return false;
 
         if (eft.Length > 2 && Random.Range(0, 1f) > float.Parse(eft[2]))
         {
@@ -472,6 +468,9 @@ public class SkillUseSystem
                 if (!Per(_target, _caster, _eft, false)) return;
                 Draw(int.Parse(eft[1]));
                 break;
+            case "복제":
+                Copy(eft[1]);
+                break;
         }
 
         _caster.battleHUD.SetSideEffect();
@@ -487,8 +486,6 @@ public class SkillUseSystem
 
     static void PiercingDamage(Unit _target, int _damage)
     {
-        Debug.Log($"{_target}");
-
         _target.Takedamage(_damage, true);
 
         GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(8);
@@ -520,10 +517,6 @@ public class SkillUseSystem
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "추가피해");
     }
 
-    static void ExplosiveDamage()
-    {
-
-    }
 
     //
 
@@ -627,9 +620,11 @@ public class SkillUseSystem
         GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(14);
     }
 
-    static void Copy()
+    static void Copy(string _name)
     {
+        BattleSystem.instance.battleCardDeck.AddHand(DataManager.instance.AllBattleCardDatas[_name]);
 
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(13);
     }
 
     static void Draw(int _n)
