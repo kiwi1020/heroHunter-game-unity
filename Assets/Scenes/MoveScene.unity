@@ -5554,7 +5554,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 146.9, y: 40.22}
+  m_SizeDelta: {x: 0, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &568841399
 MonoBehaviour:
@@ -5576,10 +5576,27 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uBB3C\uB9AC\uD53C\uD574(\uD53C\uD574): \uC0C1\uB300\uBC29\uC5D0\uAC8C
+    \uD53C\uD574\uB97C \uC785\uD78C\uB2E4. \n\n\uAD00\uD1B5\uD53C\uD574(\uD53C\uD574):
+    \uC0C1\uB300\uBC29\uC5D0\uAC8C \uBCF4\uD638\uB9C9\uC744 \uBB34\uC2DC\uD558\uACE0
+    \uD53C\uD574\uB97C \uC785\uD78C\uB2E4.\n\n\uC9C0\uC18D\uD53C\uD574(\uD53C\uD574):
+    3\uD134 \uB3D9\uC548 \uC0C1\uB300\uBC29\uC5D0\uAC8C \uC77C\uC815 \uC218\uCE58\uB9CC\uD07C\uC758
+    \uD53C\uD574\uB97C \uC785\uD78C\uB2E4.\n\n\uCD94\uAC00\uD53C\uD574(\uB514\uD53C\uD574):
+    \uC0C1\uB300\uBC29\uC5D0\uAC8C \uC785\uD788\uB294 \uD53C\uD574\uB7C9\uC758 \uD37C\uC13C\uD2B8
+    \uD53C\uD574\uB97C \uB2E4\uC74C \uACF5\uACA9\uC5D0 \uCD94\uAC00\uB85C \uC785\uD78C\uB2E4.\n\n\uAE30\uC808(\uB514\uBC84\uD504):
+    \uAE30\uC808 \uC218\uCE58\uB97C \uC313\uACE0 \uAE30\uC808 \uC218\uCE58\uAC00
+    1\uC774 \uB418\uBA74 \uC0C1\uB300\uBC29\uC744 1\uD134 \uAE30\uC808 \uC2DC\uD0A8\uB2E4.\n\n\uD68C\uBCF5(\uBC84\uD504):
+    \uC2A4\uD0AC\uC5D0 \uC788\uB294 \uC218\uCE58\uB9CC\uD07C \uCCB4\uB825\uC744 \uD68C\uBCF5\uD55C\uB2E4.\n\n\uBCF4\uD638\uB9C9(\uBC84\uD504):
+    \uC2A4\uD0AC\uC5D0 \uC788\uB294 \uC218\uCE58\uB9CC\uD07C \uBCF4\uD638\uB9C9\uC744
+    \uD68D\uB4DD\uD55C\uB2E4.\n\n\uD68C\uD53C(\uBC84\uD504): \uD53C\uD574 1\uD68C\uB97C
+    \uBB34\uD6A8\uD654\uD55C\uB2E4.\n\n\uC815\uD654(\uBC84\uD504): \uC18C\uC9C0\uD55C
+    \uC0C1\uD0DC\uC774\uC0C1 \uC218\uCE58\uB97C \uC815\uD654 \uC218\uCE58\uB9CC\uD07C
+    \uAC10\uC18C\uD55C\uB2E4.\n\n\uAD74\uB9BC(\uD50C\uB808\uC774\uC5B4 \uC0AC\uC6A9):
+    \uC8FC\uC0AC\uC704\uB97C \uC218\uCE58\uB9CC\uD07C \uB354 \uAD74\uB9B0\uB2E4.\n\n\uBF51\uAE30(\uD50C\uB808\uC774\uC5B4
+    \uC0AC\uC6A9): \uCE74\uB4DC\uB97C \uCD94\uAC00\uB85C \uB4DC\uB85C\uC6B0 \uD55C\uB2E4."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5fa2ca9a2b2616948b3277c18fad61aa, type: 2}
+  m_sharedMaterial: {fileID: -3583179381800276983, guid: 5fa2ca9a2b2616948b3277c18fad61aa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5666,7 +5683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 2
+  m_VerticalFit: 0
 --- !u!1 &583666951
 GameObject:
   m_ObjectHideFlags: 0
@@ -9770,7 +9787,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1104033694
 MonoBehaviour:
@@ -18245,7 +18262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1924190617
 RectTransform:
   m_ObjectHideFlags: 0
