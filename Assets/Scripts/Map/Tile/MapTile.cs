@@ -52,8 +52,8 @@ public class MapTile : MonoBehaviour
                 break;
 
         }
-        GameObject AudioManager = GameObject.Find("AudioManager");
-        AudioManager.GetComponent<SoundManager>().UISfxPlay(18);
+        //GameObject AudioManager = GameObject.Find("AudioManager");
+        //AudioManager.GetComponent<SoundManager>().UISfxPlay(18);
     }
 
     //배틀시작 버튼

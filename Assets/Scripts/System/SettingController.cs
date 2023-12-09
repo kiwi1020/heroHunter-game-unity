@@ -32,6 +32,7 @@ public class SettingController : MonoBehaviour
         AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().UISfxPlay(0);
         manager.SetActive(true);
+        manager.transform.GetChild(0).gameObject.SetActive(true);
     }
 
 

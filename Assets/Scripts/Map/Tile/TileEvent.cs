@@ -49,23 +49,29 @@ public class TileEvent : MonoBehaviour
     {
         UIText[0].text = _mapTile.tileData.title;
         UIText[1].text = _mapTile.tileData.desc;
+        SoundManager soundManager = GameObject.Find("AudioManager").GetComponent<SoundManager>();
 
         switch (_mapTile.tileData.name)
         {
             case "신비한 석상":
                 Options.SetActive(true);
+                soundManager.UISfxPlay(19);
                 break;
             case "떠돌이 상인":
                 SetGetCard(_mapTile.tileData.cardCount[1]);
+                soundManager.UISfxPlay(20);
                 break;
             case "도박장":
                 OddEvenGame.SetActive(true);
+                soundManager.UISfxPlay(21);
                 break;
             case "행운":
                 SetGetCard(_mapTile.tileData.cardCount[1]);
+                soundManager.UISfxPlay(22);
                 break;
             case "낭떠러지":
                 SetGetCard(_mapTile.tileData.cardCount[1]);
+                soundManager.UISfxPlay(23);
                 break;
         }
     }
@@ -225,6 +231,7 @@ public class TileEvent : MonoBehaviour
 
     private IEnumerator SpinResult(string expectedResult, GameObject _clickBtn)
     {
+        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(18);
         isSpinning = true;
         float startTime = 0f;
         RectTransform MoveBarRect = MoveBar.GetComponent<RectTransform>();
