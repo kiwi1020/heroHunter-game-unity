@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UIElements;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 
 public class MapSystem : MonoBehaviour
@@ -23,7 +24,6 @@ public class MapSystem : MonoBehaviour
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
-
     public DiceLook diceLook;
     public LostItems lostItems;
 
@@ -63,10 +63,13 @@ public class MapSystem : MonoBehaviour
         if (PlayManager.instance.IsFirst == false) { 
             ResetTileMap();
             ResetWeight();
+            PlayManager.instance.IsFirst = true;
         }
         setTileWeight();
         setupMap();
     }
+
+    #region Reset
     void ResetTileMap()
     {
         curTileNum = 0;
@@ -88,8 +91,9 @@ public class MapSystem : MonoBehaviour
         }
         PlayManager.instance.startWeigtTile = true;
 
-}
-public void PlayerDataSetting()
+    }   
+    #endregion
+    public void PlayerDataSetting()
     {
         diceLook.SetDicePool();
         lostItems.SetLostItems();
@@ -130,8 +134,6 @@ public void PlayerDataSetting()
     }
     void SetTileMapData()
     {
-        print(PlayManager.instance.tileMapData.Count);
-        print(tileMap.Count);
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
             for(int i = 0; i< tileMap.Count; i++)
@@ -147,9 +149,9 @@ public void PlayerDataSetting()
                     var tileData = DataManager.instance.AllTileDatas["보스"];
                     PlayManager.instance.tileMapData.Add(tileData);
                 }
-
                 else
-                {                 
+                {
+                    
                     previousTileType = PlayManager.instance.tileMapData[i-1].type;
                     do
                     {
@@ -166,8 +168,9 @@ public void PlayerDataSetting()
                             }
                             else { 
                                 PlayManager.instance.tileMapData.Add (tileData);
-                                if (DataManager.instance.AllTileDatas[tileData.name].unitCount >=3)
+                                if (DataManager.instance.AllTileDatas[tileData.name].unitCount <= 2)                             
                                     DataManager.instance.AllTileDatas[tileData.name].unitCount++;
+                               
                                 break;
                             }
                         }
@@ -175,7 +178,7 @@ public void PlayerDataSetting()
                         else if(previousTileType != currentTileType)
                         {
                             PlayManager.instance.tileMapData.Add (tileData);
-                            if (DataManager.instance.AllTileDatas[tileData.name].unitCount >= 3)
+                            if (DataManager.instance.AllTileDatas[tileData.name].unitCount <= 2)
                                 DataManager.instance.AllTileDatas[tileData.name].unitCount++;
                             BattleCount = 0;
                             break;
@@ -184,7 +187,7 @@ public void PlayerDataSetting()
                     while (true);
                    
                     UpdateWeightTile();
-
+                    
                 }
 
             }
@@ -380,10 +383,10 @@ public void PlayerDataSetting()
     {
         tileMap[curTileNum].TileEffect();     
     }
-
     void MoveCameraToTargetTile(MapTile _mapTile)
     {
         if (curTileNum < 2) return;
         Camera.main.transform.DOMove(new Vector3(_mapTile.transform.position.x, _mapTile.transform.position.y, Camera.main.transform.position.z), 1.5f);
     }
+   
 }
