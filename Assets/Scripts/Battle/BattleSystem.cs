@@ -267,6 +267,8 @@ public class BattleSystem : MonoBehaviour
         if(units[0].currentHP <= 0)
         {
             state = BattleState.LOST;
+            PlayManager.instance.IsFirst = false;
+            print(PlayManager.instance.IsFirst);
         }
         EndBattle();
 
