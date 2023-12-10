@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileName: {fileID: 1716169516022385283}
   startButton: {fileID: 0}
-  GetBattleCard: []
+  token: {fileID: 1112162525421423307}
 --- !u!1 &6480329292608458954
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6572582202283344705
 Transform:
   m_ObjectHideFlags: 0

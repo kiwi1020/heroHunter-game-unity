@@ -173,6 +173,7 @@ public class DataManager : MonoBehaviour
     public List<SpriteAndName> AlllMoveCardIllusts = new List<SpriteAndName>();
     public List<SpriteAndName> AlllBattleCardIllusts = new List<SpriteAndName>();
     public List<SpriteAndName> AllLostItemIllusts = new List<SpriteAndName>();
+    public List<SpriteAndName> AllTokenIllusts = new List<SpriteAndName>();
 
 
     public string[] TextData = new string[13];
