@@ -52,6 +52,21 @@ public class Unit : MonoBehaviour
         shield = monsterData.hp[1];
 
         battleHUD.SetHUD(this);
+        int tmpJob = 0;
+
+        switch (monsterData.type)
+        {
+            case "±â»ç": tmpJob = 1; break;
+            case "¿ëº´": tmpJob = 2; break;
+            case "¸¶¹ý»ç": tmpJob = 3; break;
+            case "¿µ¿õ": tmpJob = 4; break;
+            case "¿Õ": tmpJob = 5; break;
+            case "»ç³É²Û": tmpJob = 6; break;
+        }
+
+        animator.SetInteger("job", tmpJob);
+        animator.SetInteger("type", 0);
+        animator.SetTrigger("change");
     }
 
     public void SetUnit()
