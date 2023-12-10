@@ -4,7 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UIElements;
 using System.Linq;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MapSystem : MonoBehaviour
@@ -25,7 +24,7 @@ public class MapSystem : MonoBehaviour
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
     [SerializeField] TextMeshProUGUI ReadyCountText;
-    [SerializeField] GameObject EndingUI;
+
     public DiceLook diceLook;
     public LostItems lostItems;
 
@@ -66,7 +65,6 @@ public class MapSystem : MonoBehaviour
             ResetTileMap();
             ResetWeight();
             PlayManager.instance.IsFirst = true;
-            PlayManager.instance.isClear = false;
             ReadyCountText.text = "0";
         }
         setTileWeight();
@@ -79,11 +77,13 @@ public class MapSystem : MonoBehaviour
     {
         if(PlayManager.instance.IsFirst)
         {
-            if (PlayManager.instance.isClear)
+            /* 전투씬에서 하는거로
+            if (PlayManager.instance.curTile.name == "보스")
             {
-                EndingUI.SetActive(true);
-            }
-            else if (PlayManager.instance.isStone)
+                print("보스 성공");
+                EndingUI.enabled = true;
+            }*/
+            if (PlayManager.instance.isStone)
             {
                 tileEffect_UI.gameObject.SetActive(true);
                 tileEffect_UI.GainTreasure(3);
@@ -164,7 +164,6 @@ public class MapSystem : MonoBehaviour
     {
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
-
             for(int i = 0; i< tileMap.Count; i++)
             {                         
                 //처음: 시작, 끝: 보스 타일로 고정
@@ -180,52 +179,48 @@ public class MapSystem : MonoBehaviour
                 }
                 else
                 {
-
+                    
                     previousTileType = PlayManager.instance.tileMapData[i-1].type;
+
                     do
                     {
+                       
                         var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
                         string currentTileType = tileData.type;
-
+                       
                         if (previousTileType == "전투" && currentTileType == "전투")
                         {
                             BattleCount++;                           
-                            if (BattleCount > 1)
+                            if (BattleCount > 1) //두 번 이상 연속
                             {                                                                
                                 continue;
                             }
-                            else { 
+                            else //한 번 중복까진 봐줌
+                            { 
                                 PlayManager.instance.tileMapData.Add (tileData);
-                                if (DataManager.instance.AllTileDatas[tileData.name].unitCount <= 2)                             
-                                    DataManager.instance.AllTileDatas[tileData.name].unitCount++;
-
                                 break;
                             }
                         }
-
-                        else if(previousTileType != currentTileType)
+                        else if(previousTileType != currentTileType) // 안 겹치면 연속 값  초기화
                         {
                             PlayManager.instance.tileMapData.Add (tileData);
-                            if (DataManager.instance.AllTileDatas[tileData.name].unitCount <= 2)
-                                DataManager.instance.AllTileDatas[tileData.name].unitCount++;
                             BattleCount = 0;
                             break;
                         }
                     }
                     while (true);
-
+                   
                     UpdateWeightTile();
+                    
                 }
 
             }
         }
         BattleCount = 0;
+
+
         //저장한 타일 데이터를 무므씬 타일에 가져오기
-        for (int i = 0; i < tileMap.Count; i++)
-        {
-            tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
-            print("tileMapData[" + i +"]"+PlayManager.instance.tileMapData[i].unitCount);
-        }
+        for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
     }
     #region TileWeight
     void setTileWeight()
@@ -363,27 +358,17 @@ public class MapSystem : MonoBehaviour
     #region PlayerMove
     public void PlayerMove(int _n, MoveCard _moveCard)
     {
-        if (_n >0)
-        {;
-            if (PlayManager.instance.tileMapData[curTileNum].name == "보스")
-            {
-                _moveCard.MoveEffect();
-            }
-            else
-            {
-                PlayerMoveFoward(_n, _moveCard);
-            }
+        if (tileMap[curTileNum].name == "보스")
+        {
+            _moveCard.MoveEffect();
+        }
+        else if (_n >0)
+        {
+            PlayerMoveFoward(_n, _moveCard);
         }
         else if(_n < 0)
         {
-            if (PlayManager.instance.tileMapData[curTileNum].name == "시작")
-            {
-                _moveCard.MoveEffect();
-            }
-            else
-            {
-                PlayerMoveBack(_n, _moveCard);
-            }
+            PlayerMoveBack(_n, _moveCard);
         }
         else 
         {
@@ -432,9 +417,5 @@ public class MapSystem : MonoBehaviour
         if (curTileNum < 2) return;
         Camera.main.transform.DOMove(new Vector3(_mapTile.transform.position.x, _mapTile.transform.position.y, Camera.main.transform.position.z), 1.5f);
     }
-    public void ExitGame()
-    {
-        PlayManager.instance.IsFirst =false;
-        SceneManager.LoadScene("StartScene");
-    }
+   
 }
