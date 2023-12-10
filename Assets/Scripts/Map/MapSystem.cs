@@ -128,10 +128,9 @@ public class MapSystem : MonoBehaviour
     void setupMap()
     {
         moveCardDraw = true;
-        GenerateTileObjects(20);
+        GenerateTileObjects(6);
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
-
         player = Instantiate(playerPrefab, tileMap[curTileNum].transform.position, tileMap[curTileNum].transform.rotation); 
         if (!player.activeSelf)
         {
