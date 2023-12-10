@@ -128,7 +128,7 @@ public class MapSystem : MonoBehaviour
     void setupMap()
     {
         moveCardDraw = true;
-        GenerateTileObjects(3);
+        GenerateTileObjects(4);
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
         player = Instantiate(playerPrefab, tileMap[curTileNum].transform.position, tileMap[curTileNum].transform.rotation); 
@@ -281,28 +281,34 @@ public class MapSystem : MonoBehaviour
                 break;
 
             case "추격":
-                                    
-                if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투" &&
-                        PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
-                {
-                    // 두 방향에 모두 전투 타일이 있는 경우 랜덤으로 왼쪽 또는 오른쪽으로 이동
-                    PlayerMove(Random.Range(0, 2) == 0 ? -1 : 1, _moveCard);
-                }
-                else if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투")
-                {
-                    // 왼쪽에 전투 타일이 있는 경우 왼쪽으로 이동
-                    PlayerMove(-1, _moveCard);
-                }
-                else if (PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
-                {
-                    // 오른쪽에 전투 타일이 있는 경우 오른쪽으로 이동
-                    PlayerMove(1,_moveCard);
-                }
-                else
+                if (PlayManager.instance.tileMapData[curTileNum].name == "보스" ||
+                    PlayManager.instance.tileMapData[curTileNum].name == "보스")
                 {
                     _moveCard.MoveEffect();
                 }
-                
+                else
+                {
+                    if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투" &&
+                            PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
+                    {
+                        // 두 방향에 모두 전투 타일이 있는 경우 랜덤으로 왼쪽 또는 오른쪽으로 이동
+                        PlayerMove(Random.Range(0, 2) == 0 ? -1 : 1, _moveCard);
+                    }
+                    else if (PlayManager.instance.tileMapData[curTileNum - 1].type == "전투")
+                    {
+                        // 왼쪽에 전투 타일이 있는 경우 왼쪽으로 이동
+                        PlayerMove(-1, _moveCard);
+                    }
+                    else if (PlayManager.instance.tileMapData[curTileNum + 1].type == "전투")
+                    {
+                        // 오른쪽에 전투 타일이 있는 경우 오른쪽으로 이동
+                        PlayerMove(1, _moveCard);
+                    }
+                    else
+                    {
+                        _moveCard.MoveEffect();
+                    }
+                }
                 break;
             // 수정 필요함
             case "준비":
