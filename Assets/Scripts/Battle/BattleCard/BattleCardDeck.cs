@@ -19,13 +19,14 @@ public class BattleCardDeck : MonoBehaviour
 
 
     public int curHandCardCount = 3; // 이거는 실시간으로 변경되는 손패 개수
-
+    public int bonusHandCardCount = 0;
    
     public void SetPlayerTurn()
     {
         ResetCard();
 
-        curHandCardCount = PlayerData.handCount;
+        curHandCardCount = PlayerData.handCount + bonusHandCardCount;
+        bonusHandCardCount = 0;
         SetHandCardData();
         SetHand(); //초기화할 손패 개수
         SetDices();

@@ -8,6 +8,8 @@ public class PlayerData
     public static int maxHP;
     public static int currentHP;
 
+    public static int shield;
+
     public static List<BattleCardData> playerBattleCardDeck = new List<BattleCardData>();
     public static List<MoveCardData> playerMoveCardDeck = new List<MoveCardData>();
     public static List<LostItem> playerLostItems = new List<LostItem>();
@@ -28,6 +30,7 @@ public class PlayerData
     public static void GainCard(string _name)
     {
         playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas[_name]);
+        if(CheckLostItem("연구용 안경")) playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas[_name]);
     }
 
     public static void DeleteCard(string _name)
@@ -64,6 +67,16 @@ public class PlayerData
         if (_lostItem == "가시박힌 검")
         {
             maxHP -= 10;
+        }
+        if (_lostItem == "괴영잡의 선물")
+        {
+            GainCard("처형");
+            GainCard("처형");
+            GainCard("처형");
+        }
+        if (_lostItem == "방어에 관한 논문")
+        {
+            shield += 10;
         }
     }
 
@@ -119,6 +132,7 @@ public class PlayManager : MonoBehaviour
     {
         PlayerData.maxHP = 100;
         PlayerData.currentHP = PlayerData.maxHP;
+        PlayerData.shield = 0;
 
         for(int i = 0; i<10; i++) // 임시
         {
@@ -133,6 +147,7 @@ public class PlayManager : MonoBehaviour
 
         PlayerData.diceCount = 3;
         PlayerData.handCount = 3;
+
     }
 
 }

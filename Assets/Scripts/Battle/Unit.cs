@@ -74,6 +74,7 @@ public class Unit : MonoBehaviour
     {
         maxHP = PlayerData.maxHP;
         currentHP = maxHP;
+        shield = PlayerData.shield;
     }
 
     #endregion

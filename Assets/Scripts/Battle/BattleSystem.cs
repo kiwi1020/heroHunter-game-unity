@@ -187,6 +187,12 @@ public class BattleSystem : MonoBehaviour
                     return;
                 }
 
+                if (PlayerData.CheckLostItem("비밀 작전 복면") && usedBattleCardQueue[0].battleCard.name == "목숨 구걸")
+                {
+                    BattleSystem.instance.FloatText(units[0].battleHUD.gameObject, "비밀 작전 복면!");
+                    tmpEft[0] = "보호막:100:0.2";
+                }
+
                 SkillUseSystem.Divide_Target(usedBattleCardQueue[0].target, units[0], tmpEft[0]);
             }
         }
@@ -593,6 +599,17 @@ public class SkillUseSystem
 
     static void Stun(Unit _target, float _damage)
     {
+        if(_target == BattleSystem.instance.units[0] && PlayerData.CheckLostItem("저항장치"))
+        {
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "저항장치");
+            return;
+        }
+
+        if (_target != BattleSystem.instance.units[0] && PlayerData.CheckLostItem("파열 부적"))
+        {
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "파열 부적");
+            _damage = _damage * 2;
+        }
 
         if (_target.stack[5] > 0) _damage = (int)ResistDamage(_target, _damage, false);
         if (_damage == 0) return;
@@ -605,6 +622,11 @@ public class SkillUseSystem
 
     static void Heal(Unit _target, float _damage)
     {
+        if (_target == BattleSystem.instance.units[0] && PlayerData.CheckLostItem("재생의 잉크통"))
+        {
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "재생의 잉크통");
+            _damage = _damage * 1.5f;
+        }
         _target.TakeHeal(_damage);
 
         GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(12);
@@ -619,6 +641,13 @@ public class SkillUseSystem
 
     static void Evade(Unit _target, float _damage)
     {
+        if (_target == BattleSystem.instance.units[0] && PlayerData.CheckLostItem("검은 늑대의 망토"))
+        {
+            BattleSystem.instance.battleCardDeck.bonusHandCardCount += 1;
+            BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "검은 늑대의 망토");
+            return;
+        }
+
         _target.stack[3] += _damage;
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "회피 +" + _damage);
 
