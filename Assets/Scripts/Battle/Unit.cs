@@ -190,11 +190,31 @@ public class Unit : MonoBehaviour
             remainDamage = _damage;
         }
 
-        if (shield < 0) shield = 0; 
+        if (shield < 0) shield = 0;
+
+        if (BattleSystem.instance.units[0] == this)
+        {
+            if (!_p && PlayerData.CheckLostItem("두꺼운 가죽"))
+                remainDamage -= 5;
+        }
+        else
+        {
+            if (PlayerData.CheckLostItem("가시박힌 검"))
+                remainDamage = (int)(remainDamage * 1.4f) ;
+        }
 
         currentHP -= remainDamage; // 체력 데미지
 
         Hit();
+
+        if(BattleSystem.instance.units[0] == this)
+        {
+            if (_p && PlayerData.CheckLostItem("막지 못하는 방패"))
+                TakeShield(10);
+            if (!_p && PlayerData.CheckLostItem("부서진 방패"))
+                TakeShield(5);
+        }
+
 
         if(battleHUD != null) BattleSystem.instance.FloatText(battleHUD.gameObject, "-" + _damage);
 

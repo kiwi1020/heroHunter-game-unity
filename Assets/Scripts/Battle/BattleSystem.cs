@@ -128,7 +128,10 @@ public class BattleSystem : MonoBehaviour
 
         battleCardDeck.SetPlayerTurn();
 
-        if(units[0].stack[2] >= 1)
+        if(PlayerData.CheckLostItem("재생하는 심장"))
+            SkillUseSystem.Divide_Target(units[0], units[0], "회복:5");
+
+        if (units[0].stack[2] >= 1)
         {
             units[0].stack[2] -= 1;
             units[0].battleHUD.SetSideEffect();

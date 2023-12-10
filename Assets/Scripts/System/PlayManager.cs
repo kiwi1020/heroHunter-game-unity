@@ -39,6 +39,32 @@ public class PlayerData
     {
         playerLostItems.Add(DataManager.instance.AllLostItemDatas[ _lostItem]);
         if (MapSystem.instance != null) MapSystem.instance.lostItems.SetLostItems();
+
+        if(_lostItem == "고기")
+        {
+            maxHP += 50;
+        }
+        if(_lostItem == "극한에 몰린 자")
+        {
+            for(int i = 0; i<10; i++) GainCard("목숨 구걸");
+            GainCard("최후의 일격");
+        }
+        if (_lostItem == "음침한 마도서")
+        {
+            handCount -= 1;
+        }
+        if (_lostItem == "듀얼 디스크")
+        {
+            handCount += 1;
+        }
+        if (_lostItem == "도박왕의 주사위")
+        {
+            diceCount += 2;
+        }
+        if (_lostItem == "가시박힌 검")
+        {
+            maxHP -= 50;
+        }
     }
 
     public static void GainDice(int _count)
@@ -108,6 +134,7 @@ public class PlayManager : MonoBehaviour
         PlayerData.GainLostItem("독성 발톱");
 
         PlayerData.diceCount = 3;
+        PlayerData.handCount = 3;
     }
 
 }
