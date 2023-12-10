@@ -67,9 +67,12 @@ public class BattleCard_CardBag : MonoBehaviour
 
         //
 
-        diceConditioner = GetComponent<DiceConditioner>();
+        if (battleCardData.skillData.enforcedEffects[0] == "¾øÀ½")
+        {
+            diceConditioner = GetComponent<DiceConditioner>();
 
-        diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+            diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+        }
     }
 
     public void EnforceCard()

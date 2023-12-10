@@ -69,10 +69,12 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
 
         //
+        if (battleCardData.skillData.enforcedEffects[0] != "¾øÀ½")
+        {
+            diceConditioner = GetComponent<DiceConditioner>();
 
-        diceConditioner = GetComponent<DiceConditioner>();
-
-        diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+            diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+        }
     }
 
     #endregion

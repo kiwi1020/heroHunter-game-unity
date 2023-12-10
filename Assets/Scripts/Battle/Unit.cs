@@ -79,7 +79,16 @@ public class Unit : MonoBehaviour
     public void Effect_EnemyAnimation()
     {
         BattleSystem.instance.EffectEnemySkill(skillOrder);
-        skillOrder = skillOrder >= monsterData.patterns.Count-1 ? 0 : skillOrder += 1;
+        if(skillOrder >= monsterData.patterns[0].Length - 1)
+        {
+            skillOrder = 0;
+        }
+        else
+        {
+            skillOrder += 1;
+        }
+
+        print(skillOrder);
     }
 
     public void Finish_EnemyAnimation()
@@ -136,6 +145,7 @@ public class Unit : MonoBehaviour
         {
             stack[2]--;
             BattleSystem.instance.FloatText(this.battleHUD.gameObject, "기절");
+            battleHUD.SetSideEffect();
             Finish_EnemyAnimation();
             return true;
         }
@@ -164,6 +174,8 @@ public class Unit : MonoBehaviour
         {
             remainDamage = _damage;
         }
+
+        if (shield < 0) shield = 0; 
 
         currentHP -= remainDamage; // 체력 데미지
 

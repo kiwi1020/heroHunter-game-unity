@@ -49,9 +49,14 @@ public class GetBattleCard : MonoBehaviour
 
             }
         }
-        diceConditioner = GetComponent<DiceConditioner>();
 
-        diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+        if (battleCardData.skillData.enforcedEffects[0] == "¾øÀ½")
+        {
+            diceConditioner = GetComponent<DiceConditioner>();
+
+            diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+        }
+
     }
 
     public void Zoom(bool _zoom)

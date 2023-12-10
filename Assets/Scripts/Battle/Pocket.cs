@@ -49,6 +49,7 @@ public class Pocket : MonoBehaviour
             for(int i = 0; i< BattleSystem.instance.curDiceCount; i++)
             {
                 //if (!dices[i].gameObject.activeSelf) continue;
+                DOTween.Kill(dices[i]);
                 dices[i].GetComponent<Image>().raycastTarget = true;
                 dices[i].gameObject.SetActive(true);
                 dices[i].DORotate(new Vector3(0, 0, Random.Range(-90, 90f)), Random.Range(0.5f, 1));
