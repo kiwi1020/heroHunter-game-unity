@@ -338,6 +338,7 @@ public class BattleSystem : MonoBehaviour
             resultFloater.SetResult("{ 승리 }", "MoveScene");
             GameObject AudioManager = GameObject.Find("AudioManager");
             AudioManager.GetComponent<SoundManager>().BgSoundPlay(0);
+            AudioManager.GetComponent<SoundManager>().UISfxPlay(24);
         }
         else if (units[0].currentHP <= 0)
         {
@@ -345,6 +346,7 @@ public class BattleSystem : MonoBehaviour
             PlayManager.instance.IsFirst = false;
             PlayManager.instance.isStone = false;
             resultFloater.SetResult("{ 패배 }", "StartScene");
+            GameObject.Find("AudioManager").GetComponent<SoundManager>().BgSoundPlay(0);
         }
     }
 
