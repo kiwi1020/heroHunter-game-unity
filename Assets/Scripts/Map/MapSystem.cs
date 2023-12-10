@@ -109,8 +109,13 @@ public class MapSystem : MonoBehaviour
 
     void ResetWeight()
     {
+<<<<<<< Updated upstream
         string[] TileName = new string[] {"낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","풀숲","검문소","정글","호수","뒷산","동굴","숲 입구","깊은 숲속",
             "왕국입구","뒷골목","마을","기사 훈련장","왕의 방입구"};
+=======
+        string[] TileName = new string[] {"낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","풀숲","정글",
+            "호수","뒷산","동굴","숲 입구","깊은 숲속"};
+>>>>>>> Stashed changes
         foreach (string name in TileName)
         {
             PlayManager.instance.wrPicker.Remove(name);

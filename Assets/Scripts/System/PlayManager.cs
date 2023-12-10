@@ -17,6 +17,7 @@ public class PlayerData
     public static int diceCount = 2;
     public static int handCount = 3;
 
+    public static bool[] isTutorial = new bool[10] { false, false, false, false, false, false, false, false, false, false }; // 5까지가 이동씬
     public static bool CheckLostItem(string _name)
     {
         return playerLostItems.Contains(DataManager.instance.AllLostItemDatas[_name]);
@@ -148,6 +149,8 @@ public class PlayManager : MonoBehaviour
         PlayerData.diceCount = 3;
         PlayerData.handCount = 3;
 
+
+        PlayerData.isTutorial = new bool[10] { false, false, false, false, false, false, false, false, false, false };
     }
 
 }

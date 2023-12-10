@@ -13,6 +13,10 @@ public class MapTile : MonoBehaviour
     public TextMeshPro tileName; //타일이름 Text
     public Button startButton; //배틀시작 버튼
 
+    void Awake()
+    {
+        if (GetComponent<SpriteRenderer>() != null) GetComponent<SpriteRenderer>().color = new Color(Random.Range(0.05f, 0.1f)+0.2f, Random.Range(0.1f, 0.2f) + 0.2f, Random.Range(0.05f, 0.1f) + 0.2f, 1);    
+    }
     //타일이름 설정, 이름은 정한 후 수정
     public void SetTile(TileData _tileData)
     {
