@@ -32,11 +32,20 @@ public class MapBackgroundMove : MonoBehaviour
             tmp_shadow.transform.position =
                 new Vector3(-11 + Random.Range(-0.3f, 0.3f) + 3f * i,
                 0 + Random.Range(-0.3f, 0.3f) + 2f * i);
+            tmp_shadow = Instantiate(shadow[Random.Range(0, shadow.Length)], transform);
+            tmp_shadow.transform.position =
+                new Vector3(-11 + Random.Range(-0.3f, 0.3f) + 3f * i,
+                0 + Random.Range(-0.3f, 0.3f) + 3f * i);
+
 
             tmp_shadow = Instantiate(shadow[Random.Range(0, shadow.Length)], transform);
             tmp_shadow.transform.position =
                 new Vector3(0 + Random.Range(-0.3f, 0.3f) + 3f * i,
                 -7 + Random.Range(-0.3f, 0.3f) + 2.2f * i);
+            tmp_shadow = Instantiate(shadow[Random.Range(0, shadow.Length)], transform);
+            tmp_shadow.transform.position =
+                new Vector3(0 + Random.Range(-0.3f, 0.3f) + 3f * i,
+                -7 + Random.Range(-0.3f, 0.3f) + 1.2f * i);
 
 
         }

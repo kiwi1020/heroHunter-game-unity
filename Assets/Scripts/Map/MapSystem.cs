@@ -32,8 +32,6 @@ public class MapSystem : MonoBehaviour
 
     public List<MapTile> tileMap = new List<MapTile>();
 
-    int BattleCount = 0;
-    string previousTileType;
     public static int curTileNum
     {
         get
@@ -164,6 +162,9 @@ public class MapSystem : MonoBehaviour
     {
         if(PlayManager.instance.tileMapData.Count < tileMap.Count)
         {
+
+            int stack = 0;
+
             for(int i = 0; i< tileMap.Count; i++)
             {                         
                 //처음: 시작, 끝: 보스 타일로 고정
@@ -179,45 +180,30 @@ public class MapSystem : MonoBehaviour
                 }
                 else
                 {
-                    
-                    previousTileType = PlayManager.instance.tileMapData[i-1].type;
+                    var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
+                    PlayManager.instance.tileMapData.Add(tileData);
 
                     do
                     {
-                       
-                        var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
-                        string currentTileType = tileData.type;
-                       
-                        if (previousTileType == "전투" && currentTileType == "전투")
-                        {
-                            BattleCount++;                           
-                            if (BattleCount > 1) //두 번 이상 연속
-                            {                                                                
-                                continue;
-                            }
-                            else //한 번 중복까진 봐줌
-                            { 
-                                PlayManager.instance.tileMapData.Add (tileData);
-                                break;
-                            }
-                        }
-                        else if(previousTileType != currentTileType) // 안 겹치면 연속 값  초기화
-                        {
-                            PlayManager.instance.tileMapData.Add (tileData);
-                            BattleCount = 0;
-                            break;
-                        }
+                        if (PlayManager.instance.tileMapData[i - 1].type != tileData.type) stack = 0;
+                        else tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
                     }
-                    while (true);
-                   
+                    while (stack >= 2);
+
+                    if (PlayManager.instance.tileMapData[i - 1].type == tileData.type) stack += 1;
+
                     UpdateWeightTile();
                     
                 }
 
             }
-        }
-        BattleCount = 0;
 
+        }
+
+        foreach(TileData i in PlayManager.instance.tileMapData)
+        {
+            print(i.name + " : " + i.unitCount);
+        }
 
         //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
