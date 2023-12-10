@@ -120,6 +120,8 @@ public class BattleCardDeck : MonoBehaviour
             battleCard.SetCard(instantBattleCardData[randomInt]);
             instantBattleCardData.RemoveAt(randomInt);
             curHands.Add(battleCard);
+
+            if (instantBattleCardData.Count <= 0) SetBattleCardDeck();
         }
     }
 

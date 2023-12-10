@@ -127,6 +127,13 @@ public class BattleSystem : MonoBehaviour
         AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
 
         battleCardDeck.SetPlayerTurn();
+
+        if(units[0].stack[2] >= 1)
+        {
+            units[0].stack[2] -= 1;
+            units[0].battleHUD.SetSideEffect();
+            OnFinishButton();
+        }
     }
 
     public void UseBattleCard(BattleCardDataAndTarget _battleCardDataAndTarget)
@@ -324,6 +331,11 @@ public class BattleSystem : MonoBehaviour
             PlayManager.instance.isStone = false;
             resultFloater.SetResult("{ 패배 }", "StartScene");
         }
+    }
+
+    public void ReTry()
+    {
+        resultFloater.SetResult("", "StartScene");
     }
 
     #endregion

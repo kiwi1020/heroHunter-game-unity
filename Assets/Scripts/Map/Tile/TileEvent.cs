@@ -12,6 +12,7 @@ public class TileEvent : MonoBehaviour
 {
     public MapTile mapTile;
     private string BtnText;
+    bool isTreasure = false;
     #region SerializeFiled
     [SerializeField] List<TextMeshProUGUI> UIText;
     [SerializeField] TextMeshProUGUI resultText; 
@@ -34,10 +35,6 @@ public class TileEvent : MonoBehaviour
     #endregion
 
     #region TileEvent Setting
-    private void Awake()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
     public void SetEvent(MapTile _mapTile)
     {
         gameObject.SetActive(true);
@@ -77,11 +74,12 @@ public class TileEvent : MonoBehaviour
     }
     public void SetGetCard(int _n)
     {
+        print("in");
         // 카드 뿌리기
         for (int i = 0; i < _n; i++)
         {
             //재래시장
-            if (mapTile.tileData.name == "떠돌이 상인")
+            if (mapTile != null && mapTile.tileData.name == "떠돌이 상인")
             {
                 lostItems[i].gameObject.SetActive(true);
                 float xOffset = CalculateXOffset(_n, i);
@@ -142,7 +140,7 @@ public class TileEvent : MonoBehaviour
             //행운, 낭떠러지, 도박장
             else
             {
-                //
+                print("in?");
                 getBattleCards[i].gameObject.SetActive(true);
                 float xOffset = CalculateXOffset(_n, i);
                 getBattleCards[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
@@ -154,6 +152,7 @@ public class TileEvent : MonoBehaviour
                 BattleCardData card;
                 if (mapTile.tileData.GetOrDelete == "획득")
                 {
+                    print("in??");
                     randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
                     getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = true;
                     card = DataManager.instance.AllBattleCardDatas[randomName];
@@ -172,6 +171,55 @@ public class TileEvent : MonoBehaviour
 
             }
         }
+        Option.SetActive(true);
+    }
+
+    public void GainTreasure(int _n)
+    {
+        isTreasure = true;
+        for (int i = 0; i < _n; i++)
+        {
+            if (PlayManager.instance.isStone)
+            {
+                lostItems[i].gameObject.SetActive(true);
+                float xOffset = CalculateXOffset(_n, i);
+                lostItems[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
+
+                GameObject getLostItemcard = lostItems[i].gameObject;
+                LostItem card;
+
+                string randomName = DataManager.instance.AllLostItemList[Random.Range(0, DataManager.instance.AllLostItemDatas.Count)];
+                card = DataManager.instance.AllLostItemDatas[randomName];
+
+                // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
+                var lostcard = getLostItemcard.GetComponent<LostItemCard>();
+                lostcard.SetCard(card);
+
+                isLostItem = true;
+            }
+            else
+            {
+                getBattleCards[i].gameObject.SetActive(true);
+                float xOffset = CalculateXOffset(_n, i);
+                getBattleCards[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
+
+                //배틀 카드 설정
+                GameObject getCard = getBattleCards[i].gameObject;
+
+                string randomName;
+                BattleCardData card;
+
+                randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
+                getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = true;
+                card = DataManager.instance.AllBattleCardDatas[randomName];
+
+                // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
+                var battleCard = getCard.GetComponent<GetBattleCard>();
+                battleCard.SetCard(card);
+            }
+
+        }
+
         Option.SetActive(true);
     }
 
@@ -268,36 +316,35 @@ public class TileEvent : MonoBehaviour
             EndEvent();
         }
     }
-    public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        if (PlayManager.instance.IsFirst)
-        {
-            if (scene.name == "MoveScene" && PlayManager.instance.curTile.name == "보스")
-            {
-                print("보스 성공");
-                EndingUI.enabled = true;
-            }
-
-            else if (scene.name == "MoveScene" && PlayManager.instance.isStone)
-            {
-                print("석상 성공");
-                gameObject.SetActive(true);
-                SetGetCard(mapTile.tileData.cardCount[1]);
-                PlayManager.instance.isStone = false;
-            }
-            else if (scene.name == "MoveScene" && !PlayManager.instance.isStone)
-            {
-                print("일반 보상");
-                gameObject.SetActive(true);
-                SetGetCard(mapTile.tileData.cardCount[1]);
-                PlayerData.diceCount++;
-            }
-        }
-    }
     #endregion
     #region TileEvent END
     public void EndEvent()
     {
+        if(isTreasure)
+        {
+            if(isLostItem)
+            {
+                foreach (var card in getLostItmeCardDatas)
+                {
+                    PlayerData.GainLostItem(card.name);
+                }
+            }
+            else
+            {
+                foreach (var card in getbattleCardDatas)
+                {
+                    PlayerData.GainCard(card.name);
+                }
+            }
+
+            resetTileEvent();
+            gameObject.SetActive(false);
+            Option.SetActive(false);
+            isTreasure = false;
+            return;
+        }
+
+        print(getbattleCardDatas.Count <= mapTile.tileData.cardCount[0]);
 
         if (!isLostItem && !PlayManager.instance.isStone && getbattleCardDatas.Count <= mapTile.tileData.cardCount[0])
         {
@@ -354,7 +401,7 @@ public class TileEvent : MonoBehaviour
     {
         getbattleCardDatas.Clear();
         getLostItmeCardDatas.Clear();
-        resultText.color = Color.black; // Missing 떠서 비워놓음
+        resultText.color = Color.black; 
         isLostItem = false;
         foreach (var card in getBattleCards)
         {

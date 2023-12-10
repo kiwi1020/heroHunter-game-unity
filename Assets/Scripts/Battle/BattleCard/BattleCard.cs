@@ -25,6 +25,8 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
     [SerializeField] Image illust;
 
+    [SerializeField] GameObject diceconditioner;
+
     DiceConditioner diceConditioner;
 
     public bool targeting = false;
@@ -69,10 +71,15 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
 
 
         //
-        if (battleCardData.skillData.enforcedEffects[0] != "없음")
+        if (battleCardData.skillData.enforcedEffects[0] == "없음")
         {
-            diceConditioner = GetComponent<DiceConditioner>();
+            diceconditioner.gameObject.SetActive(false);
+        }
+        else
+        {
+            diceconditioner.gameObject.SetActive(true);
 
+            diceConditioner = GetComponent<DiceConditioner>();
             diceConditioner.SetDiceCondition(battleCardData.diceCondition);
         }
     }

@@ -71,6 +71,7 @@ public class PlayManager : MonoBehaviour
 
     public bool isStone=false;
     public bool startWeigtTile = true;
+
     void Awake()
     {
         if (instance == null)

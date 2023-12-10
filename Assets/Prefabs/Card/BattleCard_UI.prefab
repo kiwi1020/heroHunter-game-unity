@@ -464,6 +464,7 @@ MonoBehaviour:
   illust: {fileID: 7954901542913363261}
   enforced: 0
   diceCondition: 000000
+  diceconditioner: {fileID: 7954901542371298020}
 --- !u!114 &8180655145424787868
 MonoBehaviour:
   m_ObjectHideFlags: 0

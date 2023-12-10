@@ -14,6 +14,7 @@ public class GetBattleCard : MonoBehaviour
     RectTransform rect;
     BattleCardData battleCardData;
     DiceConditioner diceConditioner;
+    [SerializeField] GameObject diceconditioner;
 
     public int ClickCount;
     public  bool isSelect=false;
@@ -25,6 +26,7 @@ public class GetBattleCard : MonoBehaviour
 
     public void SetCard(BattleCardData _battleCardData)
     {
+        print("in!");
         battleCardData = _battleCardData;
         illust.sprite = DataManager.instance.AlllBattleCardIllusts.Find(x => x.name == battleCardData.name).sprite;
         cardNameText.text = battleCardData.name;
@@ -52,11 +54,16 @@ public class GetBattleCard : MonoBehaviour
 
         if (battleCardData.skillData.enforcedEffects[0] == "¾øÀ½")
         {
-            diceConditioner = GetComponent<DiceConditioner>();
+            diceconditioner.gameObject.SetActive(false);
+        }
+        else
+        {
+            diceconditioner.gameObject.SetActive(true);
 
+            diceConditioner = GetComponent<DiceConditioner>();
             diceConditioner.SetDiceCondition(battleCardData.diceCondition);
         }
-
+        print("out!");
     }
 
     public void Zoom(bool _zoom)

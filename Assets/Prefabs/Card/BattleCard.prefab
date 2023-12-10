@@ -819,7 +819,9 @@ MonoBehaviour:
   cardNameText: {fileID: 3340531163405781579}
   cardDesText: {fileID: 3340531162176538475}
   illust: {fileID: 3340531163693311205}
+  diceconditioner: {fileID: 1822870505416751295}
   targeting: 0
+  enforced: 0
   diceCondition: 000000
 --- !u!114 &4705937497927302930
 MonoBehaviour:

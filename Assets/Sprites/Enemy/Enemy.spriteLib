@@ -311,8 +311,13 @@ MonoBehaviour:
       m_Sprite: {fileID: -1114100397030072024, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -1114100397030072024, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
+    - m_Name: "\uAE30\uC0AC\uB2E8\uC7A5"
+      m_Hash: 607318596
+      m_Sprite: {fileID: 1419481353449388831, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1419481353449388831, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 10
+    m_EntryOverrideCount: 11
   - m_Name: Arm2F
     m_Hash: 273090132
     m_CategoryList: []
@@ -367,8 +372,13 @@ MonoBehaviour:
       m_Sprite: {fileID: -7188125210059818145, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -7188125210059818145, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
+    - m_Name: "\uAE30\uC0AC\uB2E8\uC7A5"
+      m_Hash: 607318596
+      m_Sprite: {fileID: 5976334350623602573, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 5976334350623602573, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 10
+    m_EntryOverrideCount: 11
   - m_Name: HandF
     m_Hash: 828168415
     m_CategoryList: []
@@ -479,8 +489,13 @@ MonoBehaviour:
       m_Sprite: {fileID: 6570784779418072562, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: 6570784779418072562, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
+    - m_Name: "\uAE30\uC0AC\uB2E8\uC7A5"
+      m_Hash: 607318596
+      m_Sprite: {fileID: 5696854779250487805, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 5696854779250487805, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 10
+    m_EntryOverrideCount: 11
   - m_Name: Arm2B
     m_Hash: 388678221
     m_CategoryList: []
@@ -535,8 +550,13 @@ MonoBehaviour:
       m_Sprite: {fileID: -3603327805983504155, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
       m_FromMain: 0
       m_SpriteOverride: {fileID: -3603327805983504155, guid: 68ebf9de633a494479aade3a1dbb3d48, type: 3}
+    - m_Name: "\uAE30\uC0AC\uB2E8\uC7A5"
+      m_Hash: 607318596
+      m_Sprite: {fileID: 4464171423095169265, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 4464171423095169265, guid: c82075c813630354aa9c17d13f3464cb, type: 3}
     m_FromMain: 0
-    m_EntryOverrideCount: 10
+    m_EntryOverrideCount: 11
   - m_Name: HandB
     m_Hash: 909188294
     m_CategoryList: []
