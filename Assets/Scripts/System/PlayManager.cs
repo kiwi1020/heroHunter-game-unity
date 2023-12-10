@@ -135,7 +135,9 @@ public class PlayManager : MonoBehaviour
         PlayerData.currentHP = PlayerData.maxHP;
         PlayerData.shield = 0;
 
-        for(int i = 0; i<10; i++) // 임시
+        PlayerData.playerLostItems = new List<LostItem>();
+
+        for (int i = 0; i<10; i++) // 임시
         {
             PlayerData.GainCard(DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardList.Count)]); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
             
@@ -152,5 +154,18 @@ public class PlayManager : MonoBehaviour
 
         PlayerData.isTutorial = new bool[10] { false, false, false, false, false, false, false, false, false, false };
     }
+
+    public void ResetPlayerData()
+    {
+        PlayerData.maxHP = 100;
+        PlayerData.currentHP = PlayerData.maxHP;
+        PlayerData.shield = 0;
+        PlayerData.diceCount = 3;
+        PlayerData.handCount = 3;
+        PlayerData.playerLostItems = new List<LostItem>();
+
+        PlayerData.GainLostItem(DataManager.instance.AllLostItemList[Random.Range(0, DataManager.instance.AllLostItemList.Count)]);
+    }
+
 
 }

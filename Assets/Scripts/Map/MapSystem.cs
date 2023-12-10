@@ -65,7 +65,7 @@ public class MapSystem : MonoBehaviour
             ResetTileMap();
             ResetWeight();
             PlayManager.instance.IsFirst = true;
-            ReadyCountText.text = "0";          
+            ReadyCountText.text = "0";
         }
         setTileWeight();
         setupMap();
