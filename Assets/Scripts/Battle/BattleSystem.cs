@@ -275,7 +275,6 @@ public class BattleSystem : MonoBehaviour
 
 
         //job은 미리 설정
-        units[enemyOrder].animator.SetInteger("job", tmpJob);
         units[enemyOrder].animator.SetInteger("type", 1);
         units[enemyOrder].animator.SetTrigger("change");
     }

@@ -52,6 +52,7 @@ public class Unit : MonoBehaviour
         shield = monsterData.hp[1];
 
         battleHUD.SetHUD(this);
+        /*
         int tmpJob = 0;
 
         switch (monsterData.type)
@@ -63,8 +64,8 @@ public class Unit : MonoBehaviour
             case "¿Õ": tmpJob = 5; break;
             case "»ç³É²Û": tmpJob = 6; break;
         }
-
-        animator.SetInteger("job", tmpJob);
+        */
+        animator.SetInteger("job", Random.Range(1, 5));
         animator.SetInteger("type", 0);
         animator.SetTrigger("change");
     }
@@ -93,6 +94,7 @@ public class Unit : MonoBehaviour
     //Àû
     public void Effect_EnemyAnimation()
     {
+        animator.SetInteger("job", Random.Range(1,5));
         BattleSystem.instance.EffectEnemySkill(skillOrder);
         if(skillOrder >= monsterData.patterns[0].Length - 1)
         {
@@ -117,7 +119,7 @@ public class Unit : MonoBehaviour
         if (BattleSystem.instance.units[0] != this)
         {
             animator.SetInteger("type", 2);
-            animator.SetInteger("job", 0);
+            animator.SetInteger("job", Random.Range(1, 5));
             animator.SetTrigger("change");
         }
         else

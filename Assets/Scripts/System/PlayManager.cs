@@ -63,7 +63,7 @@ public class PlayerData
         }
         if (_lostItem == "가시박힌 검")
         {
-            maxHP -= 50;
+            maxHP -= 10;
         }
     }
 

@@ -103,7 +103,7 @@ AnimatorStateMachine:
     m_Position: {x: -720, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 800706971010083590}
-    m_Position: {x: -20, y: -150, z: 0}
+    m_Position: {x: 50, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -124926170220820981}
     m_Position: {x: -840, y: 250, z: 0}
@@ -1447,7 +1447,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: job
-    m_EventTreshold: 1
+    m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2252363436896131949}
   m_Solo: 0
