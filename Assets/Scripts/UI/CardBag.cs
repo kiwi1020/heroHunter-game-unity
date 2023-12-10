@@ -14,7 +14,6 @@ public class CardBag : MonoBehaviour
 
     public void InterectBag(int _whichCard)
     {
-        print(1);
         //오브젝트 껏다 키는거
         if (isOpen[_whichCard])
         {

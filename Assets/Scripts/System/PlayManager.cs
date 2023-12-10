@@ -13,7 +13,7 @@ public class PlayerData
     public static List<LostItem> playerLostItems = new List<LostItem>();
 
     public static int diceCount = 2;
-
+    public static int handCount = 3;
 
     public static bool CheckLostItem(string _name)
     {
@@ -38,6 +38,7 @@ public class PlayerData
     public static void GainLostItem(string _lostItem)
     {
         playerLostItems.Add(DataManager.instance.AllLostItemDatas[ _lostItem]);
+        if (MapSystem.instance != null) MapSystem.instance.lostItems.SetLostItems();
     }
 
     public static void GainDice(int _count)
@@ -70,6 +71,7 @@ public class PlayManager : MonoBehaviour
 
     public bool isStone=false;
     public bool startWeigtTile = true;
+
     void Awake()
     {
         if (instance == null)
@@ -94,8 +96,10 @@ public class PlayManager : MonoBehaviour
 
         for(int i = 0; i<10; i++) // 임시
         {
-            PlayerData.GainCard(DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardList.Count)]); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
-            PlayerData.GainCard("속사");
+            //PlayerData.GainCard(DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardList.Count)]); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
+            
+            PlayerData.GainCard("최후의 일격");
+            PlayerData.GainCard("후려치기");
         }
 
         for (int i = 0; i < DataManager.instance.AllMonsterList.Count; i++)

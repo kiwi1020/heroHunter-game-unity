@@ -11,7 +11,6 @@ public class EnemyUnitSkin : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
 
-        print("in?");
         foreach (SpriteResolver i in GetComponentsInChildren<SpriteResolver>())
         {
             switch (i.GetCategory())

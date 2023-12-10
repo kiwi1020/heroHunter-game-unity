@@ -67,6 +67,36 @@ public class MapSystem : MonoBehaviour
         }
         setTileWeight();
         setupMap();
+        print("매번 실행하나?");
+        if(curTileNum != 0) GainBattlePrize();
+    }
+
+    void GainBattlePrize()
+    {
+        if(PlayManager.instance.IsFirst)
+        {
+            /* 전투씬에서 하는거로
+            if (PlayManager.instance.curTile.name == "보스")
+            {
+                print("보스 성공");
+                EndingUI.enabled = true;
+            }*/
+
+            if (PlayManager.instance.isStone)
+            {
+                print("석상 성공");
+                tileEffect_UI.gameObject.SetActive(true);
+                tileEffect_UI.GainTreasure(3);
+                PlayManager.instance.isStone = false;
+            }
+            else
+            {
+                print("일반 보상");
+                tileEffect_UI.gameObject.SetActive(true);
+                tileEffect_UI.GainTreasure(3);
+                //PlayerData.diceCount++; 다이스 개수는 유실물 얻어서 늘리기
+            }
+        }
     }
 
     #region Reset
@@ -343,7 +373,7 @@ public class MapSystem : MonoBehaviour
         }
         else 
         {
-            if (readyCount > 0) readyCount = 0;
+            if (readyCount != 0) readyCount = 0;
             _moveCard.MoveEffect();         
         }
     }

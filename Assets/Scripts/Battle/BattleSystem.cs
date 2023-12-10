@@ -59,9 +59,7 @@ public class BattleSystem : MonoBehaviour
         diceLook.SetDicePool();
     }
 
-
     #region BattleSetting
-
 
     void SetupBattle()
     {
@@ -129,6 +127,13 @@ public class BattleSystem : MonoBehaviour
         AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
 
         battleCardDeck.SetPlayerTurn();
+
+        if(units[0].stack[2] >= 1)
+        {
+            units[0].stack[2] -= 1;
+            units[0].battleHUD.SetSideEffect();
+            OnFinishButton();
+        }
     }
 
     public void UseBattleCard(BattleCardDataAndTarget _battleCardDataAndTarget)
@@ -162,6 +167,7 @@ public class BattleSystem : MonoBehaviour
 
         foreach (string i in skillArray)
         {
+            print(i);
             var tmpEft = i.Split('/');
             if (tmpEft.Length > 1 && tmpEft[1] == "적전체") // 전체 -> 무조건 적 전체임
             {
@@ -248,7 +254,7 @@ public class BattleSystem : MonoBehaviour
 
     void Act_EnemyAnimation()
     {
-        if(units[enemyOrder] == null)
+        if (units.Count <= 1) return;
 
         if (units[enemyOrder].ActStun()) return;//기절 시 넘김
         //job은 미리 설정
@@ -260,6 +266,9 @@ public class BattleSystem : MonoBehaviour
     {
         unitHUDs[enemyOrder].SetHP();
         var tmpSkillData = DataManager.instance.AllSkillDatas[units[enemyOrder].monsterData.patterns[0][_skillOrder]];
+
+        foreach (string i in units[enemyOrder].monsterData.patterns[0]) print(i);
+        print("A :"+ _skillOrder);
 
         foreach (string i in tmpSkillData.effects)
         {
@@ -293,6 +302,7 @@ public class BattleSystem : MonoBehaviour
             state = BattleState.PLAYERTURN;
             enemyOrder = 1; //배틀 시스템 유닛에서 적은 1번 부터라서 1로 초기화
             ActEnemySideEffect(false);
+            EndBattle();
             buttonActive.ButtonTrue();
             PlayerTurn();
         }
@@ -307,19 +317,27 @@ public class BattleSystem : MonoBehaviour
 
     void EndBattle()
     {
-        if (state == BattleState.WON)
+
+        if (units.Count <= 1 && units[0].name == "Player")
         {
             resultFloater.SetResult("{ 승리 }", "MoveScene");
             GameObject AudioManager = GameObject.Find("AudioManager");
             AudioManager.GetComponent<SoundManager>().BgSoundPlay(0);
             AudioManager.GetComponent<SoundManager>().UISfxPlay(24);
         }
-        else if (state == BattleState.LOST)
+        else if (units[0].currentHP <= 0)
         {
             //Act_EnemyAnimation();
+            PlayManager.instance.IsFirst = false;
+            PlayManager.instance.isStone = false;
             resultFloater.SetResult("{ 패배 }", "StartScene");
             GameObject.Find("AudioManager").GetComponent<SoundManager>().BgSoundPlay(0);
         }
+    }
+
+    public void ReTry()
+    {
+        resultFloater.SetResult("", "StartScene");
     }
 
     #endregion
@@ -368,13 +386,10 @@ public class BattleSystem : MonoBehaviour
 
     public void FloatText(GameObject _parents, string _text = "")
     {
-        print(floatingTextPrefab == null);
-
         var tmp = Instantiate(floatingTextPrefab, _parents.transform);
         var tmpR = tmp.GetComponent<RectTransform>();
         var tmpF = tmp.GetComponent<FloatingText>();
         tmpR.localPosition = new Vector2(0, -150);
-        print(floatingTextPrefab == null);
 
         floatingTextQueue.Add(tmpF);
 
@@ -411,12 +426,15 @@ public class SkillUseSystem
     {
         var eft = _eft.Split(':');
 
+        if (eft[0] == "없음") return;
+
         var damage = float.Parse(eft[1]) + float.Parse(eft[1]) * _caster.stack[0];
 
         switch (eft[0])
         {
             case "물리피해":
                 if (!Per(_target, _caster, _eft)) return;
+                Debug.Log(eft[0] + eft[1]);
                 Damage(_target, (int)damage);
                 _caster.stack[0] = 0;
                 break;

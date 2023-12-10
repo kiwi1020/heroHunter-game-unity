@@ -25,7 +25,7 @@ public class BattleCardDeck : MonoBehaviour
     {
         ResetCard();
 
-        curHandCardCount = 3;
+        curHandCardCount = PlayerData.handCount;
         SetHandCardData();
         SetHand(); //초기화할 손패 개수
         SetDices();
@@ -42,24 +42,9 @@ public class BattleCardDeck : MonoBehaviour
 
     public void RerollDice(int _c)
     {
-        while(_c-1 > BattleSystem.instance.curDiceCount)
-        {
-            _c--;
-        }
-
-        for(int i = 0; i<_c; i++)
-        {
-            if(!pocket.dices[i].GetComponent<Dice>().gameObject.activeSelf)
-            {
-                i--;
-                continue;
-            }
-            else
-            {
-                pocket.dices[i].DOShakeAnchorPos(0.5f,50);
-                pocket.dices[i].GetComponent<Dice>().Set();
-            }
-        }
+        BattleSystem.instance.curDiceCount += _c;
+        pocket.ReturnDice();
+        pocket.PocketClick();
     }
 
     void ResetCard()
@@ -135,6 +120,8 @@ public class BattleCardDeck : MonoBehaviour
             battleCard.SetCard(instantBattleCardData[randomInt]);
             instantBattleCardData.RemoveAt(randomInt);
             curHands.Add(battleCard);
+
+            if (instantBattleCardData.Count <= 0) SetBattleCardDeck();
         }
     }
 

@@ -19,6 +19,7 @@ public class BattleCard_CardBag : MonoBehaviour
     public bool[] diceCondition = new bool[3];
 
 
+    [SerializeField] GameObject diceconditioner;
     public void Enfoce()
     {
         if(enforced)
@@ -67,9 +68,17 @@ public class BattleCard_CardBag : MonoBehaviour
 
         //
 
-        diceConditioner = GetComponent<DiceConditioner>();
+        if (battleCardData.skillData.enforcedEffects[0] == "¾øÀ½")
+        {
+            diceconditioner.gameObject.SetActive(false);
+        }
+        else
+        {
+            diceconditioner.gameObject.SetActive(true);
 
-        diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+            diceConditioner = GetComponent<DiceConditioner>();
+            diceConditioner.SetDiceCondition(battleCardData.diceCondition);
+        }
     }
 
     public void EnforceCard()
