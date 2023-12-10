@@ -64,6 +64,10 @@ public class MapSystem : MonoBehaviour
             ResetWeight();
             PlayManager.instance.IsFirst = true;
             ReadyCountText.text = "0";
+
+            foreach (string i in DataManager.instance.AllTileList)
+                DataManager.instance.AllTileDatas[i].unitCount = 1;
+
         }
         setTileWeight();
         setupMap();

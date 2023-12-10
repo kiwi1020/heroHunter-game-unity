@@ -338,6 +338,10 @@ public class BattleSystem : MonoBehaviour
 
         if (units.Count <= 1 && units[0].name == "Player")
         {
+            PlayManager.instance.curTile.unitCount = PlayManager.instance.curTile.unitCount + 1 > 3 ?
+                3 : PlayManager.instance.curTile.unitCount + 1;
+            
+
             if (PlayManager.instance.tileMapData[PlayManager.instance.curTileNum].name == "보스")
             {
                 PlayManager.instance.isClear = true;
