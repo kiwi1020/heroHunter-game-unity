@@ -13,6 +13,29 @@ public class PopUpable : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
     {
         rect = GetComponent<RectTransform>();
     }
+
+    public void PopUping()
+    {
+        PopUp tmpPop;
+        if (BattleSystem.instance != null) tmpPop = BattleSystem.instance.popUp;
+        else tmpPop = MapSystem.instance.popUpObj;
+
+        tmpPop.gameObject.SetActive(true);
+        tmpPop.TextChange(des);
+
+        var tmpPopRect = tmpPop.GetComponent<RectTransform>();
+        tmpPopRect.anchoredPosition = Input.mousePosition;
+    }
+
+    public void PopDowning()
+    {
+        PopUp tmpPop;
+        if (BattleSystem.instance != null) tmpPop = BattleSystem.instance.popUp;
+        else tmpPop = MapSystem.instance.popUpObj;
+
+        tmpPop.gameObject.SetActive(false);
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         PopUp tmpPop;
@@ -24,7 +47,7 @@ public class PopUpable : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
 
         var tmpPopRect = tmpPop.GetComponent<RectTransform>();
         tmpPopRect.anchoredPosition = Input.mousePosition;
-            //new Vector2(rect.anchoredPosition.x + tmpPopRect.sizeDelta.x + 25, rect.anchoredPosition.y + 50);
+        //new Vector2(rect.anchoredPosition.x + tmpPopRect.sizeDelta.x + 25, rect.anchoredPosition.y + 50);
     }
     public void OnPointerUp(PointerEventData eventData)
     {
