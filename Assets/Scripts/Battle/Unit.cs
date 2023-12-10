@@ -207,6 +207,11 @@ public class Unit : MonoBehaviour
 
         currentHP -= remainDamage; // 체력 데미지
 
+        if(currentHP < 0)
+        {
+            currentHP = 0;
+        }
+
         Hit();
 
         if(BattleSystem.instance.units[0] == this)
