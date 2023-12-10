@@ -83,11 +83,17 @@ public class MapSystem : MonoBehaviour
                 print("보스 성공");
                 EndingUI.enabled = true;
             }*/
-
-            print("일반 보상");
-            tileEffect_UI.gameObject.SetActive(true);
-            tileEffect_UI.GainTreasure(3);
-            //PlayerData.diceCount++; 다이스 개수는 유실물 얻어서 늘리기
+            if (PlayManager.instance.isStone)
+            {
+                tileEffect_UI.gameObject.SetActive(true);
+                tileEffect_UI.GainTreasure(3);
+            }
+            else
+            {
+                tileEffect_UI.gameObject.SetActive(true);
+                tileEffect_UI.GainTreasure(1);
+                //PlayerData.diceCount++; 다이스 개수는 유실물 얻어서 늘리기
+            }
         }
     }
 
