@@ -12,8 +12,7 @@ public class MapTile : MonoBehaviour
 
     public TextMeshPro tileName; //타일이름 Text
     public Button startButton; //배틀시작 버튼
-    public bool isStepOn=false; //밟았던 타일인지 검사;
-    public bool isTileDataUpdate=false;
+
     //타일이름 설정, 이름은 정한 후 수정
     public void SetTile(TileData _tileData)
     {
@@ -35,7 +34,7 @@ public class MapTile : MonoBehaviour
         {
 
             case "전투":
-                OnBattleStartButton();
+                SceneManager.LoadScene("PlayScene");
                 break;
             case "선택":
                 MapSystem.instance.tileEffect_UI.SetEvent(this);
@@ -55,16 +54,5 @@ public class MapTile : MonoBehaviour
         //GameObject AudioManager = GameObject.Find("AudioManager");
         //AudioManager.GetComponent<SoundManager>().UISfxPlay(18);
     }
-
-    //배틀시작 버튼
-    public void OnBattleStartButton()
-    {
-        //battleSystem.StartBattle();
-        //tileName.gameObject.SetActive(false);
-        //startButton.gameObject.SetActive(false);
-
-        SceneManager.LoadScene("PlayScene"); // 임시로 바로 시작
-    }
-
 
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST}
@@ -337,6 +338,10 @@ public class BattleSystem : MonoBehaviour
 
         if (units.Count <= 1 && units[0].name == "Player")
         {
+            if (PlayManager.instance.tileMapData[PlayManager.instance.curTileNum].name == "보스")
+            {
+                PlayManager.instance.isClear = true;
+            }
             resultFloater.SetResult("{ 승리 }", "MoveScene");
             GameObject AudioManager = GameObject.Find("AudioManager");
             AudioManager.GetComponent<SoundManager>().BgSoundPlay(0);
