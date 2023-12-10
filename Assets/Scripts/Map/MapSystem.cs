@@ -199,11 +199,6 @@ public class MapSystem : MonoBehaviour
 
         }
 
-        foreach(TileData i in PlayManager.instance.tileMapData)
-        {
-            print(i.name + " : " + i.unitCount);
-        }
-
         //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
     }
@@ -212,8 +207,8 @@ public class MapSystem : MonoBehaviour
     {
         if (PlayManager.instance.startWeigtTile)
         {
-            string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲","검문소",
-            "왕국입구","뒷골목","마을","기사 훈련장","왕의 방입구"};
+            string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","풀숲","정글",
+            "호수","뒷산","동굴","숲 입구","깊은 숲속"};
             foreach (string name in TileName)
             {
                 int TileWeight = int.Parse(DataManager.instance.AllTileDatas[name].weight);
@@ -225,8 +220,8 @@ public class MapSystem : MonoBehaviour
 
     public void UpdateWeightTile()
     {
-        string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","숲","검문소",
-            "왕국입구","뒷골목","마을","기사 훈련장","왕의 방입구"};
+        string[] TileName = new string[] { "낭떠러지","신비한 석상", "떠돌이 상인", "도박장", "행운","늪지대","풀숲","정글",
+            "호수","뒷산","동굴","숲 입구","깊은 숲속"};
         foreach (string name in TileName)
         {
             string tileRate = DataManager.instance.AllTileDatas[name].rate;
