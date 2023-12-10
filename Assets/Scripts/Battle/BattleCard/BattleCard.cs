@@ -137,7 +137,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
             if (ConditionCheck(tmpDice.number) && enforced == false)
             {
                 eventData.pointerDrag.GetComponent<Dice>().Use();
-                GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(24);
+                GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(25);
                 EnforceCard();
             }
 
@@ -170,10 +170,12 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
                     if (c[1] == "Â¦¼ö")
                     {
                         if (_number == 2 || _number == 4 || _number == 6) return true;
+                        else return false;
                     }
                     else if (c[1] == "È¦¼ö")
                     {
                         if (_number == 1 || _number == 3 || _number == 5) return true;
+                        else return false;
                     }
                     else if (c[1] == "ÀüÃ¼")
                     {

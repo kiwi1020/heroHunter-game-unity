@@ -52,6 +52,22 @@ public class Unit : MonoBehaviour
         shield = monsterData.hp[1];
 
         battleHUD.SetHUD(this);
+        /*
+        int tmpJob = 0;
+
+        switch (monsterData.type)
+        {
+            case "기사": tmpJob = 1; break;
+            case "용병": tmpJob = 3; break;
+            case "마법사": tmpJob = 2; break;
+            case "영웅": tmpJob = 4; break;
+            case "왕": tmpJob = 5; break;
+            case "사냥꾼": tmpJob = 6; break;
+        }
+        */
+        animator.SetInteger("job", Random.Range(1, 5));
+        animator.SetInteger("type", 0);
+        animator.SetTrigger("change");
     }
 
     public void SetUnit()
@@ -78,6 +94,7 @@ public class Unit : MonoBehaviour
     //적
     public void Effect_EnemyAnimation()
     {
+        animator.SetInteger("job", Random.Range(1,5));
         BattleSystem.instance.EffectEnemySkill(skillOrder);
         if(skillOrder >= monsterData.patterns[0].Length - 1)
         {
@@ -102,7 +119,7 @@ public class Unit : MonoBehaviour
         if (BattleSystem.instance.units[0] != this)
         {
             animator.SetInteger("type", 2);
-            animator.SetInteger("job", 0);
+            animator.SetInteger("job", Random.Range(1, 5));
             animator.SetTrigger("change");
         }
         else
@@ -175,11 +192,31 @@ public class Unit : MonoBehaviour
             remainDamage = _damage;
         }
 
-        if (shield < 0) shield = 0; 
+        if (shield < 0) shield = 0;
+
+        if (BattleSystem.instance.units[0] == this)
+        {
+            if (!_p && PlayerData.CheckLostItem("두꺼운 가죽"))
+                remainDamage -= 5;
+        }
+        else
+        {
+            if (PlayerData.CheckLostItem("가시박힌 검"))
+                remainDamage = (int)(remainDamage * 1.4f) ;
+        }
 
         currentHP -= remainDamage; // 체력 데미지
 
         Hit();
+
+        if(BattleSystem.instance.units[0] == this)
+        {
+            if (_p && PlayerData.CheckLostItem("막지 못하는 방패"))
+                TakeShield(10);
+            if (!_p && PlayerData.CheckLostItem("부서진 방패"))
+                TakeShield(5);
+        }
+
 
         if(battleHUD != null) BattleSystem.instance.FloatText(battleHUD.gameObject, "-" + _damage);
 

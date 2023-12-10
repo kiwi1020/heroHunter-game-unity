@@ -128,7 +128,10 @@ public class BattleSystem : MonoBehaviour
 
         battleCardDeck.SetPlayerTurn();
 
-        if(units[0].stack[2] >= 1)
+        if(PlayerData.CheckLostItem("재생하는 심장"))
+            SkillUseSystem.Divide_Target(units[0], units[0], "회복:5");
+
+        if (units[0].stack[2] >= 1)
         {
             units[0].stack[2] -= 1;
             units[0].battleHUD.SetSideEffect();
@@ -257,6 +260,20 @@ public class BattleSystem : MonoBehaviour
         if (units.Count <= 1) return;
 
         if (units[enemyOrder].ActStun()) return;//기절 시 넘김
+
+        int tmpJob = 0;
+
+        switch(units[enemyOrder].monsterData.type)
+        {
+            case "기사": tmpJob = 1; break;
+            case "용병": tmpJob = 2; break;
+            case "마법사": tmpJob = 3; break;
+            case "영웅": tmpJob = 4; break;
+            case "왕": tmpJob = 5; break;
+            case "사냥꾼": tmpJob = 6; break;
+        }
+
+
         //job은 미리 설정
         units[enemyOrder].animator.SetInteger("type", 1);
         units[enemyOrder].animator.SetTrigger("change");

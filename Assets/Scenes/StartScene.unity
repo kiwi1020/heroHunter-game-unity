@@ -667,6 +667,14 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 882564a96b43d4639a281d0c442d7583, type: 3}
   - name: "\uAC00\uC2DC\uBC15\uD78C \uAC80"
     sprite: {fileID: 21300000, guid: 04198221191a0473ebeeb83c7903e22e, type: 3}
+  - name: "\uC74C\uCE68\uD55C \uB9C8\uB3C4\uC11C"
+    sprite: {fileID: 21300000, guid: da9f62f7c985c415eb0553b908d54987, type: 3}
+  - name: "\uB9C9\uC9C0 \uBABB\uD558\uB294 \uBC29\uD328"
+    sprite: {fileID: 21300000, guid: 406c543cc52bb4f8494f7203c3bd7a25, type: 3}
+  - name: "\uADF9\uD55C\uC5D0 \uBAB0\uB9B0 \uC790"
+    sprite: {fileID: 21300000, guid: 4144f4580744c4b11bf3bdb864ffe78a, type: 3}
+  - name: "\uACE0\uAE30"
+    sprite: {fileID: 21300000, guid: 41e218e516a2043809f8f6911a0e7180, type: 3}
   TextData:
   - "\uC774\uB984\t\uD0C0\uC785\t\uC774\uB984(\uD0C0\uC774\uD2C0)\t\uC124\uBA85\t\uD6A8\uACFC\t\uC801
     \uC218\t\uD68D\uB4DD/\uC81C\uAC70\t\uCE74\uB4DC \uC218/ \uCE74\uB4DC \uCD1D\uC218\t\uD655\uB960\t\uB4F1\uAE09\r\n\uD589\uC6B4\t\uBCF4\uC0C1\t[
@@ -1283,7 +1291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446933361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.10857606, y: 0.2233324, z: 0.03995631}
+  m_LocalPosition: {x: 1.22, y: 0.08, z: 0.03995631}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3530,6 +3538,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ee48338f73b948a4291a90585a2f309e, type: 3}
   - {fileID: 8300000, guid: 493acf04eb2caae4ea4e6a6e2bab3eb9, type: 3}
   - {fileID: 8300000, guid: 0e4028d0032e30e4fa2d696948d52861, type: 3}
+  - {fileID: 8300000, guid: 3e17dd972b7415c4d8335cd2fae0f3df, type: 3}
 --- !u!82 &1522945104
 AudioSource:
   m_ObjectHideFlags: 0
