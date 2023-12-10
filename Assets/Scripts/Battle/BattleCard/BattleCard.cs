@@ -128,6 +128,7 @@ public class BattleCard : MonoBehaviour, IEndDragHandler, IDropHandler, IDragHan
             if (ConditionCheck(tmpDice.number) && enforced == false)
             {
                 eventData.pointerDrag.GetComponent<Dice>().Use();
+                GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(24);
                 EnforceCard();
             }
 

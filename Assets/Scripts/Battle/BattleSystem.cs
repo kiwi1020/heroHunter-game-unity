@@ -312,11 +312,13 @@ public class BattleSystem : MonoBehaviour
             resultFloater.SetResult("{ 승리 }", "MoveScene");
             GameObject AudioManager = GameObject.Find("AudioManager");
             AudioManager.GetComponent<SoundManager>().BgSoundPlay(0);
+            AudioManager.GetComponent<SoundManager>().UISfxPlay(24);
         }
         else if (state == BattleState.LOST)
         {
             //Act_EnemyAnimation();
             resultFloater.SetResult("{ 패배 }", "StartScene");
+            GameObject.Find("AudioManager").GetComponent<SoundManager>().BgSoundPlay(0);
         }
     }
 
