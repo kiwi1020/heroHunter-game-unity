@@ -4,8 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UIElements;
 using System.Linq;
-using UnityEngine.SceneManagement;
-
+using TMPro;
 
 public class MapSystem : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class MapSystem : MonoBehaviour
     public bool moveCardDraw;
     public bool allowEffect = true;
 
-    public static int readyCount;
+    public static int readyCount = 0;
 
     public TileEvent tileEffect_UI;
 
@@ -24,6 +23,8 @@ public class MapSystem : MonoBehaviour
     [SerializeField] Camera mainCam;
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
+    [SerializeField] TextMeshProUGUI ReadyCountText;
+
     public DiceLook diceLook;
     public LostItems lostItems;
 
@@ -64,10 +65,11 @@ public class MapSystem : MonoBehaviour
             ResetTileMap();
             ResetWeight();
             PlayManager.instance.IsFirst = true;
+            ReadyCountText.text = "0";
         }
         setTileWeight();
         setupMap();
-        print("매번 실행하나?");
+        ReadyCountText.text = readyCount.ToString();
         if(curTileNum != 0) GainBattlePrize();
     }
 
@@ -288,11 +290,13 @@ public class MapSystem : MonoBehaviour
                 {
                     var eftValue = _eft[1].Split('~').Select(x => int.Parse(x)).ToArray();
                     var moveValue = Random.Range(eftValue[0], eftValue[1] + 1);
+                    ReadyCountText.text = "0";
                     PlayerMove(moveValue + readyCount,_moveCard);                   
                 }
                 else
                 {
                     var moveValue = int.Parse(_eft[1]);
+                    ReadyCountText.text = "0";
                     PlayerMove(moveValue + readyCount, _moveCard);               
                 }
                 break;
@@ -324,6 +328,7 @@ public class MapSystem : MonoBehaviour
             // 수정 필요함
             case "준비":
                 readyCount = int.Parse(_eft[1]);
+                ReadyCountText.text = readyCount.ToString();
                 moveCardDraw = true; 
                 _moveCard.MoveEffect();
                 break;

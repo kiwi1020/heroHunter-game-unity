@@ -13,8 +13,6 @@ public class MoveCard : MonoBehaviour
     [SerializeField] Image illust;
     [SerializeField] TextMeshProUGUI nameText, desText;
 
-    GameObject CardsHand;
-
     public List<string> remainEffect = new();
     
     public void SetCard(string cardName)
@@ -41,10 +39,7 @@ public class MoveCard : MonoBehaviour
         remainEffect = moveCardData.effects;
         cardEffectCount = 0;
 
-        MoveEffect(); //카드가 가지고 있는 효과, 2개가 잇으면 2부터 효과를 발동할때마다 1씩 감소하는 메서드
-     
-        CardsHand = transform.parent.gameObject; 
-
+        MoveEffect(); //카드가 가지고 있는 효과, 2개가 잇으면 2부터 효과를 발동할때마다 1씩 감소하는 메서드     
 
     }
 

@@ -11,10 +11,10 @@ public class GetBattleCard : MonoBehaviour
     [SerializeField] TextMeshProUGUI cardNameText, cardDesText;
     [SerializeField] Image illust;
     [SerializeField] Outline outline;
+    [SerializeField] GameObject diceconditioner;
     RectTransform rect;
     BattleCardData battleCardData;
     DiceConditioner diceConditioner;
-    [SerializeField] GameObject diceconditioner;
 
     public int ClickCount;
     public  bool isSelect=false;
