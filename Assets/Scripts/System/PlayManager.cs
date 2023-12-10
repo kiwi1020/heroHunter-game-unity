@@ -40,7 +40,7 @@ public class PlayerData
         playerLostItems.Add(DataManager.instance.AllLostItemDatas[ _lostItem]);
         if (MapSystem.instance != null) MapSystem.instance.lostItems.SetLostItems();
 
-        if(_lostItem == "고기")
+        if(_lostItem == "사과")
         {
             maxHP += 50;
         }
