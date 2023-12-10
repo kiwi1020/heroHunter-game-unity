@@ -180,7 +180,6 @@ public class MapSystem : MonoBehaviour
                 else
                 {
                     var tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
-                    PlayManager.instance.tileMapData.Add(tileData);
 
                     do
                     {
@@ -188,6 +187,7 @@ public class MapSystem : MonoBehaviour
                         else tileData = DataManager.instance.AllTileDatas[GetRandomTile()];
                     }
                     while (stack >= 2);
+                    PlayManager.instance.tileMapData.Add(tileData);
 
                     if (PlayManager.instance.tileMapData[i - 1].type == tileData.type) stack += 1;
 
