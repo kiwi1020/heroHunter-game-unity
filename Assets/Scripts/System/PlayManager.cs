@@ -122,16 +122,14 @@ public class PlayManager : MonoBehaviour
 
         for(int i = 0; i<10; i++) // 임시
         {
-            //PlayerData.GainCard(DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardList.Count)]); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
+            PlayerData.GainCard(DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardList.Count)]); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
             
-            PlayerData.GainCard("최후의 일격");
-            PlayerData.GainCard("후려치기");
         }
 
         for (int i = 0; i < DataManager.instance.AllMonsterList.Count; i++)
             PlayerData.GainMoveCard(DataManager.instance.AllMoveCardList[i]);
 
-        PlayerData.GainLostItem("독성 발톱");
+        PlayerData.GainLostItem(DataManager.instance.AllLostItemList[Random.Range(0,DataManager.instance.AllLostItemList.Count)]);
 
         PlayerData.diceCount = 3;
         PlayerData.handCount = 3;
