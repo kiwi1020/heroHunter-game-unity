@@ -163,7 +163,13 @@ public class PlayManager : MonoBehaviour
         PlayerData.diceCount = 3;
         PlayerData.handCount = 3;
         PlayerData.playerLostItems = new List<LostItem>();
+        PlayerData.playerBattleCardDeck = new List<BattleCardData>();
 
+        for (int i = 0; i < 10; i++) // 임시
+        {
+            PlayerData.GainCard(DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardList.Count)]); // <==   PlayerData.playerBattleCardDeck.Add(DataManager.instance.AllBattleCardDatas["갈라치기"]);
+
+        }
         PlayerData.GainLostItem(DataManager.instance.AllLostItemList[Random.Range(0, DataManager.instance.AllLostItemList.Count)]);
     }
 
