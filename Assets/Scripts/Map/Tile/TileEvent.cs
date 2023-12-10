@@ -177,46 +177,25 @@ public class TileEvent : MonoBehaviour
     public void GainTreasure(int _n)
     {
         isTreasure = true;
-        for (int i = 0; i < _n; i++)
+        for (int i = 0; i < _n; i++) //석상 구별 안 하고 다 카드보상으로 넘어감
         {
-            if (PlayManager.instance.isStone)
-            {
-                lostItems[i].gameObject.SetActive(true);
-                float xOffset = CalculateXOffset(_n, i);
-                lostItems[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
+            getBattleCards[i].gameObject.SetActive(true);
+            float xOffset = CalculateXOffset(_n, i);
+            getBattleCards[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
 
-                GameObject getLostItemcard = lostItems[i].gameObject;
-                LostItem card;
+            //배틀 카드 설정
+            GameObject getCard = getBattleCards[i].gameObject;
 
-                string randomName = DataManager.instance.AllLostItemList[Random.Range(0, DataManager.instance.AllLostItemDatas.Count)];
-                card = DataManager.instance.AllLostItemDatas[randomName];
+            string randomName;
+            BattleCardData card;
 
-                // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
-                var lostcard = getLostItemcard.GetComponent<LostItemCard>();
-                lostcard.SetCard(card);
+            randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
+            getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = true;
+            card = DataManager.instance.AllBattleCardDatas[randomName];
 
-                isLostItem = true;
-            }
-            else
-            {
-                getBattleCards[i].gameObject.SetActive(true);
-                float xOffset = CalculateXOffset(_n, i);
-                getBattleCards[i].gameObject.transform.localPosition = new Vector3(xOffset, -90, 0);
-
-                //배틀 카드 설정
-                GameObject getCard = getBattleCards[i].gameObject;
-
-                string randomName;
-                BattleCardData card;
-
-                randomName = DataManager.instance.AllBattleCardList[Random.Range(0, DataManager.instance.AllBattleCardDatas.Count)];
-                getBattleCards[i].gameObject.GetComponent<EventTrigger>().enabled = true;
-                card = DataManager.instance.AllBattleCardDatas[randomName];
-
-                // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
-                var battleCard = getCard.GetComponent<GetBattleCard>();
-                battleCard.SetCard(card);
-            }
+            // GetBattleCard 컴포넌트를 얻어와서 카드를 설정
+            var battleCard = getCard.GetComponent<GetBattleCard>();
+            battleCard.SetCard(card);
 
         }
 
@@ -322,19 +301,9 @@ public class TileEvent : MonoBehaviour
     {
         if(isTreasure)
         {
-            if(isLostItem)
+            foreach (var card in getbattleCardDatas)
             {
-                foreach (var card in getLostItmeCardDatas)
-                {
-                    PlayerData.GainLostItem(card.name);
-                }
-            }
-            else
-            {
-                foreach (var card in getbattleCardDatas)
-                {
-                    PlayerData.GainCard(card.name);
-                }
+                PlayerData.GainCard(card.name);
             }
 
             resetTileEvent();
