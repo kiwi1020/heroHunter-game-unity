@@ -675,6 +675,22 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 587503b6015abc741ad5147fff8f4a06, type: 3}
   - name: "\uC0AC\uACFC"
     sprite: {fileID: 21300000, guid: a363c054369a444bb9896c5e21aa3fdd, type: 3}
+  - name: "\uC800\uD56D\uC7A5\uCE58"
+    sprite: {fileID: 21300000, guid: 9dd5154a5ade54bb79b5a5b067d62acc, type: 3}
+  - name: "\uAC80\uC740 \uB291\uB300\uC758 \uB9DD\uD1A0"
+    sprite: {fileID: 21300000, guid: 96aaf078512c64a17bdef1d8186e6e10, type: 3}
+  - name: "\uC5F0\uAD6C\uC6A9 \uC548\uACBD"
+    sprite: {fileID: 21300000, guid: 56b6d65df2d2b44d88384d165fb13c78, type: 3}
+  - name: "TTobing3\uC758 \uC120\uBB3C"
+    sprite: {fileID: 21300000, guid: c8303e833b0ef184e99c1bc8940fff84, type: 3}
+  - name: "\uD30C\uC5F4 \uBD80\uC801"
+    sprite: {fileID: 21300000, guid: 580f35bba3f1b41d2b7bccdc40bafe9d, type: 3}
+  - name: "\uC7AC\uC0DD\uC758 \uC789\uD06C\uD1B5"
+    sprite: {fileID: 21300000, guid: 9d50ae9c97c294a63a80ced8fc89a495, type: 3}
+  - name: "\uBC29\uC5B4\uC5D0 \uAD00\uD55C \uB17C\uBB38"
+    sprite: {fileID: 21300000, guid: bb5e8b9798db94e2f9379264cfdc8703, type: 3}
+  - name: "\uBE44\uBC00 \uC791\uC804 \uBCF5\uBA74"
+    sprite: {fileID: 21300000, guid: 04b29891cd8e54d5ea4712a4421ce748, type: 3}
   TextData:
   - "\uC774\uB984\t\uD0C0\uC785\t\uC774\uB984(\uD0C0\uC774\uD2C0)\t\uC124\uBA85\t\uD6A8\uACFC\t\uC801
     \uC218\t\uD68D\uB4DD/\uC81C\uAC70\t\uCE74\uB4DC \uC218/ \uCE74\uB4DC \uCD1D\uC218\t\uD655\uB960\t\uB4F1\uAE09\r\n\uD589\uC6B4\t\uBCF4\uC0C1\t[
