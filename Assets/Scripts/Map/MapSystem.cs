@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine.UIElements;
 using System.Linq;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MapSystem : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class MapSystem : MonoBehaviour
     [SerializeField] GameObject background;
     [SerializeField] GameObject tileParents;
     [SerializeField] TextMeshProUGUI ReadyCountText;
+    [SerializeField] GameObject EndingUI;
 
     public DiceLook diceLook;
     public LostItems lostItems;
@@ -63,11 +65,7 @@ public class MapSystem : MonoBehaviour
             ResetTileMap();
             ResetWeight();
             PlayManager.instance.IsFirst = true;
-            ReadyCountText.text = "0";
-
-            foreach (string i in DataManager.instance.AllTileList)
-                DataManager.instance.AllTileDatas[i].unitCount = 1;
-
+            ReadyCountText.text = "0";          
         }
         setTileWeight();
         setupMap();
@@ -77,14 +75,13 @@ public class MapSystem : MonoBehaviour
 
     void GainBattlePrize()
     {
-        if(PlayManager.instance.IsFirst)
+        if (PlayManager.instance.isClear)
         {
-            /* 전투씬에서 하는거로
-            if (PlayManager.instance.curTile.name == "보스")
-            {
-                print("보스 성공");
-                EndingUI.enabled = true;
-            }*/
+            EndingUI.SetActive(true);
+            PlayManager.instance.isClear = false;
+        }
+        else if (PlayManager.instance.IsFirst)
+        {
             if (PlayManager.instance.isStone)
             {
                 tileEffect_UI.gameObject.SetActive(true);
@@ -98,7 +95,6 @@ public class MapSystem : MonoBehaviour
             }
         }
     }
-
     #region Reset
     void ResetTileMap()
     {
@@ -132,7 +128,7 @@ public class MapSystem : MonoBehaviour
     void setupMap()
     {
         moveCardDraw = true;
-        GenerateTileObjects(6);
+        GenerateTileObjects(3);
         SetTileMapData();
         MoveCameraToTargetTile(tileMap[curTileNum]);
         player = Instantiate(playerPrefab, tileMap[curTileNum].transform.position, tileMap[curTileNum].transform.rotation); 
@@ -347,17 +343,24 @@ public class MapSystem : MonoBehaviour
     #region PlayerMove
     public void PlayerMove(int _n, MoveCard _moveCard)
     {
-        if (tileMap[curTileNum].name == "보스")
+        if (PlayManager.instance.tileMapData[curTileNum].name == "보스")
         {
             _moveCard.MoveEffect();
-        }
+        }        
         else if (_n >0)
         {
             PlayerMoveFoward(_n, _moveCard);
         }
         else if(_n < 0)
         {
-            PlayerMoveBack(_n, _moveCard);
+            if (PlayManager.instance.tileMapData[curTileNum].name == "시작")
+            {
+                _moveCard.MoveEffect();
+            }
+            else
+            {
+                PlayerMoveBack(_n, _moveCard);
+            }
         }
         else 
         {
@@ -406,5 +409,9 @@ public class MapSystem : MonoBehaviour
         if (curTileNum < 2) return;
         Camera.main.transform.DOMove(new Vector3(_mapTile.transform.position.x, _mapTile.transform.position.y, Camera.main.transform.position.z), 1.5f);
     }
-   
+    public void ExitGame()
+    {
+        PlayManager.instance.IsFirst = false;   
+        SceneManager.LoadScene("StartScene");
+    }
 }

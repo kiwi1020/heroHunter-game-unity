@@ -7690,6 +7690,7 @@ MonoBehaviour:
   background: {fileID: 1275613593}
   tileParents: {fileID: 1589160780}
   ReadyCountText: {fileID: 397495110}
+  EndingUI: {fileID: 1991529855}
   diceLook: {fileID: 1679723052}
   lostItems: {fileID: 145073893}
   popUpObj: {fileID: 1235557678}
