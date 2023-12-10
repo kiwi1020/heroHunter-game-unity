@@ -57,8 +57,8 @@ public class Unit : MonoBehaviour
         switch (monsterData.type)
         {
             case "기사": tmpJob = 1; break;
-            case "용병": tmpJob = 2; break;
-            case "마법사": tmpJob = 3; break;
+            case "용병": tmpJob = 3; break;
+            case "마법사": tmpJob = 2; break;
             case "영웅": tmpJob = 4; break;
             case "왕": tmpJob = 5; break;
             case "사냥꾼": tmpJob = 6; break;
