@@ -292,7 +292,6 @@ public class BattleSystem : MonoBehaviour
         var tmpSkillData = DataManager.instance.AllSkillDatas[units[enemyOrder].monsterData.patterns[0][_skillOrder]];
 
         foreach (string i in units[enemyOrder].monsterData.patterns[0]) print(i);
-        print("A :"+ _skillOrder);
 
         foreach (string i in tmpSkillData.effects)
         {

@@ -105,8 +105,6 @@ public class Unit : MonoBehaviour
         {
             skillOrder += 1;
         }
-
-        print(skillOrder);
     }
 
     public void Finish_EnemyAnimation()

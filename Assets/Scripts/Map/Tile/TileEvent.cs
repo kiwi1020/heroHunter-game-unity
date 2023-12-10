@@ -315,11 +315,9 @@ public class TileEvent : MonoBehaviour
                 {
                     PlayerData.GainLostItem(card.name);
                 }
-                print("석상 보상");
             }
             else
             {
-                print("일반 보상");
                 foreach (var card in getbattleCardDatas)
                 {
                     PlayerData.GainCard(card.name);
@@ -334,7 +332,6 @@ public class TileEvent : MonoBehaviour
         //석상 도망 
         else if (BtnText == "도망")
         {
-            print("도망");
             resetTileEvent();
             gameObject.SetActive(false);
             Option.SetActive(false);
@@ -342,7 +339,6 @@ public class TileEvent : MonoBehaviour
         //낭떠러지
         else if (mapTile.tileData.name == "낭떠러지")
         {
-            print("낭떠러지");
             PlayerData.DeleteCard(getbattleCardDatas[0].name);
             resetTileEvent();
             gameObject.SetActive(false);
@@ -351,18 +347,15 @@ public class TileEvent : MonoBehaviour
         //도박장, 행운
         else if (!isLostItem && getbattleCardDatas.Count <= mapTile.tileData.cardCount[0])
         {
-            print("도박장,행운");
             foreach (var card in getbattleCardDatas)
             {
                 if (mapTile.tileData.GetOrDelete == "획득")
                 {
                     PlayerData.GainCard(card.name);
-                    print("도박장,행운 획득");
                 }
                 else if (mapTile.tileData.GetOrDelete == "제거")
                 {
                     PlayerData.DeleteCard(card.name);
-                    print("도박장 제거");
                 }
             }
             resetTileEvent();
@@ -372,7 +365,6 @@ public class TileEvent : MonoBehaviour
         //떠돌이 상인
         else if (isLostItem && getLostItmeCardDatas.Count <= mapTile.tileData.cardCount[0])
         {
-            print("떠돌이 상인");
             foreach (var card in getLostItmeCardDatas)
             {              
                 PlayerData.GainLostItem(card.name);

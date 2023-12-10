@@ -199,11 +199,6 @@ public class MapSystem : MonoBehaviour
 
         }
 
-        foreach(TileData i in PlayManager.instance.tileMapData)
-        {
-            print(i.name + " : " + i.unitCount);
-        }
-
         //저장한 타일 데이터를 무므씬 타일에 가져오기
         for (int i = 0; i < tileMap.Count; i++) tileMap[i].SetTile(PlayManager.instance.tileMapData[i]);
     }
