@@ -79,6 +79,7 @@ public class MapSystem : MonoBehaviour
         {
             EndingUI.SetActive(true);
             PlayManager.instance.isClear = false;
+            PlayManager.instance.ResetPlayerData();
         }
         else if (PlayManager.instance.IsFirst)
         {

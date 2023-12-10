@@ -334,9 +334,8 @@ public class BattleSystem : MonoBehaviour
 
             if (PlayManager.instance.tileMapData[PlayManager.instance.curTileNum].name == "보스")
             {
-                PlayManager.instance.IsFirst = false;
                 PlayManager.instance.isClear = true;
-                PlayManager.instance.ResetPlayerData();
+                resultFloater.SetResult("{ 승리 }", "MoveScene");
             }
             resultFloater.SetResult("{ 승리 }", "MoveScene");
             GameObject AudioManager = GameObject.Find("AudioManager");
