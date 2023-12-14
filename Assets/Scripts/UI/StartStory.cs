@@ -15,6 +15,7 @@ public class StartStory : MonoBehaviour
     {
         if (PlayerData.isTutorial[0]) gameObject.SetActive(false);
         GetComponent<Image>().color = Color.black;
+        ViewStory();
 
     }
     public void ViewStory()
@@ -27,25 +28,25 @@ public class StartStory : MonoBehaviour
         {
             text[0].gameObject.SetActive(true);
             text[0].color = new Color(1, 1, 1, 0);
-            text[0].DOFade(1, 2).OnComplete(() => able = true);
+            text[0].DOFade(1, 1).OnComplete(() => able = true);
         }
         else if (index == 1)
         {
 
-            text[0].DOFade(0, 2).OnComplete(() =>
+            text[0].DOFade(0, 1).OnComplete(() =>
             {
                 text[0].gameObject.SetActive(false);
                 text[1].gameObject.SetActive(true);
                 text[1].color = new Color(1, 1, 1, 0);
-                text[1].DOFade(1, 2).OnComplete(() => able = true);
+                text[1].DOFade(1, 1).OnComplete(() => able = true);
             });
         }
         else if (index == 2)
         {
-            text[1].DOFade(0, 2).OnComplete(() =>
+            text[1].DOFade(0, 1).OnComplete(() =>
             {
                 text[1].gameObject.SetActive(false);
-                GetComponent<Image>().DOFade(0, 2).OnComplete(() =>
+                GetComponent<Image>().DOFade(0, 1).OnComplete(() =>
                 {
                     tutorial.SetActive(true);
                     gameObject.SetActive(false);

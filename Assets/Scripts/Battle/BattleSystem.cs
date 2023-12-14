@@ -127,7 +127,6 @@ public class BattleSystem : MonoBehaviour
         GameObject AudioManager = GameObject.Find("AudioManager");
         AudioManager.GetComponent<SoundManager>().UISfxPlay(4);
 
-        battleCardDeck.SetPlayerTurn();
 
         if(PlayerData.CheckLostItem("재생하는 심장"))
             SkillUseSystem.Divide_Target(units[0], units[0], "회복:5");
@@ -137,6 +136,10 @@ public class BattleSystem : MonoBehaviour
             units[0].stack[2] -= 1;
             units[0].battleHUD.SetSideEffect();
             OnFinishButton();
+        }
+        else
+        {
+            battleCardDeck.SetPlayerTurn();
         }
     }
 
@@ -519,14 +522,14 @@ public class SkillUseSystem
     {
         _target.Takedamage(_damage);
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(6);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(6);
     }
 
     static void PiercingDamage(Unit _target, int _damage)
     {
         _target.Takedamage(_damage, true);
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(8);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(8);
     }
 
     //유닛한테 쌓아야할듯? 스택을
@@ -540,7 +543,7 @@ public class SkillUseSystem
 
         _target.dotDamage[0] += _damage;
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(10);
+       // GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(10);
 
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "지속피해 +" + _damage);
     }
@@ -550,7 +553,7 @@ public class SkillUseSystem
     {
         _target.stack[0] += _damage;
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(9);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(9);
 
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "추가피해");
     }
@@ -580,7 +583,7 @@ public class SkillUseSystem
                 return _damage - _target.stack[5];
             }
         }
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(15);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(15);
     }
 
     static void Stun(Unit _target, float _damage)
@@ -601,7 +604,7 @@ public class SkillUseSystem
         if (_damage == 0) return;
         _target.stack[2] += _damage;
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(17);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(17);
 
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "기절 +" + _damage);
     }
@@ -615,14 +618,14 @@ public class SkillUseSystem
         }
         _target.TakeHeal(_damage);
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(12);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(12);
     }
 
     static void Shield(Unit _target, float _damage)
     {
         _target.TakeShield(_damage);
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(16);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(16);
     }
 
     static void Evade(Unit _target, float _damage)
@@ -637,7 +640,7 @@ public class SkillUseSystem
         _target.stack[3] += _damage;
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "회피 +" + _damage);
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(11);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(11);
     }
 
     static void Cleanse(Unit _target, float _damage)
@@ -661,7 +664,7 @@ public class SkillUseSystem
             _target.dotDamage[i] -= (int)(_damage * 10);
             BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "지속피해 -" + (int)(_damage * 10));
         }
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(12);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(12);
     }
 
     static void Resist(Unit _target, float _damage)
@@ -669,7 +672,7 @@ public class SkillUseSystem
         _target.stack[5] += _damage;
         BattleSystem.instance.FloatText(_target.battleHUD.gameObject, "저항 +" + _damage);
 
-        GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(15);
+        //GameObject.Find("AudioManager").GetComponent<SoundManager>().UISfxPlay(15);
     }
 
     //
