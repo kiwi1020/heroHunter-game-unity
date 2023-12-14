@@ -129,10 +129,14 @@ public class BattleSystem : MonoBehaviour
 
 
         if(PlayerData.CheckLostItem("재생하는 심장"))
+        {
             SkillUseSystem.Divide_Target(units[0], units[0], "회복:5");
+            FloatText(units[0].battleHUD.gameObject, "재생하는 심장");
+        }
 
         if (units[0].stack[2] >= 1)
         {
+            print("in stun");
             units[0].stack[2] -= 1;
             units[0].battleHUD.SetSideEffect();
             OnFinishButton();
@@ -309,6 +313,8 @@ public class BattleSystem : MonoBehaviour
 
         EndBattle();
 
+        if (state == BattleState.PLAYERTURN) return;
+
         if (enemyOrder >= units.Count -1)
         {
             state = BattleState.PLAYERTURN;
@@ -365,8 +371,9 @@ public class BattleSystem : MonoBehaviour
 
     public void OnFinishButton()
     {
-        if (state != BattleState.PLAYERTURN || battleCardDeck.curHandCardCount <= 0)
+        if (state != BattleState.PLAYERTURN)
             return;
+
         buttonActive.ButtonFalse();
         battleCardDeck.EndTurn();
         if (battleCardDeck.pocket.isOpen) battleCardDeck.pocket.ReturnDice();
@@ -375,6 +382,8 @@ public class BattleSystem : MonoBehaviour
         ActEnemySideEffect(true);
         EndBattle();
         //모든 카드를 썻으면 자동으로 적 턴
+
+        state = BattleState.ENEMYTURN;
 
         StartCoroutine(EnemyTurn());
         buttonActive.ButtonFalse();

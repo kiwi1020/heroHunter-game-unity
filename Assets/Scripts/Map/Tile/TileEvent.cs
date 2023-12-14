@@ -294,6 +294,7 @@ public class TileEvent : MonoBehaviour
         }
         else if (BtnText == "µµ¸Á")
         {
+            Options.SetActive(false);
             EndEvent();
         }
     }
